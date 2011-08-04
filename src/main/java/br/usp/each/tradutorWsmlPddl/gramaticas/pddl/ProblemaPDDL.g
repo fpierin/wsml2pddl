@@ -33,7 +33,7 @@ domain
 	;
 	
 init
-	: 'init' '(' IDENTIDADE ')'
+	: 'init' ('(' IDENTIDADE ')'
 	;
 	
 goal
