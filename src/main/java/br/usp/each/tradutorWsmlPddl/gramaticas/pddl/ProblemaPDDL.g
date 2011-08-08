@@ -13,41 +13,66 @@ options {
 }
 
 problema
-	: '(' define
+	: '(' 'define' definicaoDoProblema 
+		dominio
+		objetos?
+		mundoInicial
+		objetivo
 		')'
 	;
 	
-define
-	: 'define' '(' problem ')' 
-		'(:' domain ')'
-		'(:' init ')'
-		'(:' goal ')'
+definicaoDoProblema
+  : '(' 'problem' IDENTIDADE ')'
 	;
 	
-problem
-	: 'problem' IDENTIDADE
+dominio
+	: '(' ':domain' IDENTIDADE ')'
 	;
 	
-domain
-	: 'domain' IDENTIDADE
+objetos
+	: '(' ':objects' IDENTIDADE+ ')'
 	;
 	
-init
-	: 'init' ('(' IDENTIDADE ')'
+mundoInicial
+	: '(' ':init' elementosIniciais ')'
 	;
 	
-goal
-	: 'goal' '(' IDENTIDADE  ')'
+objetivo
+	: '(' ':goal' elementosObjetivo ')'
 	;			
+	
+elementosIniciais
+	: IDENTIDADE+
+	| ('(' IDENTIDADE ')')+
+	| condicional+
+	;
+	
+elementosObjetivo
+	: '(' 'and' ('(' IDENTIDADE ')')+ ')'
+	| '(' 'AND' ('(' IDENTIDADE ')')+ ')'	
+	| '(' 'and'  condicional+ ')'
+	| '(' 'AND'  condicional+ ')'	
+	| '(' IDENTIDADE ')'
+	| IDENTIDADE
+	;
 
+condicional
+	: '(' referencial IDENTIDADE+ ')'+
+	;	
+	
+referencial
+	: IDENTIDADE
+	;
+	
+IDENTIDADE 
+	: LETRA QUALQUER_CARACTER* ;
 
-NUMERO 		 : (DIGITOS)+ ;
-LETRAS 		 : ('a'..'z' | 'A'..'Z') ;
-PALAVRA 	 : (LETRAS)+ ;
-SINAIS		 : (SINAL_DE_ADICAO | SINAL_DE_SUBTRACAO | SINAL_DE_DIVISAO | SINAL_DE_MULTIPLICACAO );
-IDENTIDADE : (PALAVRA)(LETRAS | DIGITOS | SINAIS)* ; 
+ESPACO_EM_BRANCO 
+	: ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ 	{ $channel = HIDDEN; } ;
 
-ESPACO_EM_BRANCO : ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ 	{ $channel = HIDDEN; } ;
+LINE_COMMENT
+  : ';' ~('\n'|'\r')* '\r'? '\n' { $channel = HIDDEN; } ;
+    
 
 fragment DIGITOS 								: '0'..'9' ; 
 fragment SINAL_DE_ADICAO 				: '+' ;
@@ -55,4 +80,6 @@ fragment SINAL_DE_SUBTRACAO 		: '-' ;
 fragment SINAL_DE_MULTIPLICACAO : '*' ;
 fragment SINAL_DE_DIVISAO				: '/' ;
 
+fragment LETRA:	'a'..'z' | 'A'..'Z';
+fragment QUALQUER_CARACTER: LETRA | DIGITOS | '-' | '_';
 
