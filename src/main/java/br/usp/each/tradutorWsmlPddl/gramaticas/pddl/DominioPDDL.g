@@ -13,14 +13,86 @@ options {
 }
 
 
-define: '(define'
-				')'
-			;
+dominio
+	:'(' 'define' declaracaoDoDominio
+		declaracaoDeRequerimento
+		declaracaoDePredicados
+		declaracaoDeAcao+
+	 ')'
+	;
 
-NUMERO : (DIGITOS)+ ;
+declaracaoDoDominio
+	: '(' 'domain' nomeDoDominio ')'
+	;
 
-ESPACO_EM_BRANCO : ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ 	{ $channel = HIDDEN; } ;
+declaracaoDeRequerimento
+	: '(' ':requirements' nomeDoRequerimento ')'
+	;
+	
+declaracaoDePredicados
+	: '(' ':predicates' predicado+ ')'
+	;
+	
+declaracaoDeAcao
+	: '(' ':action' nomeDaAcao
+			declaracaoDeParametros
+			declaracaoDePrecondicoes
+			declaracaoDeEfeitos
+		')'
+	;	
+	
+declaracaoDeParametros
+ : ':parameters' '(' nomeDoParametro* ')'
+ ;
 
-fragment DIGITOS	: '0'..'9' ;
-fragment LETRAS	: 'a'..'z';
+declaracaoDePrecondicoes
+	: ':precondition' '(' nomeDaPrecondicao ')'
+	;
+	
+declaracaoDeEfeitos
+	: ':effect' '(' 'and' '(' 'not' '(' nomeDoEfeito ')' ')' '(' nomeDoEfeito ')' ')'
+	;	
+	
+predicado
+	: '(' nomeDoPredicado ')'
+	;
 
+nomeDoParametro
+	: IDENTIDADE+;
+	
+nomeDaPrecondicao
+	: IDENTIDADE+;	
+	
+nomeDoDominio
+	: IDENTIDADE+;
+	
+nomeDoRequerimento
+	: IDENTIDADE+;
+	
+nomeDoPredicado
+	: IDENTIDADE+;	
+	
+nomeDoEfeito
+	: IDENTIDADE+;
+
+nomeDaAcao
+	: IDENTIDADE+;
+
+IDENTIDADE 
+	: LETRA QUALQUER_CARACTER* ;
+
+ESPACO_EM_BRANCO 
+	: ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ 	{ $channel = HIDDEN; } ;
+
+COMENTARIO
+  : ';' ~('\n'|'\r')* '\r'? '\n' { $channel = HIDDEN; } ;
+    
+
+fragment DIGITOS 								: '0'..'9' ; 
+fragment SINAL_DE_ADICAO 				: '+' ;
+fragment SINAL_DE_SUBTRACAO 		: '-' ;
+fragment SINAL_DE_MULTIPLICACAO : '*' ;
+fragment SINAL_DE_DIVISAO				: '/' ;
+
+fragment LETRA:	'a'..'z' | 'A'..'Z';
+fragment QUALQUER_CARACTER: LETRA | DIGITOS | '-' | '_';

@@ -70,7 +70,7 @@ IDENTIDADE
 ESPACO_EM_BRANCO 
 	: ( '\t' | ' ' | '\r' | '\n'| '\u000C' )+ 	{ $channel = HIDDEN; } ;
 
-LINE_COMMENT
+COMENTARIO
   : ';' ~('\n'|'\r')* '\r'? '\n' { $channel = HIDDEN; } ;
     
 
