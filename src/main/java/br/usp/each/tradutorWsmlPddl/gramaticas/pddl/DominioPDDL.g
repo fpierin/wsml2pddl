@@ -46,33 +46,43 @@ declaracaoDeAcao
 	;	
 	
 declaracaoDeParametros
- : ':parameters' '(' parametro* ')'
+ : ':parameters' '(' parametros ')'
  ;
 
 declaracaoDePrecondicoes
 	: ':precondition' '(' precondicao? ')'
 	;
 	
-precondicao
-	: parametro
-	| condicao+
-	;
+declaracaoDeEfeitos
+	: ':effect' '(' efeito ')'
+	;		
 
-condicao
-	: 'clear' parametro
-	| 'on-table' parametro	
-	| 'on' parametro parametro
-	| 'not' condicao
-	| 'and' condicao
-	| '(' condicao ')'
+parametros
+	: parametro*
 	;
+	
+precondicao
+	: 'and' condicao+
+	| condicao
+	;
+	
+efeito
+	: 'and' condicao+
+	| condicao
+	;		
+	
+condicao
+	: '(' condicao ')'
+	| '(' relacao condicao+ ')'
+	| parametro
+	;		
 	
 modificador		
 	: IDENTIDADE
-	;	
-	
-declaracaoDeEfeitos
-	: ':effect' '(' 'and' '(' 'not' '(' nomeDoEfeito ')' ')' '(' nomeDoEfeito ')' ')'
+	;
+		
+relacao
+	: IDENTIDADE
 	;	
 	
 predicado
