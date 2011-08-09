@@ -17,7 +17,7 @@ dominio
 	:'(' 'define' declaracaoDoDominio
 		declaracaoDeRequerimento
 		declaracaoDePredicados
-		declaracaoDeAcao+
+		declaracaoDeAcoes
 	 ')'
 	;
 
@@ -32,6 +32,10 @@ declaracaoDeRequerimento
 declaracaoDePredicados
 	: '(' ':predicates' predicado+ ')'
 	;
+
+declaracaoDeAcoes
+	: declaracaoDeAcao* 
+	;
 	
 declaracaoDeAcao
 	: '(' ':action' nomeDaAcao
@@ -42,12 +46,30 @@ declaracaoDeAcao
 	;	
 	
 declaracaoDeParametros
- : ':parameters' '(' nomeDoParametro* ')'
+ : ':parameters' '(' parametro* ')'
  ;
 
 declaracaoDePrecondicoes
-	: ':precondition' '(' nomeDaPrecondicao ')'
+	: ':precondition' '(' precondicao? ')'
 	;
+	
+precondicao
+	: parametro
+	| condicao+
+	;
+
+condicao
+	: 'clear' parametro
+	| 'on-table' parametro	
+	| 'on' parametro parametro
+	| 'not' condicao
+	| 'and' condicao
+	| '(' condicao ')'
+	;
+	
+modificador		
+	: IDENTIDADE
+	;	
 	
 declaracaoDeEfeitos
 	: ':effect' '(' 'and' '(' 'not' '(' nomeDoEfeito ')' ')' '(' nomeDoEfeito ')' ')'
@@ -56,12 +78,10 @@ declaracaoDeEfeitos
 predicado
 	: '(' nomeDoPredicado ')'
 	;
-
-nomeDoParametro
-	: IDENTIDADE+;
 	
-nomeDaPrecondicao
-	: IDENTIDADE+;	
+parametro
+	: IDENTIDADE
+	;
 	
 nomeDoDominio
 	: IDENTIDADE+;
