@@ -38,7 +38,38 @@ goal
 	;
 	
 nfp
+	: 'nfp' attributeValueNfp log_definition_nfp?
+	| 'nonFunctionalProperty' attributeValueNfp log_definition_nfp?
+	;	
+	
+attributeValueNfp
+	: id 'hasValue' valueListNfp annotations?
+	;	
+	
+valueListNfp
+	: valueNfp
+	| '{' valueNfp moreNfpValues* '}'
+	;	
+	
+valueNfp
+	: baseValue
+	| variable
+	;	
+	
+moreNfpValues
+	: ',' valueNfp
+	;	
+	
+baseValue
 	:
+	;
+	
+variable
+	:
+	;
+		
+log_definition_nfp
+	: 'definedby' log_expr+
 	;	
 	
 header
@@ -64,10 +95,14 @@ baseValueList
 	;	
 	
 importOntology
-	:
+	: 'importsOntology' iriList
 	;	
 	
 usesMediator
+	: 'usesMediator' iriList
+	;	
+	
+iriList
 	:
 	;	
 	
@@ -92,8 +127,10 @@ superConcept
 	;
 	
 idList
-	:
-	;
+	: id
+	| '{' id (',' id)* '}'
+	| '{' '}'
+	; 
 	
 attribute
 	: attributeFeature* att_type cardinality? idList annotations? 
@@ -146,8 +183,12 @@ arity
 	: '/' pos_integer
 	;
 	
-superRelation
+pos_integer
 	:
+	;
+	
+superRelation
+	: 'subRelationOf' idList
 	;	
 	
 instance
@@ -163,11 +204,19 @@ attributeValue
 	;	
 	
 relationInstance
-	:
+	: 'relationInstance' id? id '(' value moreValues ')' annotations?
 	;	
 	
 axiom
 	: 'axiom' axiomDefinition
+	;	
+	
+value
+	:
+	;	
+	
+moreValues
+	:
 	;	
 	
 axiomDefinition
@@ -179,6 +228,10 @@ log_definition
 	: 'definedBy' log_expr+
 	;
 	
+log_expr
+	:
+	;	
+	
 valueList
 	:
 	;	
@@ -188,12 +241,52 @@ webservice
 	;	
 	
 mediator
+	: ooMediator | ggMediator | wgMediator | wwMediator
+	;	
+	
+ooMediator
+	: 'ooMediator' iri? baseHeader* nfp* sources? target? use_service?
+	;	
+	
+target
 	:
 	;	
 	
-capability
-	: 'capability' iri? header* nfp* sharedvarDef? pre_post_ass_or_eff*
+baseHeader
+	: annotations	| importOntology
 	;	
+	
+sources
+	:
+	;
+	
+source
+	:
+	;	
+	
+use_service
+	:
+	;	
+	
+ggMediator
+	: 'ggMediator' iri? header* nfp* source? target? use_service?
+	;	
+	
+wgMediator
+	: 'wgMediator' iri? header* nfp* sources? target? use_service?
+	;	
+	
+wwMediator
+	: 'wwMediator' iri? header* nfp* source? target? use_service?
+	;	
+	
+capability
+	: 'capability' iri? header* nfp* sharedVarDef? pre_post_ass_or_eff*
+	;	
+	
+sharedVarDef
+	:
+	;
 	
 pre_post_ass_or_eff
 	:
