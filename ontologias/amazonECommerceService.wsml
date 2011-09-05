@@ -1,0 +1,547 @@
+namespace { _"http://www.wsmo.org/ontologies/amazon/amazonOntology#",
+	dc _"http://purl.org/dc/elements/1.1#",
+	dt _"http://www.wsmo.org/ontologies/dateTime#",
+	loc _"http://www.wsmo.org/ontologies/location#",
+	xsd _"http://www.w3.org/2001/XMLSchema#",
+	bk _"http://www.wsmo.org/ontologies/amazon/bookOntology#",
+	wsml _"http://www.wsmo.org/wsml/wsml-syntax#",
+	graphics _"http://example.org/graphics#",
+	commerce _"http://example.org/commerce#",
+	ratings _"http://example.org/ratings#",
+	music _"http://example.org/music#",
+	tasks _"http://example.org/commerceTasks#"
+}
+
+ontology _"http://www.wsmo.org/ontologies/amazon/amazonOntology"
+
+	nonFunctionalProperties
+		dc#title hasValue "Ontology for a WSMO Amazon Web service"
+		dc#creator hasValue {"James Scicluna"}
+		dc#subject hasValue {"Book Search", "Book Buying"}
+		dc#description hasValue "Simple Amazon Ontology for Searching and Buying Books"
+		dc#publisher hasValue "DERI Innsbruck"
+		dc#contributor hasValue {"James Scicluna, Jacek Kopecky"}
+		dc#date hasValue "2005-06-30"
+		dc#type hasValue _"http://www.wsmo.org/2004/d2#ontologies"
+		dc#format hasValue "text/html"
+		dc#identifier hasValue _"http://www.wsmo.org/ontologies/amazon/amazonOntology"
+		dc#source hasValue _"http://keg.cs.tsinghua.edu.cn/ontology/travel"
+		dc#language hasValue "en-US"
+		wsml#version hasValue "$Revision: 1.9 $"
+	endNonFunctionalProperties
+
+	concept item
+		nonFunctionalProperties
+			dc#description hasValue "An item handled by the Amazon Service"
+		endNonFunctionalProperties
+		asin ofType _string
+		irl ofType _iri
+		salesRank ofType _string
+		smallImage ofType graphics#image
+		mediumImage ofType graphics#image
+		largeImage ofType graphics#image
+		offerSummary ofType commerce#offerSummary
+		offers ofType commerce#offer
+		variationSummary ofType commerce#variationSummary
+		variations ofType commerce#variation
+		customerReviews ofType ratings#customerReview
+		editorialReviews ofType ratings#editorialReview
+		similarProduct ofType minimalItem
+		accessories ofType minimalItem
+		tracks ofType music#track
+		promotionalTag ofType _string
+			
+	concept minimalItem
+		nonFunctionalProperties
+			dc#description hasValue "Defines the minimal information needed for defining an item"
+		endNonFunctionalProperties
+		asin ofType _string
+		title ofType _string
+		quantity ofType (1) _int
+	
+	concept amazonCartItem
+		nonFunctionalProperties
+			dc#description hasValue "A cart item is described by a specific item and a quantity"
+		endNonFunctionalProperties
+		id ofType (1) _string
+		asin ofType (1) _string
+		exchangeId ofType (1) _string
+		merchantId ofType (1) _string
+		sellerId ofType (1) _string
+		sellerNickName ofType (1) _string
+		quantity ofType (1) _int
+		title ofType (1) _string
+		productGroup ofType (1) _string
+		listOwner ofType (1) _string
+		listType ofType (1) typeOfList
+		item ofType (1) item
+		unitPrice ofType (1) commerce#price
+		totalPrice ofType (1) commerce#price
+
+	concept amazonCart
+		nonFunctionalProperties
+			dc#description hasValue "A cart is represented by an ID and a list of items"
+		endNonFunctionalProperties
+		id ofType (1) _string
+		hmac ofType (1) _string
+		urlEncodedHMAC ofType (1) _string
+		purchaseUrl ofType (1) _iri
+		subTotal ofType (1) commerce#price
+		items ofType cartItem
+		similarProducts ofType minimalItem
+		
+	concept helpRequest
+		nonFunctionalProperties
+			dc#description hasValue "A help request"
+		endNonFunctionalProperties
+		about ofType _string
+		helpType ofType (1) _string
+		responseGroup ofType _string
+		
+	axiom helpTypeConstraint
+		nonFunctionalProperties
+			dc#description hasValue "The type of help can only be 'Operation' or 'ResponseGroup'"
+		endNonFunctionalProperties
+		definedBy !-
+			?x[helpType hasValue ?type] memberOf helpRequest and
+			(
+				?type = "Operation" or
+				?type = "ResponseGroup"
+			).
+		
+	concept helpResponse
+		nonFunctionalProperties
+			dc#description hasValue "A help response object"
+		endNonFunctionalProperties
+		informationList impliesType information
+		responseType ofType (1) _string
+	
+	concept information
+		nonFunctionalProperties
+			dc#description hasValue "Defines the superclass for operationInformation and responseGroupInformation"
+		endNonFunctionalProperties
+		name ofType (1) _string
+	
+	concept operationInformation subConceptOf information
+		nonFunctionalProperties
+			dc#description hasValue "Help about an operation"
+		endNonFunctionalProperties
+		description ofType _string
+		requiredParameters ofType _string
+		availableParameters ofType _string
+		defaultResponseGroups ofType _string
+		availableResponseGroups ofType _string
+		
+	concept responseGroupInformation subConceptOf information
+		nonFunctionalProperties
+			dc#description hasValue "Help about a Response Group"
+		endNonFunctionalProperties
+		creationDate ofType (1) _string
+		validOperations ofType _string
+		elements ofType _string
+	
+
+	concept itemSearchRequest
+		nonFunctionalProperties
+			dc#description hasValue "A request to search for an item"
+		endNonFunctionalProperties
+		actor ofType _string
+		artist ofType _string
+		rating ofType ratings#audienceRating
+		author ofType _string
+		brand ofType (1) _string
+		city ofType _string
+		composer ofType _string
+		conductor ofType _string
+		count ofType _int
+		cuisine ofType _string
+		delivery ofType (1) tasks#deliveryMethod
+		director ofType _string
+		futureLaunchDate ofType _string
+		ispuPostalCode ofType (0 1) _string
+		keywords ofType _string
+		manufacturer ofType _string
+		maxPrice ofType (1) _decimal
+		merchantId ofType (1) _string
+		minPrice ofType (1) _decimal
+		musicLabel ofType _string
+		neighbourhood ofType _string
+		orchestra ofType _string
+		postalCode ofType (1) _string
+		power ofType _string
+		publisher ofType _string
+		responseGroup ofType _string
+		sort ofType (1) _string
+		state ofType _string
+		title ofType (1) _string
+
+	concept itemLookupRequest
+		nonFunctionalProperties
+			dc#description hasValue "A request to lookup for an item using an ASIN"
+			dc#relation hasValue typeOfId
+		endNonFunctionalProperties
+		delivery ofType (1) tasks#deliveryMethod
+		futureLaunchDate ofType _string
+		idType ofType (1) _string
+		ispuPostalCode ofType (0 1) _string
+		merchandId ofType (0 1) _string
+		id ofType (1) _string
+		responseGroup ofType _string		
+	
+	axiom typeOfId 
+		nonFunctionalProperties
+			dc#description hasValue "There are only four types of IDs: ASIN, UPC, SKU, EAN"
+		endNonFunctionalProperties
+		definedBy !-
+			?x memberOf itemLookupRequest and
+			?x[idType hasValue ?type] and
+			(
+				?type = "ASIN" or
+				?type = "UPC" or
+				?type = "SKU" or
+				?type = "EAN"
+			).
+	
+	concept browseNodeLookupRequest
+		nonFunctionalProperties
+			dc#description hasValue "Allows to browse through a node"
+		endNonFunctionalProperties
+		nodeId ofType (1) _string
+		responseGroup ofType _string
+		
+	concept browseNodeLookupResponse
+		nonFunctionalProperties
+			dc#description hasValue "List of nodes returned by a request to lookup a node to browse"
+		endNonFunctionalProperties
+		nodes ofType browseNode
+	
+	concept browseNode
+		nonFunctionalProperties
+			dc#description hasValue "Node information"
+		endNonFunctionalProperties
+		nodeId ofType (1) _string
+		name ofType _string
+		children ofType browseNode
+		ancestors ofType browseNode
+		
+	concept listSearchRequest
+		nonFunctionalProperties
+			dc#description hasValue "Allows to search for a list"
+		endNonFunctionalProperties
+		city ofType (0 1) _string
+		email ofType _string
+		firstName ofType (0 1) _string
+		lastName ofType (0 1) _string
+		listType ofType (0 1) typeOfList
+		name ofType (0 1) _string
+		responseGroupe ofType _string
+		state ofType _string
+		
+	axiom listTypeConstraint
+		nonFunctionalProperties
+			dc#description hasValue "A list type can be 'WishList', 'WeddingRegistry', 'BabyRegistry' or 'ListMania'"
+		endNonFunctionalProperties
+		definedBy !-
+			?x memberOf typeOfList and
+			?x[value hasValue ?type] and
+			(
+				?type = "WishList" or
+				?type = "WeddingRegistry" or
+				?type = "BabyRegistry"
+			).
+			
+	concept listContainer
+		nonFunctionalProperties
+			dc#description hasValue "Defines a container for lists"
+		endNonFunctionalProperties
+		lists ofType list
+		
+	concept list
+		nonFunctionalProperties
+			dc#description hasValue "Defines information related to a list"
+			dc#relation hasValue listTypeConstraint
+		endNonFunctionalProperties
+		listId ofType (1) _string
+		listUrl ofType (0 1) _iri
+		registryNumber ofType (1) _string
+		listName ofType (1) _string
+		totalItems ofType (0 1) _int
+		totalPages ofType (0 1) _int
+		dateCreated ofType (0 1) _string
+		customerName ofType (0 1) _string
+		partnerName ofType (0 1) _string
+		additionalName ofType _string
+		comment ofType _string
+		image ofType graphics#image
+		averageRating ofType _decimal
+		totalVotes ofType _int
+		totalTimesRead ofType _int
+		itemItems ofType listItem
+		listType ofType (1) typeOfList
+		
+	concept listItem
+		nonFunctionalProperties
+			dc#description hasValue "Defines an item in a list"
+			dc#relation hasValue listTypeConstraint
+		endNonFunctionalProperties
+		itemId ofType (1) _string
+		dateAdded ofType (0 1) _string
+		comment ofType _string
+		quantityDesired ofType (0 1) _int
+		quantityReceived ofType (0 1) _int
+		items ofType item
+		
+	concept typeOfList
+		nonFunctionalProperties
+			dc#description hasValue "Defines the type of lists and relates to a restriction on the value"
+			dc#relation hasValue listTypeConstraint
+		endNonFunctionalProperties
+		value ofType (1) _string
+		
+	concept listLookupRequest
+		nonFunctionalProperties
+			dc#description hasValue "Allows to search for a list"
+		endNonFunctionalProperties
+		delivery ofType (1) tasks#deliveryMethod
+		ispuPostalCode ofType (1) _string
+		listId ofType (1) _string
+		listType ofType (1) typeOfList
+		merchantId ofType (1) _string
+		productGroup ofType _string
+		productPage ofType (1) _int
+		responseGroup ofType _string
+		sort ofType _string
+
+	concept customerSearchRequest
+		nonFunctionalProperties
+			dc#description hasValue "Defines information to allow to search for an Amazon Customer"
+		endNonFunctionalProperties
+		email ofType _string
+		name ofType (0 1) _string
+		responseGroup ofType _string
+		
+	concept customerContainer
+		nonFunctionalProperties
+			dc#description hasValue "Defines a list of customers resulting from a search or lookup request"
+		endNonFunctionalProperties
+		customers ofType commerce#customer
+		
+	concept customerLookupRequest
+		nonFunctionalProperties
+			dc#description hasValue "Defines information to allow to search for an Amazon Customer by an identifier"
+		endNonFunctionalProperties
+		customerId ofType (1) _string
+		responseGroup ofType _string
+		
+	concept similarityLookupRequest
+		nonFunctionalProperties
+			dc#description hasValue "Defines constraints to search for similar items for a particular product"
+			dc#relation hasValue {similarityRestriction, similarItems}
+		endNonFunctionalProperties
+		delivery ofType tasks#deliveryMethod
+		itemId ofType (1) _string
+		ispuPostalCode ofType (1) _string
+		merchantId ofType (1) _string
+		responseGroup ofType _string
+		similarityType ofType _string
+	
+	axiom similarityRestriction
+		nonFunctionalProperties
+			dc#description hasValue "The type of similarity can be 'Intersection' or 'Random'"
+		endNonFunctionalProperties
+		definedBy !-
+			?x memberOf similarityLookupRequest and
+			?x[similarityType hasValue ?type] and
+			(
+				?type = "Intersection" or
+				?type = "Random"
+			).
+	
+	relation similarItems(ofType item, ofType item)
+		nonFunctionalProperties
+			dc#description hasValue "Relation holds for items which are similar"
+		endNonFunctionalProperties
+	
+	concept sellerLookupRequest
+		nonFunctionalProperties
+			dc#description hasValue "Defines constraints to search for a seller"
+		endNonFunctionalProperties
+		sellerId ofType (1) _string
+		responseGroup ofType _string
+		
+	concept sellerContainer
+		nonFunctionalProperties
+			dc#description hasValue "Defines a list of sellers"
+		endNonFunctionalProperties
+		sellers ofType commerce#seller
+
+
+	concept cartGetRequest
+		nonFunctionalProperties
+			dc#description hasValue "A request to get the Cart"
+		endNonFunctionalProperties
+		cartId ofType (1) _string
+		hmac ofType (1) _string
+		mergeCart ofType (1) _string
+		responseGroup ofType _string
+
+	concept cartAddRequest
+		nonFunctionalProperties
+			dc#description hasValue "A request to add items to a cart"
+		endNonFunctionalProperties
+		cartId ofType (1) _string
+		hmac ofType (1) _string
+		mergeCart ofType (1) _string
+		items ofType (1 *) item
+		responseGroup ofType _string
+		
+	concept cartCreateRequest
+		nonFunctionalProperties
+			dc#description hasValue "A request to create a cart object"
+		endNonFunctionalProperties
+		mergeCart ofType (1) _string
+		items ofType minimalItem
+		responseGroup ofType _string
+		
+	concept cartModifyRequest
+		nonFunctionalProperties
+			dc#description hasValue "Defines the required constraints to allow modification of a cart"
+			dc#relation hasValue actionType
+		endNonFunctionalProperties
+		cartId ofType (1) _string
+		hmac ofType (1) _string
+		mergeCart ofType (1) _string
+		items ofType minimalItem
+		action ofType (1) _string
+		responseGroup ofType _string
+		
+	axiom actionType
+		nonFunctionalProperties
+			dc#description hasValue "Defines the types of actions to allow modification of a cart"
+		endNonFunctionalProperties
+		definedBy !-
+			?x memberOf cartModifyRequest and
+			?x[action ofType ?actionType] and
+			(
+				?actionType = "MoveToCart" or
+				?actionType = "SaveForLater"
+			).
+
+	concept cartClearRequest
+		nonFunctionalProperties
+			dc#description hasValue "Request to clear the cart"
+		endNonFunctionalProperties
+		cartId ofType (1) _string
+		hmac ofType (1) _string
+		mergeCart ofType (1) _string
+		responseGroup ofType _string
+		
+	concept transactionLookupRequest
+		nonFunctionalProperties
+			dc#description hasValue "Specifies information to search for a specific transaction"
+		endNonFunctionalProperties
+		responseGroup ofType _string
+		transactionId ofType (1) _string
+		
+	concept transactionContainer
+		nonFunctionalProperties
+			dc#description hasValue "A container for transactions"
+		endNonFunctionalProperties
+		transactions ofType commerce#transaction
+		
+	concept sellerListingSearchRequest
+		nonFunctionalProperties
+			dc#description hasValue "Allows to specify constraints to search for zShops and Marketplaces"
+			dc#relation hasValue {offerStatusType, shipCriteria}
+		endNonFunctionalProperties
+		browseNode ofType (1) _string
+		country ofType (1) _string
+		keywords ofType _string
+		offerStatus ofType (1) _string
+		postalCode ofType (1) _string
+		responseGroup ofType _string
+		sellerId ofType (1) _string
+		shipOption ofType (1) _string
+		sort ofType (1) _string
+		title ofType (1) _string
+		
+	axiom offerStatusType
+		nonFunctionalProperties
+			dc#description hasValue "An offer status can be either 'Open' or 'Closed'"
+		endNonFunctionalProperties
+		definedBy !-
+			?x memberOf sellerListingSearchRequest and
+			?x[offerStatus hasValue ?status] and
+			(
+				?status = "Open" or
+				?status = "Closed"
+			).
+	
+	axiom shipCriteria
+		nonFunctionalProperties
+			dc#description hasValue "A shipping option can be either 'ShipTo' or 'ShipFrom'"
+		endNonFunctionalProperties
+		definedBy !-
+			?x memberOf sellerListingSearchRequest and
+			?x[shipOption hasValue ?option] and
+			(
+				?option = "ShipTo" or
+				?option = "ShipFrom"
+			).
+			
+	concept sellerListingContainer
+		nonFunctionalProperties
+			dc#description hasValue "A container for Seller Listings"
+		endNonFunctionalProperties
+		sellerListings ofType sellerListing
+		
+	concept sellerListing
+		nonFunctionalProperties
+			dc#description hasValue "A seller listing"
+		endNonFunctionalProperties
+		exchangeId ofType (1) _string
+		listingId ofType (1) _string
+		asin ofType (1) _string
+		title ofType (1) _string
+		price ofType (1) commerce#price
+		startDate ofType (1) _string
+		endDate ofType (1) _string
+		status ofType (1) _string
+		quantity ofType (1) _string
+		quantityAllocated ofType (1) _string
+		availability ofType _string
+		featuredCategory ofType _string
+		seller ofType commerce#seller
+	
+	concept sellerListingLookupRequest
+		nonFunctionalProperties
+			dc#description hasValue "Allows to specify constraints to search for zShops and Marketplaces using an identifier"
+			dc#relation hasValue {sellerListingIdType}
+		endNonFunctionalProperties
+		id ofType (1) _string
+		idType ofType (1) _string
+		responseGroup ofType _string
+		
+	axiom sellerListingIdType
+		nonFunctionalProperties
+			dc#description hasValue "An identifier type for seller listings can be 'Exchange' or 'Listing'"
+		endNonFunctionalProperties
+		definedBy !-
+			?x memberOf sellerListingLookupRequest and
+			?x[idType hasValue ?type] and
+			(
+				?type = "Exchange" or
+				?type = "Listing"
+			).
+
+	concept itemContainer
+		nonFunctionalProperties
+			dc#description hasValue "Contains a list of items"
+		endNonFunctionalProperties
+		items ofType item
+
+	concept cartItemContainer
+		nonFunctionalProperties
+			dc#description hasValue "Contains a list of cart items"
+		endNonFunctionalProperties
+		items impliesType cartItem

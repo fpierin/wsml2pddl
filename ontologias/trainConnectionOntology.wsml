@@ -1,0 +1,867 @@
+ontology http://www.wsmo.org/2004/d3/d3.2/v0.1/20040719/resources/po.wsml
+      namespace
+            http://www.wsmo.org/ontologies/purchase#,
+            dc=http://purl.org/dc/elements/1.1#,
+            wsml=http://www.wsmo.org/2004/d16/d16.1/v0.2/20040418#,
+            cu=http://www.wsmo.org/2004/d3/d3.2/v0.1/20040628/resources/owlCurrencyMediator.wsml#,
+            dt=http:://www.wsmo.org/ontologies/dateTime#
+            targetnamespace http://www.wsmo.org/ontologies/purchase#
+
+      non-functional-properties
+            dc:title "Purchase Ontology"
+            dc:creator "DERI International"
+            dc:subject "Purchase Order Request", "Buyer", "Seller", "Product Line Item", "Price", "Paymentmethod", "Delivery"
+            dc:description "general purchase order request ontology based on the 3A4 PIP of RosettaNet"
+            dc:publisher "DERI International"
+            dc:contributor "Armin Haller"
+            dc:date "2004-07-19"
+            dc:type http://www.wsmo.org/2004/d2/v0.3/20040329/#ontos
+            dc:format "text/html"
+            dc:language "en-US"
+            dc:relation
+                  http://www.daml.ecs.soton.ac.uk/ont/currency.daml,
+                  http://www.wsmo.org/ontologies/dateTime
+            dc:coverage ""
+            dc:rights http://www.deri.org/privacy.html
+            version "$Revision: 1.12 $"
+
+      used-mediators 
+            oo-mediators
+                  http://www.wsmo.org/2004/d3/d3.2/v0.1/20040628/resources/owlCurrencyMediator.wsml,
+                  http:://www.wsmo.org/ontologies/dateTime
+
+      comment: conceptDefinitions
+
+            concept pip3A4Purchase
+                  non-functional-properties
+                        dc:description "Rosettanets Purchase Order Request Document"
+                  buyer oftype buyer
+                  globaldocumentfunctioncode oftype globalDocumentFunctionCode
+                  purchaseorder oftype purchaseOrder
+                  thisdocumentgenerationdatetime oftype thisDocumentGenerationDateTime
+                  thisdocumentidentifier oftype thisDocumentIdentifier
+                  seller oftype seller
+
+            concept buyer
+                  non-functional-properties
+                        dc:description "The role initiating a business document exchange."
+                  partnerroledescription oftype partnerRoleDescription
+
+            concept seller
+                  non-functional-properties
+                        dc:description "The role receiving the document in a business document exchange."
+                  partnerroledescription oftype partnerRoleDescription
+
+            concept partnerRoleDescription
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               describe a business partners' role in the purchase order request."
+                  contactinformation oftype contactInformation
+                  globalpartnerroleclassificationcode oftype globalPartnerRoleClassificationCode
+                  partnerdescription oftype partnerDescription
+
+            concept contactInformation
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               provide communication and address information for
+                               contacting a person, organization or business."
+                  contactname oftype contactName
+                  emailaddress oftype emailAddress
+                  facsimilenumber oftype facsimileNumber
+                  telephonenumber oftype telephoneNumber
+                  physicallocation oftype physicalLocation
+
+            concept contactName subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Name of the contact person(s) within the organization."
+                  subconcept-of xsd:string
+
+            concept freeFormText subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Unformatted text."
+
+            concept emailAddress subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Electronic mail address."
+
+            concept facsimileNumber
+                  non-functional-properties
+                        dc:description "The numerical schema designed to achieve contact via facsimile."
+                  communicationsnumber oftype communicationsNumber
+
+            concept communicationsNumber subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "The electro-technical communication number,
+                               e.g., telephone number, facsimile number, pager number."
+
+            concept telephoneNumber
+                  non-functional-properties
+                        dc:description "The numerical schema designed to achieve contact via telephone."
+                  communicationsnumber oftype communicationsNumber
+
+            concept globalPartnerRoleClassificationCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying a party's role in the supply chain."
+
+            concept partnerDescription
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               describe a business partners' identity, their contact information,
+                               where they are physically located and their position in a supply chain."
+                  businessdescription oftype businessDescription
+                  globalpartnerclassificationcode oftype globalPartnerClassificationCode
+                  contactinformation oftype contactInformation
+                  physicallocation oftype physicalLocation
+
+            concept businessDescription
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               describe a business identity and location."
+                  globalbusinessidentifier oftype globalBusinessIdentifier
+                  globalsupplychaincode oftype globalSupplyChainCode
+                  businessname oftype businessName
+                  partnerbusinessidentification oftype partnerBusinessIdentification
+                  nationalbusinesstaxidentifier oftype nationalBusinessTaxIdentifier
+
+            concept globalBusinessIdentifier subconcept-of xsd:integer
+                  non-functional-properties
+                        dc:description "A unique business identifier."
+
+            concept globalSupplyChainCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying the supply chain for the partner's functionality."
+
+            concept globalPartnerClassificationCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying a partner's fucntionality in the supply chain."
+
+            concept globalDocumentFunctionCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying the fucntionality of
+                               a document as either a request or a response."
+
+            concept purchaseOrder
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               describe a buyer's offer to purchase a quantity of
+                               products at an agreed price and schedule."
+                  accountdescription oftype accountDescription
+                  freeformtext oftype freeFormText
+                  contractinformation oftype contractInformation
+                  documentreference oftype documentReference
+                  financingterms oftype financingTerms
+                  generalservicesadministrationnumber oftype generalServicesAdministrationNumber
+                  globalgovernmentpriorityratingcode oftype globalGovernmentPriorityRatingCode
+                  globalpurchaseorderfillprioritycode oftype globalPurchaseOrderFillPriorityCode
+                  globalpurchaseordertypecode oftype globalPurchaseOrderTypeCode
+                  governmentcontractidentifier oftype governmentContractIdentifier
+                  installat oftype installAt
+                  isdropship oftype isDropShip
+                  ordershippinginformation oftype orderShippingInformation
+                  productlineitem oftype productLineItem
+                  proprietaryinformation oftype proprietaryInformation
+                  requestedevent oftype requestedEvent
+                  requestedshipfrom oftype requestedShipFrom
+                  secondarybuyer oftype secondaryBuyer
+                  shipto oftype shipTo
+                  taxexemptstatus oftype taxExemptStatus
+                  totalamount oftype totalAmount
+
+            concept accountDescription
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               describe a customer and supplier account."
+                  accountname oftype accountName
+                  accountnumber oftype accountNumber
+                  billto oftype billTo
+                  creditcard oftype creditCard
+                  financedby oftype financedBy
+                  globalaccountclassificationcode oftype globalAccountClassificationCode
+                  prepaymentchecknumber oftype prePaymentCheckNumber
+                  wiretransferidentifier oftype wireTransferIdentifier
+
+            concept accountName
+                  non-functional-properties
+                        dc:description "The name of a bank account."
+                  freeformtext oftype freeFormText
+
+            concept accountNumber subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Identification number of an account."
+
+            concept billTo
+                  non-functional-properties
+                        dc:description "The party that will pay the invoice."
+                  partnerdescription oftype partnerDescription
+
+            concept businessName
+                  non-functional-properties
+                        dc:description "The name of a business entity."
+                  freeformtext oftype freeFormText
+
+            concept partnerBusinessIdentification
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               allow for the proprietary identification of a business entity."
+                  proprietarybusinessidentifier oftype proprietaryBusinessIdentifier
+                  proprietarydomainidentifier oftype proprietaryDomainIdentifier
+                  proprietaryidentifierauthority oftype proprietaryIdentifierAuthority
+
+            concept proprietaryBusinessIdentifier subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "A unique business identifier assigned
+                               and administered by a private authority."
+             subconcept-of xsd:string
+
+            concept proprietaryDomainIdentifier subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "A descriptor that is used to categorize an organization
+                               or business entity that is in the Proprietary Business Identifier."
+
+            concept proprietaryIdentifierAuthority subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "A unique name that identifies an organization / business entity
+                               that is responsible for managing one / more lists of identifiers."
+
+            concept physicalLocation
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               identify and describe the actual physical location of an entity
+                               as prescribed by local postal authorities,
+                               including country identification."
+                  partnerlocationidentification oftype partnerLocationIdentification
+                  physicaladdress oftype physicalAddress
+
+            concept partnerLocationIdentification
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               allow for the proprietary identification of a business location."
+                  proprietarydomainidentifier oftype proprietaryDomainIdentifier
+                  proprietaryidentifierauthority oftype proprietaryIdentifierAuthority
+                  proprietarylocationidentifier oftype proprietaryLocationIdentifier
+
+            concept proprietaryLocationIdentifier subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "A unique location identifier assigned
+                               and administered by a private authority."
+
+            concept physicalAddress
+                  non-functional-properties
+                        dc:description "The actual physical location of an entity as
+                               prescribed by local postal authorities, including
+                               country identification as it relates to the party or a product."
+                  addressline oftype addressLine
+                  cityname oftype cityName
+                  globalcountrycode oftype globalCountryCode
+                  nationalpostalcode oftype nationalPostalCode
+                  postofficeboxidentifier oftype postOfficeBoxIdentifier
+                  regionname oftype regionName
+                  globallocationidentifier oftype globalLocationIdentifier
+                  partnerlocationidentification oftype partnerLocationIdentification
+
+            concept addressLine
+                  non-functional-properties
+                        dc:description "The physical address."
+                  freeformtext oftype freeFormText
+
+            concept cityName
+                  non-functional-properties
+                        dc:description "The name of a city."
+                  freeformtext oftype freeFormText
+
+            concept globalCountryCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying the two character
+                               country code specified in ISO 3166-1993."
+
+            concept nationalPostalCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying geographic
+                               location as specified by a national postal code."
+
+            concept postOfficeBoxIdentifier
+                  non-functional-properties
+                        dc:description "The proprietary identity of a physical address,
+                               located at a post office, designed solely to accept and receive mail."
+                  freeformtext oftype freeFormText
+
+            concept regionName
+                  non-functional-properties
+                        dc:description "The name of a state or province within a country."
+                  freeformtext oftype freeFormText
+
+            concept creditCard
+                  non-functional-properties
+                        dc:description "A collection of business properties
+                               that describe information about a credit card."
+                  cardholdername oftype cardHolderName
+                  creditcardidentifier oftype creditCardIdentifier
+                  expirydate oftype expiryDate
+                  globalcreditcardclassificationcode oftype globalCreditCardClassificationCode
+                  proprietarycididentifier oftype proprietaryCIDIdentifier
+
+            concept cardHolderName
+                  non-functional-properties
+                        dc:description "The name of the owner of a credit card."
+                  freeformtext oftype freeFormText
+
+            concept creditCardIdentifier
+                  non-functional-properties
+                        dc:description "The unique number that identifies a credit card."
+                  proprietaryreferenceidentifier oftype proprietaryReferenceIdentifier
+
+            concept proprietaryReferenceIdentifier subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "A unique reference identifier for goods,
+                               services, business documents."
+
+            concept expiryDate
+                  non-functional-properties
+                        dc:description "The date that a contractual agreement expires."
+                  expMonth oftype dt:monthOfYear
+                  expYear oftype dt:year
+
+            concept globalCreditCardClassificationCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying the type of credit card used."
+
+            concept proprietaryCIDIdentifier subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Unique identifier for credit card purchase
+                               activity utilized by American Express."
+
+            concept financedBy
+                  non-functional-properties
+                        dc:description "The party who is the financier."
+                  partnerdescription oftype partnerDescription
+
+            concept globalAccountClassificationCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Account classification indicating
+                               its functionality, e.g., credit card account, debit card account."
+
+            concept prePaymentCheckNumber
+                  non-functional-properties
+                        dc:description "The check number issued to prepay a monetary amount for an account."
+                  checknumber oftype checkNumber
+
+            concept checkNumber subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "The identification code of a bank cheque."
+
+            concept wireTransferIdentifier subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "A unique identity of a wire transfer used for reference."
+
+            concept contractInformation
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               represent a business arrangement for the supply
+                               of goods / services at an agreed price."
+                  contractidentifier oftype contractIdentifier
+                  primarycontractwith oftype primaryContractWith
+                  secondarycontractwith oftype secondaryContractWith
+
+            concept contractIdentifier
+                  non-functional-properties
+                        dc:description "The unique number than identifies a contract."
+                  proprietarydocumentidentifier oftype proprietaryDocumentIdentifier
+
+            concept proprietaryDocumentIdentifier subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Unique identifier, i.e. a numeric value
+                               / alphanumeric value, for a business document."
+
+            concept primaryContractWith
+                  non-functional-properties
+                        dc:description "The principal party in a binding
+                               agreement between two / more persons / parties."
+                  partnerdescription oftype partnerDescription
+
+            concept secondaryContractWith
+                  non-functional-properties
+                        dc:description "The subsequent party in a binding
+                               agreement between two / more persons / parties."
+                  partnerdescription oftype partnerDescription
+
+            concept documentReference
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               allows the description of multiple proprietary
+                               documents and applicable line number references."
+                  datetimestamp oftype dt:dateAndTime
+                  globaldocumentreferencetypecode oftype globalDocumentReferenceTypeCode
+                  globalpartnerroleclassificationcode oftype globalPartnerRoleClassificationCode
+                  linenumber oftype lineNumber
+                  proprietarydocumentidentifier oftype proprietaryDocumentIdentifier
+                  revisionnumber oftype revisionNumber
+
+            concept globalDocumentReferenceTypeCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying the type of business
+                               document used for referencing within another business document."
+
+            concept lineNumber subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Number of the line in the document."
+
+            concept revisionNumber subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "An incremental number used to identify changes."
+
+ 
+            concept financingTerms
+                  non-functional-properties
+                        dc:description "The collection of business properties that describe financing terms."
+                  globalfinancetermscode oftype globalFinanceTermsCode
+                  paymentterms oftype paymentTerms
+
+            concept globalFinanceTermsCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying the terms that govern financing."
+
+            concept paymentTerms
+                  non-functional-properties
+                        dc:description "The collection of business properties that describe payment terms."
+                  discounts oftype discounts
+                  globalpaymentconditioncode oftype globalPaymentConditionCode
+                  nettermsday oftype netTermsDay
+                  nettermsdays oftype netTermsDays
+                  percentdue oftype percentDue
+
+            concept discounts
+                  non-functional-properties
+                        dc:description "The collection of business properties that describe payment discounts."
+                  discountday oftype discountDay
+                  discountdays oftype discountDays
+                  discountpercent oftype discountPercent
+
+            concept discountDay
+                  non-functional-properties
+                        dc:description "The specific day of the month a
+                               payment is required in order to receive a discount."
+                  dayofmonth oftype dt:dayOfMonth
+
+            concept discountDays
+                  non-functional-properties
+                        dc:description "The number of days within which a
+                               payment is required in order to receive a discount."
+                  countableamount oftype countableAmount
+
+            concept countableAmount subconcept-of xsd:integer
+                  non-functional-properties
+                        dc:description "Dimensionless magnitude, e.g. number of products."
+
+            concept discountPercent
+                  non-functional-properties
+                        dc:description "The financial percent, that reduces to the total amount due."
+                  percentamount oftype percentAmount
+
+            concept percentAmount subconcept-of xsd:float
+                  non-functional-properties
+                        dc:description "A real number representing a percentage value,
+                               e.g. 75.125 represents 75 1/8 percent."
+
+            concept globalPaymentConditionCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "A code identifying the conditions
+                               under which payment will be made."
+
+            concept netTermsDay
+                  non-functional-properties
+                        dc:description "The specific day of the month
+                               a payment is due without incurring late charges."
+                  dayofmonth oftype dt:dayOfMonth
+
+            concept netTermsDays
+                  non-functional-properties
+                   dc:description "The number of days within
+                              which a payment is due without incurring late charges."
+                  countableamount oftype countableAmount
+
+            concept percentDue
+                  non-functional-properties
+                        dc:description "The amount owed expressed as a percentage."
+                  percentamount oftype percentAmount
+
+            concept generalServicesAdministrationNumber
+                  non-functional-properties
+                        dc:description "Identifying number relating to a pre-established end-user pricing agreement."
+                  proprietarydocumentidentifier oftype proprietaryDocumentIdentifier
+
+            concept globalGovernmentPriorityRatingCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "If a contract number exists, 
+                               PO type is Government, a priority rating code is required."
+             subconcept-of xsd:string
+
+            concept globalPurchaseOrderFillPriorityCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying fill priority for manufacturing
+                               in a constrained condition. Value to be determined by Trading Partner Agreement."
+
+            concept globalPurchaseOrderTypeCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying category specification for a purchase order."
+
+            concept governmentContractIdentifier
+                  non-functional-properties
+                        dc:description "The unique number that identifies a government contract."
+                  proprietarydocumentidentifier oftype proprietaryDocumentIdentifier
+
+            concept installAt
+                  non-functional-properties
+                        dc:description "The partner and/or location to
+                               which the product must be set up for use / service."
+                  partnerdescription oftype partnerDescription
+
+            concept isDropShip
+                  non-functional-properties
+                        dc:description "Indicates whether the order is a drop shipment."
+                  affirmationindicator oftype affirmationIndicator
+
+            concept affirmationIndicator subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Used to indicate "Yes", "No" statements."
+
+            concept orderShippingInformation
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               describe information relating to shipping a product."
+                  carrierinformation oftype carrierInformation
+                  globalfreeonboardcode oftype globalFreeOnBoardCode
+                  globalshipmenttermscode oftype globalShipmentTermsCode
+                  globalshippingservicelevelcode oftype globalShippingServiceLevelCode
+                  globalspecialfulfillmentrequestcode oftype globalSpecialFulfillmentRequestCode
+                  packlistrequirements oftype packListRequirements
+                  specialhandlinginstruction oftype specialHandlingInstruction
+
+            concept carrierInformation
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               describe a carrier's identification."
+                  accountidentifier oftype accountIdentifier
+                  globalcarriercode oftype globalCarrierCode
+
+            concept accountIdentifier
+                  non-functional-properties
+                        dc:description "The unique identifier that identifies an account."
+                  proprietaryreferenceidentifier oftype proprietaryReferenceIdentifier
+ 
+            concept globalCarrierCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "A unique carrier identification code,
+                               based on Standard Carrier Alpha Code(s) (SCAC)."
+
+            concept globalFreeOnBoardCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying a specified point where
+                               a product is delivered / placed on board a carrier without charge."
+
+            concept globalShipmentTermsCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying the terms under which a product is shipped."
+
+            concept globalShippingServiceLevelCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying the shipping service level, e.g., overnight, same day."
+
+            concept globalSpecialFulfillmentRequestCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying a special fulfillment request, e.g. delivery options."
+
+            concept packListRequirements
+                  non-functional-properties
+                        dc:description "Free form textual description, on the pack list,
+                               of requirements relating to the packing of the product."
+                  freeformtext oftype freeFormText
+
+            concept specialHandlingInstruction
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               describe product packaging / shipping handling instructions."
+                  globalspecialhandlingcode oftype globalSpecialHandlingCode
+                  specialhandlingtext oftype specialHandlingText
+
+            concept globalSpecialHandlingCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying special handling or packaging requirements for the product."
+
+            concept specialHandlingText
+                  non-functional-properties
+                        dc:description "Free form textual description for
+                               how specified goods, packages / containers should be handled." 
+                  freeformtext oftype freeFormText
+
+            concept productLineItem
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               describe a business document entry for a product."
+                  freeformtext oftype freeFormText
+                  contractinformation oftype contractInformation
+                  countryoforigin oftype countryOfOrigin
+                  customerinformation oftype customerInformation
+                  documentreference oftype documentReference
+                  expeditereferenceidentifier oftype expediteReferenceIdentifier
+                  globalproductunitofmeasurecode oftype globalProductUnitOfMeasureCode
+                  globalpurchaseorderfillprioritycode oftype globalPurchaseOrderFillPriorityCode
+                  installat oftype installAt
+                  isdropship oftype isDropShip
+                  linenumber oftype lineNumber
+                  orderquantity oftype orderQuantity
+                  ordershippinginformation oftype orderShippingInformation
+                  productidentification oftype productIdentification
+                  productsublineitem oftype productSubLineItem
+                  proprietaryinformation oftype proprietaryInformation
+                  requestedevent oftype requestedEvent
+                  requestedshipfrom oftype requestedShipFrom
+                  requestedunitprice oftype requestedUnitPrice
+                  shipto oftype shipTo
+                  taxexemptstatus oftype taxExemptStatus
+                  totallineitemamount oftype totalLineItemAmount
+
+            concept countryOfOrigin
+                  non-functional-properties
+                        dc:description "Country where product originates."
+                  globalcountrycode oftype globalCountryCode
+
+            concept customerInformation
+                  non-functional-properties
+                        dc:description "The collection of business properties that describe an end user."
+                  customerprojectidentifier oftype customerProjectIdentifier
+                  globalcustomertypecode oftype globalCustomerTypeCode
+                  partnerdescription oftype partnerDescription
+
+            concept customerProjectIdentifier
+                  non-functional-properties
+                        dc:description "The unique identification number that
+                               identifies a project for a given customer."
+                  proprietaryreferenceidentifier oftype proprietaryReferenceIdentifier
+
+            concept globalCustomerTypeCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying the type of end user."
+
+            concept nationalBusinessTaxIdentifier
+                  non-functional-properties
+                        dc:description "The national tax identification number assigned to a business."
+                  businesstaxidentifier oftype businessTaxIdentifier
+                  globalcountrycode oftype globalCountryCode
+
+            concept businessTaxIdentifier subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Identifying number for Tax Information Field."
+
+            concept expediteReferenceIdentifier
+                  non-functional-properties
+                        dc:description "The unique identification number for the expediting of a product."
+                  proprietaryreferenceidentifier oftype proprietaryReferenceIdentifier
+
+            concept globalProductUnitOfMeasureCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying a product unit of measure."
+
+            concept orderQuantity
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               describe various types of product quantity used in an ordering process."
+                  requestedquantity oftype requestedQuantity
+
+            concept productIdentification
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               describe proprietary &  global identifier information regarding a product."
+                  globalproductidentifier oftype globalProductIdentifier
+                  partnerproductidentification oftype partnerProductIdentification
+
+            concept requestedQuantity
+                  non-functional-properties
+                        dc:description "The quantity of product requested."
+                  productquantity oftype productQuantity
+
+            concept productQuantity subconcept-of xsd:float
+                  non-functional-properties
+                        dc:description "A quantity specifying the number of product units."
+
+            concept partnerProductIdentification
+                  non-functional-properties
+                        dc:description "The collection of business properties that describe proprietary part information."
+                  globalpartnerclassificationcode oftype globalPartnerClassificationCode
+                  proprietaryproductidentifier oftype proprietaryProductIdentifier
+                  revisionidentifier oftype revisionIdentifier
+
+            concept globalProductIdentifier subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Global unique product identifier,
+                               expressed by the Global Trade Identification Number (GTIN)."
+
+            concept proprietaryProductIdentifier subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "An internal identifier used to identify a product."
+
+            concept revisionIdentifier
+                  non-functional-properties
+                        dc:description "Free form text that identifies a revision to a proprietary serial number."
+                  freeformtext oftype freeFormText
+
+            concept productSubLineItem
+                  non-functional-properties
+                        dc:description "The collection of business properties that describe a part of a product line item."
+                  freeformtext oftype freeFormText
+                  contractinformation oftype contractInformation
+                  countryoforigin oftype countryOfOrigin
+                  customerinformation oftype customerInformation
+                  expeditereferenceidentifier oftype expediteReferenceIdentifier
+                  globalproductunitofmeasurecode oftype globalProductUnitOfMeasureCode
+                  globalpurchaseorderfillprioritycode oftype globalPurchaseOrderFillPriorityCode
+                  installat oftype installAt
+                  isdropship oftype isDropShip
+                  orderquantity oftype orderQuantity
+                  ordershippinginformation oftype orderShippingInformation
+                  proprietaryinformation oftype proprietaryInformation
+                  requestedevent oftype requestedEvent
+                  requestedshipfrom oftype requestedShipFrom
+                  requestedunitprice oftype requestedUnitPrice
+                  shipto oftype shipTo
+                  sublineitem oftype subLineItem
+
+            concept proprietaryInformation
+                  non-functional-properties
+                        dc:description "A free form textual description of information, relating to a product."
+                  freeformtext oftype freeFormText
+
+            concept requestedEvent
+                  non-functional-properties
+                        dc:description "The date a transportation event is requested to occur."
+                  transportationevent oftype transportationEvent
+
+            concept transportationEvent
+                  non-functional-properties
+                        dc:description "The collection of business properties that
+                               describe the occurrence of the public conveyance of goods as a commercial enterprise."
+                  begintime oftype beginTime
+                  datestamp oftype dt:dateAndTime
+                  endtime oftype endTime
+                  globaltransporteventcode oftype globalTransportEventCode
+
+            concept beginTime
+                  non-functional-properties
+                        dc:description "The start time of a time period."
+                  timestamp oftype dt:dateAndTime
+
+            concept endTime
+                  non-functional-properties
+                        dc:description "The end time of a time period."
+                  timestamp oftype dt:dateAndTime
+
+            concept globalTransportEventCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying an event during the transportation of a shipment."
+
+            concept requestedShipFrom
+                  non-functional-properties
+                        dc:description "The location where the product is requested to be shipped from."
+                  physicaladdress oftype physicalAddress
+
+            concept requestedUnitPrice
+                  non-functional-properties
+                        dc:description "The price requested for a unit of product."
+                  financialamount oftype financialAmount
+
+            concept financialAmount
+                  non-functional-properties
+                        dc:description "The collection of business properties
+                               that describe the monetary amount defined by a specified currency."
+                  globalcurrencycode oftype cu:currency
+                  globalmonetaryamounttypecode oftype globalMonetaryAmountTypeCode
+                  invoicechargetypecode oftype invoiceChargeTypeCode
+                  monetaryamount oftype monetaryAmount
+
+            concept globalMonetaryAmountTypeCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying whether the monetary amount is a debit / credit."
+
+            concept invoiceChargeTypeCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying the values for the types of charges contained in an invoice."
+
+            concept monetaryAmount subconcept-of xsd:float
+                  non-functional-properties
+                        dc:description "Magnitude of currency amount."
+
+            concept shipTo
+                  non-functional-properties
+                        dc:description "The partner and/or location to which the product must be delivered."
+                  partnerdescription oftype partnerDescription
+
+            concept subLineItem
+                  non-functional-properties
+                        dc:description "Information contained within a subline."
+                  linenumber oftype lineNumber
+
+            concept taxExemptStatus
+                  non-functional-properties
+                        dc:description "The collection of business properties that describe tax exemption conditions."
+                  istaxexempt oftype isTaxExempt
+                  taxexemption oftype taxExemption
+
+            concept isTaxExempt
+                  non-functional-properties
+                        dc:description "Indicates whether a product is exempt from taxation."
+                  affirmationindicator oftype affirmationIndicator
+
+            concept taxExemption
+                  non-functional-properties
+                        dc:description "The collection of business properties that describe
+                               tax exemption type / identification information."
+                  globaltaxexemptioncode oftype globalTaxExemptionCode
+                  taxexemptioncertificationidentifier oftype taxExemptionCertificationIdentifier
+
+            concept globalTaxExemptionCode subconcept-of xsd:string
+                  non-functional-properties
+                        dc:description "Code identifying the type of tax exemption for a product / service."
+
+            concept taxExemptionCertificationIdentifier
+                  non-functional-properties
+                        dc:description "The unique identifier that represents the authorization
+                               for a product / service's tax exempt status."
+                  proprietaryreferenceidentifier oftype ProprietaryReferenceIdentifier
+
+            concept totalLineItemAmount
+                  non-functional-properties
+                        dc:description "The monetary total associated with a line item."
+                  financialamount oftype financialAmount
+
+            concept secondaryBuyer
+                  non-functional-properties
+                        dc:description "The collection of business properties that describe an alternate buyer."
+                  partnerdescription oftype partnerDescription
+                  secondarybuyerpurchaseorderidentifier oftype secondaryBuyerPurchaseOrderIdentifier
+
+            concept secondaryBuyerPurchaseOrderIdentifier
+                  non-functional-properties
+                        dc:description "Unique number that identifies a purchase order issued by the secondary buyer."
+                  proprietarydocumentidentifier oftype proprietaryDocumentIdentifier
+
+            concept totalAmount
+                  non-functional-properties
+                        dc:description "Total price for an entire invoice."
+                  financialamount oftype financialAmount
+
+            concept thisDocumentGenerationDateTime
+                  non-functional-properties
+                        dc:description "The date-time stamp indicating when this business document was generated."
+                  datetimestamp oftype dt:dateAndTime
+
+            concept thisDocumentIdentifier
+                  non-functional-properties
+                        dc:description "The information that identifies the business document being sent.
+                               This identifier is used to represent the specific business document
+                               associated with the defined business process."
+                  proprietarydocumentidentifier oftype proprietaryDocumentIdentifier
+
+            comment: instanceDefinitions
+
+            comment: A link to large set of instances is missing in WSMO.
+                  The inclusion of links to large set of instances will be considered
+                  in future versions of WSMO.
