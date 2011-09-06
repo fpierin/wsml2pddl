@@ -1,0 +1,21 @@
+capability  
+   sharedVariables ?child  
+   precondition  
+      annotations  
+dc#description hasValue "The input has to be boy or a girl  
+   with birthdate in the past and be born in Germany."  
+      endAnnotations  
+definedBy  
+         ?child memberOf Child  
+and ?child[hasBirthdate hasValue ?birthdate]  
+and ?child[hasBirthplace hasValue ?location]  
+and ?location[locatedIn hasValue oo#de]  
+or (?child[hasParent hasValue ?parent]  
+   and ?parent[hasCitizenship hasValue oo#de] ) .  
+   effect  
+      annotations  
+dc#description hasValue "After the registration the child is a German citizen"  
+      endAnnotations  
+definedBy  
+         ?child memberOf Child  
+         and ?child[hasCitizenship hasValue oo#de].  

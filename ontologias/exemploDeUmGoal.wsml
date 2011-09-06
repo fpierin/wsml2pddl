@@ -1,0 +1,12 @@
+goal _"http://example.org/service/WeatherInnsbruck"
+importsOntology {
+_"http://example.org/ontology/Location",
+_"http://example.org/ontology/Weather"
+}
+capability
+postcondition
+annotations
+dc#description hasValue "I want to know the weather forecast for Innsbruck."
+endAnnotations
+definedBy
+?forecast[hasLocation hasValue loc#Innsbruck] memberOf WeatherForecast.

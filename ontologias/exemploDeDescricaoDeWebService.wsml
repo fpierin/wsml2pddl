@@ -1,0 +1,27 @@
+ 
+wsmlVariant _"http://www.wsmo.org/wsml/wsml-syntax/wsml-flight"
+namespace { namespace { _"http://example.org/ontologies/Weather#",
+loc _"http://example.org/ontology/Location#",
+dc _"http://purl .org/dc/elements/1.1/",
+wsml _"http://www.wsmo.org/wsml/wsml-syntax#",
+xsd _"http://www.w3.org/2001/XMLSchema#"
+}
+webService _"http://example.org/service/WeatherUSA"
+annotations
+dc#creator hasValue "Federico M. Facca"
+dc#description hasValue "Describes an web service for the weather forecast"
+wsml#version hasValue "1.2"
+dc#title hasValue "Weather Service"
+dc#date hasValue _date(2009,3,30)
+dc#format hasValue "text/plain"
+dc#language hasValue "en-US"
+endAnnotations
+importsOntology {
+_"http://example.org/ontology/Location",
+_"http://example.org/ontology/Weather"
+}
+capability
+...
+interface
+...
+nonFunctionalProperty

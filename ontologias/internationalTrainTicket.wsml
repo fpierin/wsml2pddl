@@ -1,0 +1,53 @@
+wsmlVariant _"http://www.wsmo.org/wsml/wsml−syntax/wsml−rule"
+namespace { _"http://www.wsmo.org/ontologies/trainConnection",
+dc _"http://purl .org/dc/elements/1.1#",
+prs _"http://www.wsmo.org/2004/d3/d3.3/v0.1/20041008/resources/owlPersonMediator.wsml"
+xsd _"http://www.w3.org/2001/XMLSchema#",
+wsml _"http://www.wsmo.org/wsml/wsml−syntax#",
+loc _"http://www.wsmo.org/ontologies/nfp/locativeNFPOntology#",
+temp _"http://www.wsmo.org/ontologies/nfp/temporalNFPOntology#",
+qua _"http://www.wsmo.org/ontologies/nfp/qualityNFPOntology#",
+po _"http://www.wsmo.org/ontologies/nfp/providerNFPOntology#",
+prc _"http://www.wsmo.org/ontologies/nfp/priceNFPOntology#",
+mes _"http://www.wsmo.org/ontologies/nfp/measuresNFPOntology#" }
+ontology _"http://www.wsmo.org/ontologies/trainConnection"
+annotations
+dc#title hasValue "International Train Ticket Ontology"
+dc#creator hasValue "STI Innsbruck"
+dc#subject hasValues {"Train", " Itinerary " , "Train Connection", Ticket"}
+dc#description hasValue "Domain Ontology International Train Ticket"
+dc#format hasValue "text/html"
+dc#identifier hasValue _"http://www.wsmo.org/ontologies/trainConnection"
+dc:contributor hasValues {"Michael Stollberg", "Ruben Lara",
+"Holger Lausen", "Ioan Toma"}
+dc#language hasValue "en−US"
+wsml#version hasValue "Revision : 2.0"
+endAnnotations
+importsOntology {_"http://www.wsmo.org/ontologies/nfp/locativeNFPOntology",
+_"http://www.wsmo.org/ontologies/nfp/temporalNFPOntology"}
+usedMediators
+{_"http://www.wsmo.org/2004/d3/d3.3/v0.1/20041008/resources/owlPersonMediator.wsml"}
+concept station subConceptOf loc#GeoLocation
+annotations
+dc#description hasValue "Train station "
+endAnnotations
+code ofType _string
+annotations
+dc#description hasValue "Code of the station"
+endAnnotations
+borderToCountry ofType loc#Border
+annotations
+dc#description hasValue "For stations located at the border"
+endAnnotations
+concept ticket
+annotations
+dc#description hasValue "a ticket for an itinerary "
+endAnnotations
+itinerary ofType itinerary
+provider ofType po#Provider
+price ofType prc#AbsoultePrice
+concept itinerary
+annotations
+dc#description hasValue "An itinerary between two locations"
+endAnnotations
+passenger ofType prs#person

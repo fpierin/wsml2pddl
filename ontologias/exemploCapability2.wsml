@@ -1,0 +1,6 @@
+webService _"http://example.org/service/WeatherUSA"
+importsOntology {
+_"http://example.org/ontology/Location",
+_"http://example.org/ontology/Weather"
+}
+capability _"http://example.org/ontology/WeatherTasks#ProvideWeatherForecast"

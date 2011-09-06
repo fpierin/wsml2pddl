@@ -31,8 +31,27 @@ outrasDefinicoes
 	
 ontologia
 	: 'ontology' full_iri 
-		ontologiasImportadas? anotacoes? conceito* instancias? relacoes? axiomas?
+		ontologiasImportadas? anotacoes? conceito* instancias? relacoes? axiomas? capacidades?
 	;
+	
+capacidades
+	: 'capability' preCondicoes?
+	;
+	
+preCondicoes
+	: 'precondition' 
+		anotacoes?
+		definicoes?
+		efeitos?		
+	;
+	
+definicoes
+	: 'definedBy'
+	;	
+	
+efeitos
+	: 'effect'
+	;	
 	
 axiomas
 	: (axioma)+
@@ -161,7 +180,10 @@ IDENTIDADE
 	: LETRA (DIGITO | LETRA | CERQUILHA)* ;
 
 STRING_LITERAL
-	: ASPAS (options {greedy=false;} : . )* ASPAS ;
+	: ASPAS 
+		(options {greedy=false;} : . )* 
+		ASPAS 
+	;
 	
 NUMERO
 	: DIGITO+
@@ -170,3 +192,10 @@ NUMERO
 	
 WS
 	: (ESPACO_EM_BRANCO)+ { $channel = HIDDEN; };
+	
+COMENTARIO
+    :   '/*' 
+        (options {greedy=false;} : . )* 
+        '*/' 
+        { $channel=HIDDEN; }
+    ;	

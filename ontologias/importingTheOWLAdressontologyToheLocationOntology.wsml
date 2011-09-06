@@ -1,0 +1,27 @@
+wsmlVariant _"http://www.wsmo.org/wsml/wsml-syntax/wsml-rule"
+namespace {
+_"http://www.wsmo.org/example/VTA/mediators/owlAddressMediator#",
+dc _"http://purl .org/dc/elements/1.1#",
+loc _"http://www.wsmo.org/ontologies/nfp/locativeNFPOntology#",
+wsml _"http://www.wsmo.org/wsml/wsml-syntax#"}
+ooMediator
+" http://www.wsmo.org/example/VTA/mediators/owlAddressMediator.wsml"
+annotations
+dc#title hasValue "OO Mediator importing the OWL Factbook ontology to WSML"
+dc#creator hasValue "STI Innsbruck"
+dc#description hasValue "Mediator to import an OWL address ontology into a WSML locations
+ontology"
+dc#contributor hasValues {"Michael Stollberg", "Ruben Lara", "Holger Lausen", "Ioan Toma"}
+dc#format hasValue "text/html"
+dc#language hasValue "en-US"
+dc#version hasValue "Revision : 2.0"
+endAnnotations
+importsOntology {_"http:://www.wsmo.org/ontologies/trainConnection#",
+_"http://www.wsmo.org/ontologies/nfp/temporalNFPOntology#",
+_"http://www.wsmo.org/ontologies/nfp/locativeNFPOntology#",
+_"http://www.wsmo.org/ontologies/nfp/paymentNFPOntology#",
+_"http :://www.wsmo.org/ontologies/purchase#"}
+source _"http://daml.umbc.edu/ontologies/ittalks/address"
+target _"http://www.wsmo.org/ontologies/nfp/locativeNFPOntology"
+useService
+_"http://138.232.65.151:8080/TranslatorService/OWL2WSML/"

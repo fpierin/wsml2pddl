@@ -1,0 +1,55 @@
+wsmlVariant _"http://www.wsmo.org/wsml/wsml-syntax/wsml-flight"
+namespace { _"http://ontologies.sti2.at/"
+,
+wsml _"http://www.wsmo.org/wsml/wsml-syntax#",
+dc _"http://purl .org/dc/elements/1.1/" }
+ontology simpsons
+concept gender
+concept character
+hasName ofType _string
+hasGender ofType gender
+hasSpouse ofType character
+hasChild ofType character
+hasParent ofType character
+hasSibling ofType character
+hasFriend ofType character
+hasCatchPhrase ofType _string
+inLoveWith ofType character
+isCustomerOf ofType workplace
+hasWorkingPlace ofType place
+attends ofType school
+instance male memberOf gender
+instance female memberOf gender
+instance homer_simpson memberOf character
+annotations
+dc#title hasValue "Homer J Simpson"
+endAnnotations
+hasName hasValue "Homer J Simpson"
+hasGender hasValue male
+hasSpouse hasValue marge_simpson
+hasParent hasValue abe_simpson
+hasChild hasValue {bart_simpson, lisa_simpson, maggie_simpson }
+instance marge_simpson memberOf character
+annotations
+dc#title hasValue "Marge Simpson"
+endAnnotations
+hasName hasValue "Marge Simpson"
+hasGender hasValue female
+hasSpouse hasValue homer_simpson
+hasChild hasValue {bart_simpson, lisa_simpson, maggie_simpson }
+hasSibling hasValue {patty_bouvier, selma_bouvier }
+instance lisa_simpson memberOf character
+annotations
+dc#title hasValue "Lisa Simpson"
+endAnnotations
+hasName hasValue "Lisa Simpson"
+hasGender hasValue female
+hasParent hasValue {homer_simpson, marge_simpson }
+hasSibling hasValue {bart_simpson, maggie_simpson }
+instance bart_simpson memberOf character
+annotations
+dc#title hasValue "Bart Simpson"
+endAnnotations
+hasName hasValue "Bart Simpson"
+hasGender hasValue male
+hasParent hasValue {homer_simpson, marge_simpson }

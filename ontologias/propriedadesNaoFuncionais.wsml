@@ -1,0 +1,13 @@
+nonFunctionalProperty
+prop#accuracy hasValue prop#highAccuracy
+annotations
+dc#description hasValue "The accuracy of the data returned by the service is high."
+endAnnotations
+nonFunctionalProperty
+prop#price hasValue ?price
+annotations
+dc#description hasValue "The price for service invocation is determined by the relation servicePrice,
+which is defined in the service properties ontology."
+endAnnotations
+definedBy
+exists ?x(?x memberOf prop#ServiceRequester and servicePrice(?x, ?price).

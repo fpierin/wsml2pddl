@@ -1,0 +1,34 @@
+interface WeatherUSAInterface
+annotations
+dc#title hasValue "WeatherUSA Choreography"
+dc#description hasValue "An example of a choreography for retrieving weather forecast"
+endAnnotations
+choreography WeatherUSAInterfaceChoreography
+stateSignature WeatherUSAInterfaceSignature
+importsOntology _"http://example.org/ontology/Weather"
+in
+wea#WeatherQuery withGrounding
+_"http://example.org/webservices/USWeatherForecast/Weather#wsdl.interfaceMessageReference(
+WeatherServicePortType/GetWeatherForCityState/In)",
+out
+wea#WeatherForecast withGrounding
+_"http://example.org/webservices/USWeatherForecast/Weather#wsdl.interfaceMessageReference(
+WeatherServicePortType/GetWeatherForCityState/Out)",
+transitionRules WeatherUSAInterfaceTransitions
+forall ?search
+with
+(?search[
+hasCity hasValue ?city,
+hasState hasValue ?state
+] memberOf wea#WeatherQuery
+and exists{?location} (
+?location memberOf loc#Location and
+?location [hasCity hasValue ?city, hasState hasValue ?state]
+)
+)
+do
+add(?forecast[
+hasLocation hasValue ?location
+] memberOf wea#WeatherForecast
+)
+delete(?

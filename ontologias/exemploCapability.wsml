@@ -1,0 +1,19 @@
+capability
+	
+	sharedVariables {?location}
+	
+	precondition
+		annotations
+			dc#description hasValue "The input is of a location and it must be in the US."
+		endAnnotations
+	
+	definedBy
+		?location [hasCountry hasValue loc#US] memberOf loc#Location.
+
+	postcondition
+		annotations
+			dc#description hasValue "The weather forecast returned corresponds to the input location. "
+		endAnnotations
+	
+	definedBy
+		?forecast[hasLocation hasValue ?location] memberOf WeatherForecast.

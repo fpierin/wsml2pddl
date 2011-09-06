@@ -1,0 +1,7 @@
+ooMediator _"http://example.org/ooMediatorUSUnitsToMetricUnits"
+annotations
+dc#description hasValue "This ooMediator transform units expressed
+in the US Measure System to the Metric Measure System."
+endAnnotations
+source _"http://example.org/ontology/USUnits"
+target _"http://example.org/ontology/MetricUnits"

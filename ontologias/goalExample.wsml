@@ -1,0 +1,41 @@
+wsmlVariant _"http://www.wsmo.org/wsml/wsml−syntax/wsml−rule"
+namespace {
+_"http://dip.semanticweb.org/bankinter/GoalVariationDependentAction.wsml#",
+dc _"http://purl.org/dc/elements/11#",
+sm _"http://dip.semanticweb.org/bankinter/StockMarket.wsml#",
+smp _"http://dip.semanticweb.org/bankinter/StockMarketProcess.wsml#"}
+goal
+_"http://dip.semanticweb.org/bankinter/GoalVariationDependentAction.wsml"
+nonFunctionalProperties
+dc#title hasValue "Goal for variation dependent actions"
+dc#description hasValue "If the value of a specified stock belongs to the top five variations on a
+specified market, then the system execute some action"
+endNonFunctionalProperties
+importsOntology {
+_"http://dip.semanticweb.org/bankinter/StockMarket.wsml",
+_"http://dip.semanticweb.org/bankinter/StockMarketProcess.wsml"}
+capability
+_"http://dip.semanticweb.org/bankinter/GoalVariationDependentAction#capability"
+sharedVariables {?marketISIN, ?stockISIN}
+/∗
+?marketISIN − the name of the market
+?stockISIN − the identifier of the stock
+∗/
+precondition
+nonFunctionalProperties
+dc#description hasValue "The stock specified by the user has to belong to the top five
+variations on a specified market"
+endNonFunctionalProperties
+definedBy
+?stock [hasName hasValue ?stockName, hasISIN hasValue ?stockISIN] memberOf
+sm#Stock and
+?market [hasISIN hasValue ?marketISIN, hasTopVariations hasValue ?stock] memberOf
+sm#StockMarket.
+postcondition
+nonFunctionalProperties
+dc#description hasValue "Result of the web service is execution of the desired action"
+endNonFunctionalProperties
+definedBy
+?action[actionType hasValue ?actionType, number hasValue ?number,
+customerID hasValue ?customerID, portfolioID hasValue ?portfolioID,
+stockISIN hasValue ?stockISIN, market hasValue ?marketISIN] memberOf smp#action.

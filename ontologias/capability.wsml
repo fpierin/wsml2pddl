@@ -1,0 +1,48 @@
+/* 
+	As funcionalidades desejas e providas por um WebService são descritas no WSML como forma de capacidades ('capability')
+	A capacidade desejada é parte de um  de um goal ('objetivo') e a capacidade desehata é parte de um 'webService'
+	
+	Elementos de uma capacidade ('core')
+
+	– Shared variables: the variables which are shared between the preconditions, 
+						postconditions, assumptions and effects  
+	
+	– Preconditions: conditions on the inputs of the service 
+	
+	– Postconditions: the relation between the input and the output of the service 
+
+	– Assumptions: what must hold (but cannot be checked beforehand) of the state of 
+					the world for the Web service to be able to execute successfully 
+
+	– Effects: the real-world effects of the execution of the Web service which are not 
+				reflected in the output 
+	
+	A WSML goal or Web service may only have one capability! 
+
+*/
+
+capability  
+   
+	sharedVariables ?child  
+   
+	precondition  
+		annotations  
+			dc#description hasValue "The input has to be boy or a girl with birthdate in the past and be born in Germany."  
+		endAnnotations  
+	
+	definedBy  
+		?child memberOf Child  
+			and ?child[hasBirthdate hasValue ?birthdate]  
+			and ?child[hasBirthplace hasValue ?location]  
+			and ?location[locatedIn hasValue oo#de]  
+			or (?child[hasParent hasValue ?parent]  
+   			and ?parent[hasCitizenship hasValue oo#de] ) .
+   			  
+	effect  
+		annotations  
+			dc#description hasValue "After the registration the child is a German citizen"  
+      	endAnnotations  
+	
+	definedBy  
+         ?child memberOf Child  
+         	and ?child[hasCitizenship hasValue oo#de].  
