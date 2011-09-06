@@ -26,13 +26,21 @@ namespaces
 	
 outrasDefinicoes
 	: ontologia
+	| objetivo
 	| webService
+	| mediadores
+	| capacidades
+//	| interfaces
 	;
 	
 ontologia
 	: 'ontology' full_iri 
-		ontologiasImportadas? anotacoes? conceito* instancias? relacoes? axiomas? capacidades?
+		ontologiasImportadas? anotacoes? conceito* instancias? relacoes? axiomas?
 	;
+	
+objetivo
+	: 'goal' full_iri 
+	;	
 	
 capacidades
 	: 'capability' preCondicoes?
@@ -118,8 +126,8 @@ unidadeDeRelacao
 	;
 	
 webService
-	: 'webService' full_iri
-		mediadores? ontologiasImportadas? anotacoes? 
+	: 'webService' identidade
+		ontologiasImportadas? anotacoes? 
 	;		
 	
 ontologiasImportadas
@@ -164,6 +172,11 @@ funcao
 full_iri
 	: '_' STRING_LITERAL
 	;
+	
+identidade
+	: identificador
+	| full_iri
+	;	
 	
 fragment ASPAS 						: '"';
 fragment BARRA						: '/' ;
