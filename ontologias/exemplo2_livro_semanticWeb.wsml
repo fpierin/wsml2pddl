@@ -1,0 +1,73 @@
+wsmlVariant _"http://www.wsmo.org/wsml/wsml-syntax/wsml-flight"
+
+	namespace { _"http://example.org/ontology/Weather#",
+									loc _"http://example.org/ontology/Location#",
+									dc _"http://purl .org/dc/elements/1.1/",
+									units _"http://example.org/ontology/MetricUnits#"}
+
+	ontology _"http://example.org/ontology/Weather"
+		
+		importsOntology {_"http://example.org/ontology/Location",
+													_"http://example.org/ontology/MetricUnits"
+												  }
+		
+		concept WeatherObservation	
+			annotations
+				dc#description hasValue "This concept describes weather observations"
+			endAnnotations
+			hasLocation ofType (1 1) loc#Location
+			hasTime impliesType (1 1) _dateTime
+			hasTemperature ofType (1 1) TemperatureObservation
+			hasWind ofType (1 1) WindObservation
+			hasPressure ofType (1 1) PressureObservation
+			hasCloud ofType (0 *) CloudObservation
+			hasPrecipitation ofType (0 1) PrecipitationObservation
+	
+	concept Observation
+	
+	concept TemperatureObservation subConceptOf Observation
+		hasMeasure ofType (1 1) _decimal
+		hasUnit impliesType (0 1) units#TemperatureUnit
+	
+	concept WindObservation subConceptOf Observation
+		hasMeasure ofType (1 1) _decimal
+		hasUnit impliesType (0 1) units#SpeedUnit
+		hasDirection ofType (1 1) _decimal
+
+	concept PressureObservation subConceptOf Observation
+		hasMeasure ofType (1 1) _decimal
+		hasUnit impliesType (0 1) units#SpeedUnit
+
+	concept CloudObservation subConceptOf Observation
+		hasType impliesType (1 1) CloudType
+		hasAmount ofType (1 1) _decimal
+		hasHeight ofType (1 1) _decimal
+
+	concept CloudType
+	
+	concept PrecipitationObservation subConceptOf Observation
+		
+	instance WeatherObservationExample memberOf WeatherObservation
+		hasLocation hasValue loc#Innsbruck
+		hasTime hasValue _dateTime(2009,3,30,10,20,0.000)
+		hasTemperature hasValue TemperatureObservationExample
+		hasWind hasValue WindObservationExample
+		hasPressure hasValue PressureObservationExample
+		
+	instance TemperatureObservationExample memberOf TemperatureObservation
+		hasMeasure hasValue _decimal(14.0)
+		hasUnit hasValue units#Celsius
+		
+	instance WindObservationExample memberOf WindObservation
+		hasMeasure hasValue _decimal(14.0)
+		hasUnit hasValue units#Knots
+		hasDirection hasValue _decimal(30.0)
+		
+	instance PressureObservationExample memberOf PressureObservation
+		hasMeasure hasValue _decimal(1020.0)
+
+	relation hasTemperatureObserviation(ofType loc#Location, ofType _decimal, ofType _dateTime)
+	annotations
+		dc#description hasValue "Relation between Location, Temperature and time of observation."
+	endAnnotations
+

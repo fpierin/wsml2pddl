@@ -1,0 +1,10 @@
+axiom hasTemperatureObserviationAxiom
+annotations
+	dc#relation hasValue hasTemperatureObserviation
+	dc#description hasValue "Defines the hasTemperatureObserviation relation as the relation between location
+	and the temperatures observed at that location."
+endAnnotations
+	definedBy
+		hasTemperatureObservation(?x,?y,?z) :-  ?k memberOf WeatherObservation
+		and ?k[hasLocation hasValue ?x, hasTime hasValue ?z, hasTemperature hasValue ?w]
+		and ?w[hasMeasure hasValue ?y].
