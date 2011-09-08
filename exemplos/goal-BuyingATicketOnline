@@ -1,0 +1,79 @@
+wsmlVariant _"http://www.wsmo.org/wsml/wsml−syntax/wsml−rule"
+
+namespace {_"http://www.wsmo.org/example/VTA/goals/GeneralTrainTrip#",
+					 dc _"http://purl .org/dc/elements/1.1#",
+					 tc _"http://www.wsmo.org/ontologies/trainConnection#",
+					 temp _"http://www.wsmo.org/ontologies/nfp/temporalNFPOntology#",
+					 loc _"http://www.wsmo.org/ontologies/nfp/locativeNFPOntology#",
+					 pay _"http://www.wsmo.org/ontologies/nfp/paymentNFPOntology#",
+					 xsd _"http://www.w3.org/2001/XMLSchema#",
+					 wsml _"http://www.wsmo.org/wsml/wsml−syntax#",
+					 po _"http://www.wsmo.org/ontologies/purchase#" }
+
+goal "http://www.wsmo.org/example/VTA/goals/GeneralTrainTrip.wsml"
+annotations
+dc#title hasValue "Buying a ticket online"
+dc#subject hasValues {"Tickets", "Online Ticket Booking", " trip " }
+dc#creator hasValue "STI Innsbruck"
+dc#description hasValue "Express the goal of buying a ticket for a trip "
+dc#contributor hasValues {"Michael Stollberg", "Ruben Lara", "Holger Lausen", "Ioan Toma"}
+dc#format hasValue "text/html"
+dc#language hasValue "en−US"
+dc#coverage hasValues {tc#austria, tc#germany}
+dc#version hasValue "Revision : 2.0"
+endAnnotations
+importsOntology {_"http://www.wsmo.org/ontologies/trainConnection#",
+_"http://www.wsmo.org/ontologies/nfp/locativeNFPOntology#",
+_"http://www.wsmo.org/ontologies/purchase#"}
+postcondition
+axiom purchasingTicketForTrip
+annotations
+dc#description hasValue "This goal expresses the general desire of buying a ticket
+for
+any kind of itinerary . "
+endAnnotations
+definedBy
+exists ?Purchase, ?Purchaseorder, ?Buyer, ?Product, ?PaymentMethod, ?Ticket,
+?Itinerary, ?Passenger, ?Trip
+(?Purchase memberOf po#purchase[
+po#purchaseorder hasValue ?Purchaseorder,
+po#buyer hasValue ?Buyer
+] and
+?Buyer memberOf po#buyer and
+?Purchaseorder memberOf po#purchaseOrder[
+po#product hasValues {?Product},
+po#payment hasValue ?PaymentMethod
+] and
+?PaymentMethod memberOf po#paymentMethod and
+?Product memberOf po#product[
+po#item hasValues {?Ticket}
+] and
+?Ticket memberOf tc#ticket[
+tc#itinerary hasValue ?Itinerary
+] and
+?Itinerary memberOf tc#itinerary[
+tc#passenger hasValue ?Passenger,
+tc#trip hasValue ?Trip
+] and
+?Passenger memberOf tc#Person and
+?Trip memberOf tc#trip) .
+effect
+axiom havingTradeForTrip
+annotations
+dc#description hasValue "The goal effect is to get the purchased ticket delivered
+to the buyer."
+endAnnotations
+definedBy
+exists ?Delivery, ?Product, ?Buyer, ?Ticket
+(
+?Delivery memberOf po#delivery[
+po#deliveryItem hasValues {?Product},
+po#receiver hasValue ?Buyer
+] and
+?Product memberOf po#product[
+po#item hasValues {?Ticket}
+] and
+?Buyer memberOf po#buyer and
+?Ticket memberOf tc#ticket
+) .
+

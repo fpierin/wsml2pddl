@@ -1,0 +1,38 @@
+goal _"http://example.org/Germany/GetCitizenship"
+
+	annotations
+		dc#title hasValue "Goal of getting a citizenship within Germany"
+    dc#type hasValue _"http://www.wsmo.org/TR/d2/v1.2/#goals"
+    wsml#version hasValue "$Revision: 1.17 $"
+  endAnnotations
+
+usesMediator { _"http://example.org/ooMediator" }
+
+importsOntology { _"http://www.example.org/ontologies/example",
+            			_"http://www.wsmo.org/ontologies/location" }
+
+capability
+	sharedVariables ?human
+  
+	effect havingACitzienShip
+		annotations
+    	dc#description hasValue "This goal expresses the general desire of becoming a citizen of Germany."
+		endAnnotations
+	
+	definedBy
+		?human memberOf Human[hasCitizenship hasValue oo#de] 
+
+/*
+
+	Problema
+
+		Objetos - Coisas que nos interessam
+		EstadoInicial - O começo, o mundo como ele se encontra
+		Goal	- Coisas que queremos que sejam verdadeiras
+
+	Dominio
+
+			Predicados - Propriedades dos objetos que nos interessam, podem ser verdadeiras ou falsas
+			Acoes - Modos de mudar o estado do mundo
+
+*/
