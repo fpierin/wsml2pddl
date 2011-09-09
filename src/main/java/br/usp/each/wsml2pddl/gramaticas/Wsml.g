@@ -39,7 +39,7 @@ wsml
 //	
 goal
 	: 'goal' fullIri?
-//		anotacoes?
+		anotacoes?
 //		ontologiaImportada?
 		capacidade
 	;
@@ -65,7 +65,7 @@ capacidade
 //	
 efeitos
 		:	'effect'
-//			anotacoes?
+			anotacoes?
 			definicao '.'
 //			definicao
 	;
@@ -87,22 +87,23 @@ axioma
 //	: 'sharedVariables' '{' Variavel (',' Variavel)* '}'
 //	;
 //	
-//anotacoes
-//	:	'annotations'
-//			atributo*	
-//		'endAnnotations'
-//	;
-//	
+anotacoes
+	:	'annotations'
+			atributo*	
+		'endAnnotations'
+	;
+	
 //ontologiaImportada
 //	: 'importsOntology' '{' fullIri (',' fullIri)*	'}'
 //	;	
 //	
-//atributo
-//	: Variavel 'hasValue' 
+atributo
+	: Variavel 'hasValue' 
 //			( Variavel
 //			| StringLiteral)
-//	;
-//	
+			 StringLiteral
+	;
+	
 fullIri
 	: '_' StringLiteral
 	| Variavel

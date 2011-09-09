@@ -6,7 +6,7 @@ public class StringEvaluator implements Evaluator {
 
 	@Override
 	public String evaluate() {
-		return string;
+		return string == null? "" : string;
 	}
 
 	public StringEvaluator(final String string) {

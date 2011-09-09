@@ -20,26 +20,11 @@ public class Compilador {
 		final TokenStream tokenStream = new CommonTokenStream(lexer);
 		final WsmlParser wsmlParser = new WsmlParser(tokenStream);
 		
-//		final evaluator_return evaluator = wsmlParser.evaluator();
-//		System.out.println(evaluator.tree.toStringTree());
-
-		
 		final CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(wsmlParser.wsml().tree);
-		final ProblemTranslator walker =  new ProblemTranslator(nodeStream);
-		final Evaluator wsml = walker.evaluator();
-		System.out.println(wsml.evaluate()); 
-//		System.out.println(result.evaluate());
-//		
-//		final Sample3Lexer lexer = new Sample3Lexer(stream);
-//		final TokenStream tokenStream = new CommonTokenStream(lexer);
-//		final Sample3Parser parser = new Sample3Parser(tokenStream);
-//		final Evaluator evaluator = parser.evaluator();
-//		System.out.println("ok - result is " + evaluator.evaluate());		
-//		
-//		CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(evaluator.tree);
-//		EvaluatorWalker walker =  new EvaluatorWalker(nodeStream);
-//		int result = walker.evaluator();
-//		System.out.println("ok - result " + result);		
+		final ProblemTranslator problemTranslator =  new ProblemTranslator(nodeStream);
+		final Evaluator evaluator = problemTranslator.evaluator();
+		System.out.println(evaluator.evaluate()); 
+		
 	}
 
 }

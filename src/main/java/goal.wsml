@@ -1,6 +1,10 @@
 goal obterCidadaniaPeruana
 
-capability
-	effect 
-		definedBy
-			?temCidadania memberOf peruana.
+	capability
+		effect
+			annotations
+				descricao hasValue "Apos a invocacao dessa capacidade, a cidadania eh peruana."
+			endAnnotations 
+		
+			definedBy
+				?temCidadania memberOf peruana.
