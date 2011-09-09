@@ -28,22 +28,23 @@ condicoesDoProblema returns [Evaluator e]
 
 resultadoEsperado returns [Evaluator e]
 	:	'effect' 
-			(anotacoes = comentarios)?
-			(efeitos = efeitoEsperado)
+			( anotacoes = comentarios )?
+			( efeitos = efeitoEsperado )
 	 	{ $e = new EffectEvaluator($anotacoes.e, $efeitos.e); }
 	;
 
 comentarios returns [Evaluator e]
 	: 'annotations'
-			(verdade = comentario)
+			( verdade = comentario )
 		'endAnnotations'
 		{ e = $verdade.e; } 		
 	;
 
 efeitoEsperado returns [Evaluator e]
 	: 'definedBy'	
-			(verdade = condicao)  	
-		{ e = $verdade.e; } 
+				( ( verdade = condicao ) { e = $verdade.e; }
+	 			| ( condicao1 = condicao ) 'and' ( condicao2 = condicao ) { e = new AndEvaluator($condicao1.e, $condicao2.e); }
+	 			)
 	;
 
 condicao returns [Evaluator e]

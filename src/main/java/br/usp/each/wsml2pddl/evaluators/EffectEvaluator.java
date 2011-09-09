@@ -12,7 +12,11 @@ public class EffectEvaluator implements Evaluator {
 	
 	@Override
 	public String evaluate() {
-		return comentarios.evaluate() + " ( " + efeitos.evaluate() + " ) " ;
+		return obterResultadoNaoNulo() + efeitos.evaluate() ;
+	}
+
+	private String obterResultadoNaoNulo() {
+		return (comentarios != null)? comentarios.evaluate(): "";
 	}
 
 }

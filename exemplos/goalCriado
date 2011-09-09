@@ -1,7 +1,8 @@
-goal obterCidadaniaPeruana
+goal obterCidadania
 
 capability
 
 	effect 
 		definedBy
-			?temCidadania memberOf peruana.
+			?temCidadania memberOf peruana
+			and ?temCidadania memberOf argentina.

@@ -2,9 +2,10 @@ goal obterCidadaniaPeruana
 
 	capability
 		effect
-			annotations
+			/* annotations
 				descricao hasValue "Apos a invocacao dessa capacidade, a cidadania eh peruana."
-			endAnnotations 
+			endAnnotations */
 		
 			definedBy
-				?temCidadania memberOf peruana.
+				?temCidadania memberOf peruana
+				and ?temCidadania memberOf argentina.

@@ -73,7 +73,7 @@ efeitos
 definicao
 	: 'definedBy'
 		axioma
-//		('and' axioma)?
+		('and' axioma)?
 	;
 
 axioma

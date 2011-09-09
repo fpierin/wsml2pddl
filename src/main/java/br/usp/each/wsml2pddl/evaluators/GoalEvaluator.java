@@ -10,7 +10,8 @@ public class GoalEvaluator implements Evaluator {
 
 	@Override
 	public String evaluate() {
-		return "(:goal" + evaluator.evaluate() + ")";
+		return "(:goal " + evaluator.evaluate() + 
+				"\n  )";
 	}
 	
 	
