@@ -6,6 +6,10 @@ options {
   ASTLabelType=CommonTree;
 }
 
+tokens {
+	WSMLVARIANT;
+}
+
 @header {
   package br.usp.each.wsml2pddl.gramaticas;
 }
@@ -15,90 +19,98 @@ options {
 }
 
 wsml
-	: varianteWsml? namespace? goal
+//	: varianteWsml? 
+//		namespace? 
+	:	goal
 	;
 
-varianteWsml
-	: 'wsmlVariant'	fullIri
-	;
-
-namespace
-	:	'namespace' ( fullIri
-	 							| '{' fullIri (',' prefixo)* '}')
-	;
+//varianteWsml
+//	: wsmlVariant^ fullIri
+//	;
 	
+//wsmlVariant
+//	: 'wsmlVariant' -> WsmlVariant
+//	;
+//
+//namespace
+//	:	'namespace' ( fullIri
+//	 							| '{' fullIri (',' prefixo)* '}')
+//	;
+//	
 goal
 	: 'goal' fullIri?
-		anotacoes?
-		ontologiaImportada?
+//		anotacoes?
+//		ontologiaImportada?
 		capacidade
 	;
 	
 capacidade
 	: 'capability' fullIri?
-		variaveisCompartilhadas?
-		( preCondicoes | posCondicoes | efeitos )*
+//		variaveisCompartilhadas?
+//		( preCondicoes | posCondicoes | efeitos )*
+		( efeitos )*
 	;
 	
-preCondicoes
-	:	'precondition'
-			anotacoes?
-			definicao '.'
-	;
-	
-posCondicoes
-	:	'postcondition'
-			anotacoes?
-			definicao '.'
-	;	
-	
+//preCondicoes
+//	:	'precondition'
+//			anotacoes?
+//			definicao '.'
+//	;
+//	
+//posCondicoes
+//	:	'postcondition'
+//			anotacoes?
+//			definicao '.'
+//	;	
+//	
 efeitos
 		:	'effect'
-			anotacoes?
+//			anotacoes?
 			definicao '.'
+//			definicao
 	;
 	
 definicao
 	: 'definedBy'
 		axioma
-		('and' axioma)?
+//		('and' axioma)?
 	;
-	
+
 axioma
-	: Variavel '[' atributo 
-							 	(',' atributo)* 
-						 ']' 'memberOf' Variavel
-	| Variavel 'memberOf' Variavel
+//	: Variavel '[' atributo 
+//							 	(',' atributo)* 
+//						 ']' 'memberOf' Variavel
+	: Variavel 'memberOf' Variavel
 	;
 	
-variaveisCompartilhadas
-	: 'sharedVariables' '{' Variavel (',' Variavel)* '}'
-	;
-	
-anotacoes
-	:	'annotations'
-			atributo*	
-		'endAnnotations'
-	;
-	
-ontologiaImportada
-	: 'importsOntology' '{' fullIri (',' fullIri)*	'}'
-	;	
-	
-atributo
-	: Variavel 'hasValue' 
-			( Variavel
-			| StringLiteral)
-	;
-	
+//variaveisCompartilhadas
+//	: 'sharedVariables' '{' Variavel (',' Variavel)* '}'
+//	;
+//	
+//anotacoes
+//	:	'annotations'
+//			atributo*	
+//		'endAnnotations'
+//	;
+//	
+//ontologiaImportada
+//	: 'importsOntology' '{' fullIri (',' fullIri)*	'}'
+//	;	
+//	
+//atributo
+//	: Variavel 'hasValue' 
+//			( Variavel
+//			| StringLiteral)
+//	;
+//	
 fullIri
 	: '_' StringLiteral
 	| Variavel
 	;
 
-prefixo
-	: Variavel fullIri
-	;
+//prefixo
+//	: Variavel fullIri
+//	;
 
 fragment AlfaNumerico		: Digito | Letra;
 fragment Digito					: '0'..'9';

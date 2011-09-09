@@ -1,0 +1,6 @@
+goal obterCidadaniaPeruana
+
+capability
+	effect 
+		definedBy
+			?temCidadania memberOf peruana.
