@@ -16,21 +16,50 @@ evaluator returns [Evaluator e]
 	;
 	
 problem returns [Evaluator e]
-	: ('goal' (nomeDoProblema = fullIri ))
+	: wsmlVariant?
+		namespace?
+		('goal' (nomeDoProblema = fullIri ))
+			importsOntology?
 			(condicoes = condicoesDoProblema)
 	 	{ $e = new ProblemEvaluator($nomeDoProblema.e, $condicoes.e); }
 	;
 
+namespace	
+	: 'namespace' '{' fullIri (',' valor fullIri)* '}'
+	;
+	
+wsmlVariant
+	: WsmlVariant fullIri
+	;
+	
+importsOntology 
+	: 'importsOntology' 
+			( fullIri | '{' fullIri (',' fullIri)* '}' )
+	; 
+
 condicoesDoProblema returns [Evaluator e]
-	: ('capability' (resultado = resultadoEsperado) '.')
-	 	{ $e = new GoalEvaluator($resultado.e); }				
+	: 'capability'  
+			(posCondicoes = postconditions)? 
+			(pddlGoal = efeitos) 
+		'.'
+	 	{ $e = new GoalEvaluator($pddlGoal.e); }				
+	;
+	
+postconditions
+	: 'postcondition'
+			axiomDefinition
 	;
 
-resultadoEsperado returns [Evaluator e]
+efeitos returns [Evaluator e]
 	:	'effect' 
-			( anotacoes = comentarios )?
-			( efeitos = efeitoEsperado )
-	 	{ $e = new EffectEvaluator($anotacoes.e, $efeitos.e); }
+			( definicaoDoEfeito =  axiomDefinition )
+			{ e = $definicaoDoEfeito.e; }
+	;
+	
+axiomDefinition returns [Evaluator e]
+	: ( anotacoes = comentarios )?
+		( efeitos2 = axioma )
+	 { $e = new EffectEvaluator($anotacoes.e, $efeitos2.e); }
 	;
 
 comentarios returns [Evaluator e]
@@ -40,7 +69,7 @@ comentarios returns [Evaluator e]
 		{ e = $verdade.e; } 		
 	;
 
-efeitoEsperado returns [Evaluator e]
+axioma returns [Evaluator e]
 	: 'definedBy'	
 				( ( verdade = condicao ) { e = $verdade.e; }
 	 			| ( condicao1 = condicao ) 'and' ( condicao2 = condicao ) { e = new AndEvaluator($condicao1.e, $condicao2.e); }
@@ -48,7 +77,7 @@ efeitoEsperado returns [Evaluator e]
 	;
 
 condicao returns [Evaluator e]
-	: atributo 'memberOf' valor { e = new AtributoEvaluator($atributo.e, $valor.e); }
+	: atributo ('[' comentario (',' comentario)* ']')?  'memberOf' valor { e = new AtributoEvaluator($atributo.e, $valor.e); }
 	;
 	
 comentario returns [Evaluator e]
@@ -65,6 +94,7 @@ valor returns [Evaluator e]
 	;	
 	
 fullIri returns [Evaluator e]
-	: Variavel { e = new StringEvaluator($Variavel.text); } 
+	: '_' StringLiteral { e = new StringEvaluator($StringLiteral.text); }
+	| Variavel { e = new StringEvaluator($Variavel.text); } 
 	;
 	

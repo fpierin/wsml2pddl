@@ -7,7 +7,7 @@ options {
 }
 
 tokens {
-	WSMLVARIANT;
+	WsmlVariant;
 }
 
 @header {
@@ -19,89 +19,88 @@ tokens {
 }
 
 wsml
-//	: varianteWsml? 
-//		namespace? 
-	:	goal
+	: varianteWsml? 
+		namespace? 
+		goal
 	;
 
-//varianteWsml
-//	: wsmlVariant^ fullIri
-//	;
+varianteWsml
+	: wsmlVariant fullIri
+	;
 	
-//wsmlVariant
-//	: 'wsmlVariant' -> WsmlVariant
-//	;
-//
-//namespace
-//	:	'namespace' ( fullIri
-//	 							| '{' fullIri (',' prefixo)* '}')
-//	;
-//	
+wsmlVariant
+	: 'wsmlVariant' -> WsmlVariant
+	;
+
+namespace
+	:	'namespace' ( fullIri
+	 							| '{' fullIri (',' prefixo)* '}')
+	;
+	
 goal
 	: 'goal' fullIri?
 		anotacoes?
-//		ontologiaImportada?
+		ontologiaImportada?
 		capacidade
 	;
 	
 capacidade
 	: 'capability' fullIri?
-//		variaveisCompartilhadas?
-//		( preCondicoes | posCondicoes | efeitos )*
-		( efeitos )*
+		variaveisCompartilhadas?
+		( preCondicoes | posCondicoes | efeitos )*
 	;
 	
-//preCondicoes
-//	:	'precondition'
-//			anotacoes?
-//			definicao '.'
-//	;
-//	
-//posCondicoes
-//	:	'postcondition'
-//			anotacoes?
-//			definicao '.'
-//	;	
-//	
+preCondicoes
+	:	'precondition'
+		axiomdefinition
+	;
+	
+posCondicoes
+	:	'postcondition'
+		axiomdefinition
+	;	
+	
 efeitos
-		:	'effect'
-			anotacoes?
-			definicao '.'
-//			definicao
+	:	'effect'
+		axiomdefinition
+	;
+	
+axiomdefinition
+	:	anotacoes?
+		definicao '.'
 	;
 	
 definicao
 	: 'definedBy'
 		axioma
-		('and' axioma)?
+		('and' axioma)*
 	;
 
 axioma
-//	: Variavel '[' atributo 
-//							 	(',' atributo)* 
-//						 ']' 'memberOf' Variavel
-	: Variavel 'memberOf' Variavel
+	: Variavel '[' atributo (',' atributo)* ']' 'memberOf' Variavel
+	| Variavel 'memberOf' Variavel
 	;
 	
-//variaveisCompartilhadas
-//	: 'sharedVariables' '{' Variavel (',' Variavel)* '}'
-//	;
-//	
+variaveisCompartilhadas
+	: 'sharedVariables' '{' Variavel (',' Variavel)* '}'
+	;
+	
 anotacoes
 	:	'annotations'
 			atributo*	
 		'endAnnotations'
 	;
 	
-//ontologiaImportada
-//	: 'importsOntology' '{' fullIri (',' fullIri)*	'}'
-//	;	
-//	
+ontologiaImportada
+	: 'importsOntology' 
+					( fullIri 
+					| '{' fullIri (',' fullIri)*	'}' )
+	;	
+	
 atributo
 	: Variavel 'hasValue' 
-//			( Variavel
-//			| StringLiteral)
-			 StringLiteral
+			( Variavel
+			| StringLiteral)
 	;
 	
 fullIri
@@ -109,9 +108,9 @@ fullIri
 	| Variavel
 	;
 
-//prefixo
-//	: Variavel fullIri
-//	;
+prefixo
+	: Variavel fullIri
+	;
 
 fragment AlfaNumerico		: Digito | Letra;
 fragment Digito					: '0'..'9';

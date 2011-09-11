@@ -1,11 +1,54 @@
-goal obterCidadaniaPeruana
+
+goal obterCidadania
 
 	capability
 		effect
-			/* annotations
-				descricao hasValue "Apos a invocacao dessa capacidade, a cidadania eh peruana."
-			endAnnotations */
+			 annotations
+				descricao hasValue "Apos a invocacao dessa capacidade, a cidadania eh peruana e argentina."
+			endAnnotations 
 		
 			definedBy
 				?temCidadania memberOf peruana
 				and ?temCidadania memberOf argentina.
+
+
+
+/*
+goal _"http://example.org/service/WeatherInnsbruck"
+
+importsOntology {
+	_"http://example.org/ontology/Location",
+	_"http://example.org/ontology/Weather"
+	}
+	
+capability
+	postcondition
+		annotations
+			dc#description hasValue "I want to know the weather forecast for Innsbruck."
+		endAnnotations
+	
+	definedBy
+		?forecast[hasLocation hasValue loc#Innsbruck] memberOf WeatherForecast.
+
+*/
+
+/* wsmlVariant _"http://www.wsmo.org/wsml/wsml-syntax/wsml-flight"
+
+namespace { _"http://www.gsmo.org/dip/travel/goal#",
+					 dO _"http://www.gsmo.org/dip/travel/domainOntology#",
+					 dc _"http://purl .org/dc/elements/1.1#" 
+					}
+
+goal _"http://www.gsmo.org/dip/travel/goal.wsml"
+			
+importsOntology _"http://www.gsmo.org/dip/travel/domainOntology#TravelOntology"
+
+capability
+	postcondition
+		definedBy
+			?ticket [ dO#from hasValue ?from,
+							  dO#to hasValue ?to
+							] memberOf dO#Ticket 
+				 and ?from memberOf dO#AustrianCity and
+						 ?to memberOf dO#UKCity.
+*/
