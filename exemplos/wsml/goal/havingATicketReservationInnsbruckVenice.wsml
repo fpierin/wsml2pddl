@@ -1,0 +1,22 @@
+namespace {	_"http://example.org/goals#",
+   		   dc _"http://purl.org/dc/elements/1.1#", 
+   		   tr _"http://example.org/tripReservationOntology",
+   		   wsml _"http://www.wsmo.org/wsml/wsml-syntax#",
+   		   loc _"http://www.wsmo.org/ontologies/locationOntology#" }
+
+goal _"http://example.org/havingATicketReservationInnsbruckVenice"  
+
+  importsOntology { _"http://example.org/tripReservationOntology",
+            		_"http://www.wsmo.org/ontologies/locationOntology" }
+            
+  capability
+      postcondition
+           definedBy  
+              ?reservation[ reservationHolder hasValue ?reservationHolder,
+                  			item hasValue ?ticket
+               			  ] memberOf tr#reservation 
+               and ?ticket[trip hasValue ?trip
+              			  ] memberOf tr#ticket
+               and ?trip [origin hasValue loc#innsbruck,
+                 		  destination hasValue loc#venice
+              			 ] memberOf tr#trip.

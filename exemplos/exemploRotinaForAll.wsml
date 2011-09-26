@@ -1,6 +1,0 @@
-// every person has a father
-forall ?x (?x memberOf Person implies exists ?y (?x[father hasValue ?y])).
-// Man and Woman are disjoint.
-?x memberOf Man implies neg ?x memberOf Woman
-
-/* página 156 de 380 */

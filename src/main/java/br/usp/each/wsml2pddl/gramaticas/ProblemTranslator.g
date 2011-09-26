@@ -25,7 +25,7 @@ problem returns [Evaluator e]
 	;
 
 namespace	
-	: 'namespace' '{' fullIri (',' valor fullIri)* '}'
+	: 'namespace' '{' fullIri (',' valor fullIri )* '}'
 	;
 	
 wsmlVariant
