@@ -40,7 +40,7 @@ importsOntology
 condicoesDoProblema returns [Evaluator e]
 	: 'capability'  
 			(posCondicoes = postconditions)? 
-			(pddlGoal = efeitos) 
+			(pddlGoal = efeitos)? 
 		'.'
 	 	{ $e = new GoalEvaluator($pddlGoal.e); }				
 	;

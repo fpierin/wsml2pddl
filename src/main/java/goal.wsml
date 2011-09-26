@@ -13,3 +13,19 @@ capability
 	
 	definedBy
 		?forecast[hasLocation hasValue loc#Innsbruck] memberOf WeatherForecast.
+		
+		
+/* 
+
+Traduz para o seguinte PDDL
+
+(define (problem http://example.org/service/WeatherInnsbruck)
+
+	; @dc#description: I want to know the weather forecast for Innsbruck.
+	
+	(:goal (and (?forecast WeatherForecast)
+				(?forecast.hasLocation loc#Innsbruck)
+			)
+	)
+) 
+*/
