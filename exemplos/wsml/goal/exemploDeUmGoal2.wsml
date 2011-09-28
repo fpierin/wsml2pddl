@@ -7,14 +7,11 @@ namespace { _"http://www.gsmo.org/dip/travel/goal#",
 
 goal _"http://www.gsmo.org/dip/travel/goal.wsml"
 			
-importsOntology _"http://www.gsmo.org/dip/travel/domainOntology#TravelOntology"
+	importsOntology _"http://www.gsmo.org/dip/travel/domainOntology#TravelOntology"
 
-capability goalCapability
-postcondition
-definedBy
-?ticket [
-dO#from hasValue ?from,
-dO#to hasValue ?to
-] memberOf dO#Ticket and
-?from memberOf dO#AustrianCity and
-?to memberOf dO#UKCity.
+		capability goalCapability
+			postcondition
+				definedBy
+					?ticket [dO#from hasValue ?from, dO#to hasValue ?to] memberOf dO#Ticket 
+					and ?from memberOf dO#AustrianCity 
+					and ?to memberOf dO#UKCity.
