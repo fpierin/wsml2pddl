@@ -1,16 +1,16 @@
 wsmlVariant _"http://www.wsmo.org/wsml/wsml?syntax/wsml?rule"
 
 namespace { _"http://www.wsmo.org/ontologies/trainConnection",
-dc _"http://purl .org/dc/elements/1.1#",
-prs _"http://www.wsmo.org/2004/d3/d3.3/v0.1/20041008/resources/owlPersonMediator.wsml"
-xsd _"http://www.w3.org/2001/XMLSchema#",
-wsml _"http://www.wsmo.org/wsml/wsml?syntax#",
-loc _"http://www.wsmo.org/ontologies/nfp/locativeNFPOntology#",
-temp _"http://www.wsmo.org/ontologies/nfp/temporalNFPOntology#",
-qua _"http://www.wsmo.org/ontologies/nfp/qualityNFPOntology#",
-po _"http://www.wsmo.org/ontologies/nfp/providerNFPOntology#",
-prc _"http://www.wsmo.org/ontologies/nfp/priceNFPOntology#",
-mes _"http://www.wsmo.org/ontologies/nfp/measuresNFPOntology#" }
+			dc _"http://purl .org/dc/elements/1.1#",
+			prs _"http://www.wsmo.org/2004/d3/d3.3/v0.1/20041008/resources/owlPersonMediator.wsml"
+			xsd _"http://www.w3.org/2001/XMLSchema#",
+			wsml _"http://www.wsmo.org/wsml/wsml?syntax#",
+			loc _"http://www.wsmo.org/ontologies/nfp/locativeNFPOntology#",
+			temp _"http://www.wsmo.org/ontologies/nfp/temporalNFPOntology#",
+			qua _"http://www.wsmo.org/ontologies/nfp/qualityNFPOntology#",
+			po _"http://www.wsmo.org/ontologies/nfp/providerNFPOntology#",
+			prc _"http://www.wsmo.org/ontologies/nfp/priceNFPOntology#",
+			mes _"http://www.wsmo.org/ontologies/nfp/measuresNFPOntology#" }
 
 ontology _"http://www.wsmo.org/ontologies/trainConnection"
 

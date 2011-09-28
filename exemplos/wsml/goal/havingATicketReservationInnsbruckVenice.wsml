@@ -14,9 +14,11 @@ goal _"http://example.org/havingATicketReservationInnsbruckVenice"
            definedBy  
               ?reservation[ reservationHolder hasValue ?reservationHolder,
                   			item hasValue ?ticket
-               			  ] memberOf tr#reservation 
-               and ?ticket[trip hasValue ?trip
+               			  ] memberOf tr#reservation
+               			   
+               and ?ticket[ trip hasValue ?trip
               			  ] memberOf tr#ticket
+              			  
                and ?trip [origin hasValue loc#innsbruck,
                  		  destination hasValue loc#venice
               			 ] memberOf tr#trip.
