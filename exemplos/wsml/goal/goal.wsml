@@ -1,51 +1,20 @@
-wsmlVariant _"http://www.wsmo.org/wsml/wsml-syntax/wsml-flight"
+goal _"http://example.org/service/WeatherInnsbruck"
 
-namespace { dO _"http://www.wsmo.org/ontologias/ontologia.wsml" }
-
-goal _"obterTicket.wsml"
-			
-	importsOntology _"http://www.wsmo.org/ontologias/ontologia.wsml#OntologiaDeViagem"
-
-	capability 
-		postcondition
-			definedBy
-				?ticket [ dO#origem hasValue ?origem,
-					 	  dO#destino hasValue ?destino
-						] memberOf dO#Ticket and
-				?origem memberOf dO#SaoPaulo and
-				?destino memberOf dO#MachuPicchu.
-				
-/*
-	(:extends (uri "http://www.w3.org/2000/01/rdf-schema#" :prefix rdfs))
+importsOntology {
+	_"http://example.org/ontology/Location",
+	_"http://example.org/ontology/Weather"
+	}
 	
-	(:types Publication - Obj
-		Article Book Incollection Inproceedings - Publication
-		Literal - @rdfs:Literal)
-*/				
-				
-/*
-(define (problem obterTicket)
-
-	;; ontologias
-	(:domain ontologia.wsml#OntologiaDeViagem)
+capability
+	postcondition
+		annotations
+			dc#description hasValue "I want to know the weather forecast for Innsbruck."
+		endAnnotations
 	
-	;; Objetos são as coisas que nos interessam dentro do contexto do mundo.
-	(:objects SaoPaulo MachuPicchu) 
-	
-	;; InitState é o estado inicial que define como o mundo se encontra.
-	(:init state Empty)
-	
-	;; Goal são as propriedades que queremos que sejam verdadeiras
-	; @dc#description: I want to know the weather forecast for Innsbruck.
-	(:goal (and (?ticket WeatherForecast)
-				(?forecast.hasLocation Innsbruck)
-			)
-	)
-	
-) 
-
-*/
-				
+	definedBy
+		?forecast[hasLocation hasValue loc#Innsbruck] memberOf WeatherForecast.
+		
+		
 /* 
 
 Traduz para o seguinte PDDL
@@ -61,7 +30,7 @@ Traduz para o seguinte PDDL
 
 
 
-(define (problem obterTicket)
+(define (problem http://example.org/service/WeatherInnsbruck)
 
 	// ontologias
 	(:domain ???)
@@ -144,15 +113,3 @@ Traduz para o seguinte PDDL
 )
 
 */
-
-/*
-
-(define (domain yale_bib-ont)
-(:extends (uri "http://www.w3.org/2000/01/rdf-schema#" :prefix rdfs))
-(:types Publication - Obj
-Article Book Incollection Inproceedings - Publication
-Literal - @rdfs:Literal)
-(:predicates (author p - Publication a - Literal)
-.....))
-*/
-				
