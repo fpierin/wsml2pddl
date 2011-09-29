@@ -1,7 +1,4 @@
-namespace {	_"http://example.org/goals#",
-   		   dc _"http://purl.org/dc/elements/1.1#", 
-   		   tr _"http://example.org/tripReservationOntology",
-   		   wsml _"http://www.wsmo.org/wsml/wsml-syntax#",
+namespace { tr _"http://example.org/tripReservationOntology",
    		   loc _"http://www.wsmo.org/ontologies/locationOntology#" }
 
 goal _"http://example.org/havingATicketReservationInnsbruckVenice"  
@@ -19,6 +16,6 @@ goal _"http://example.org/havingATicketReservationInnsbruckVenice"
                and ?ticket[ trip hasValue ?trip
               			  ] memberOf tr#ticket
               			  
-               and ?trip [origin hasValue loc#innsbruck,
-                 		  destination hasValue loc#venice
+               and ?trip [ origin hasValue loc#innsbruck,
+                 		   destination hasValue loc#venice
               			 ] memberOf tr#trip.

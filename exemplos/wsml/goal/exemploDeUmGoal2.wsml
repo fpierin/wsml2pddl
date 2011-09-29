@@ -1,19 +1,16 @@
 wsmlVariant _"http://www.wsmo.org/wsml/wsml-syntax/wsml-flight"
 
-namespace { _"http://www.gsmo.org/dip/travel/goal#",
-					 dO _"http://www.gsmo.org/dip/travel/domainOntology#",
-					 dc _"http://purl.org/dc/elements/1.1#" 
-					}
+namespace { dO _"http://www.gsmo.org/dip/travel/domainOntology#" }
 
 goal _"http://www.gsmo.org/dip/travel/goal.wsml"
 			
-importsOntology _"http://www.gsmo.org/dip/travel/domainOntology#TravelOntology"
+	importsOntology _"http://www.gsmo.org/dip/travel/domainOntology#TravelOntology"
 
-capability goalCapability
-	postcondition
-		definedBy
-			?ticket [dO#from hasValue ?from,
-					 dO#to hasValue ?to
-					] memberOf dO#Ticket and
+	capability 
+		postcondition
+			definedBy
+				?ticket [ dO#from hasValue ?from,
+					 	  dO#to hasValue ?to
+						] memberOf dO#Ticket and
 			?from memberOf dO#AustrianCity and
 			?to memberOf dO#UKCity.

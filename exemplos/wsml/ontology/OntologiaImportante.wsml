@@ -1,7 +1,7 @@
-wsmlVariant _"http://www.wsmo.org/wsml/wsml-syntax/wsml-flight"
+wsmlVariant _"http://www.wsmo.org/wsml/wsml−syntax/wsml−flight"
 namespace {_"http://www.gsmo.org/dip/travel/domainOntology#",
 dc _"http://purl .org/dc/elements/1.1#",
-wsml _"http://www.wsmo.org/wsml/wsml-syntax#"}
+wsml _"http://www.wsmo.org/wsml/wsml−syntax#"}
 ontology TravelOntology
 concept Ticket
 annotations

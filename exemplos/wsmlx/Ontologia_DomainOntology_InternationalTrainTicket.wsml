@@ -61,3 +61,47 @@ ontology _"http://www.wsmo.org/ontologies/trainConnection"
 			endAnnotations
 			
 			passenger ofType prs#person
+				annotations
+					dc#description hasValue "prs#person is a subset of vCard (http://www.ietf.org/rfc/rfc2425.txt)"
+				endAnnotations
+				recordLocatorNumber ofType _string
+				trip ofType trip
+				
+		concept trip
+			start ofType loc#LocativeEntity
+			end ofType loc#LocativeEntity
+			via ofType loc#RouteSpecification
+			departure ofType temp#TimePoint
+			arrival ofType temp#TimePoint
+			duration ofType temp#TimeInterval
+			distance ofType mes#Distance
+		
+		concept trainTrip subConceptOf trip
+			annotations
+				dc#description hasValue "A train trip "
+			endAnnotations
+			
+			start ofType station
+			end ofType station
+			via ofType station
+			seat ofType _string
+			train ofType _string
+			class ofType _string
+			
+		axiom departureBeforeArrival
+			annotations
+				dc#description hasValue " Integrity Constraint: departure has to be before arrival "
+			endAnnotations
+
+			definedBy
+				!− ?T[ departure hasValue ?D, arrival hasValue ?A ] memberOf trip
+				and ?A <= ?D.
+		
+		axiom startNotEqualEnd
+			annotations
+				dc#description hasValue " Integrity Constraint: the start and end of a trip have to be different "
+			endAnnotations
+
+			definedBy
+				!− ?T[ start hasValue ?Start, end hasValue ?End] memberOf trip
+				and ?Start = ?End.			

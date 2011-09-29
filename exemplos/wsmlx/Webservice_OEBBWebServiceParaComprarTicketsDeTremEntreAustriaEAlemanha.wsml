@@ -1,0 +1,131 @@
+wsmlVariant _"http://www.wsmo.org/wsml/wsml−syntax/wsml−rule"
+
+namespace { _"http://www.wsmo.org/example/VTA/services/OEBBService.wsml#",
+			dc _"http://purl .org/dc/elements/1.1#",
+			tc _"http://www.wsmo.org/ontologies/trainConnection#",
+			temp _"http://www.wsmo.org/ontologies/nfp/temporalNFPOntology#",
+			loc _"http://www.wsmo.org/ontologies/nfp/locativeNFPOntology#",
+			pay _"http://www.wsmo.org/ontologies/nfp/paymentNFPOntology#",
+			xsd _"http://www.w3.org/2001/XMLSchema#",
+			wsml _"http://www.wsmo.org/wsml/wsml−syntax#",
+			po _"http://www.wsmo.org/ontologies/purchase#" }
+
+webservice "http://www.wsmo.org/example/VTA/services/OEBBService.wsml"
+	annotations
+		dc#title hasValue "OEBB Online Ticket Booking Web Service"
+		dc#creator hasValue "STI Innsbruck"
+		dc#description hasValue "web service for booking online train tickets for Austria and Germany"
+		dc#contributor hasValues {"Michael Stollberg", "Ruben Lara", "Holger Lausen", "Ioan Toma"}
+		dc#format hasValue "text/html"
+		dc#language hasValue "en−US"
+		dc#coverage hasValues {tc#austria, tc#germany}
+		dc#version hasValue "Revision : 2.0"
+	endAnnotations
+	
+	importsOntology { _"http:://www.wsmo.org/ontologies/trainConnection#",
+					  _"http://www.wsmo.org/ontologies/nfp/temporalNFPOntology#",
+					  _"http://www.wsmo.org/ontologies/nfp/locativeNFPOntology#",
+					  _"http://www.wsmo.org/ontologies/nfp/paymentNFPOntology#",
+					  _"http://www.wsmo.org/ontologies/purchase#" }
+	
+	capability oebbWSCapability
+		precondition
+			axiom oebbWSprecondition
+				
+				annotations
+					dc#description hasValue "The oebbWSprecondition puts the following conditions ont the input: it has to include 
+											 a buyer with a billTo and a shipTo address, and credit card as a paymentMethod, and trip with the 
+											 start and end location have to be in Austria or in Germany, and the departure date
+											 has to be later than the current date. "
+				endAnnotations
+				
+				definedBy
+					forAll ?Buyer, ?BuyerBilltoAddress, ?BuyerShiptoAddress, ?BuyerPaymentMethod, ?Trip, ?Start, ?End, ?Departure 
+						  (?Buyer memberOf po:buyer[po#billToAddress hasValue ?BuyerBilltoAddress, 
+						  							po#shipToAddress hasValue ?BuyerShiptoAddress, 
+						  							po#hasPaymentMethod hasValues {?BuyerPaymentMethod}] 
+						  	and ?BuyerBilltoAddress memberOf loc#Address 
+						  	and ?BuyerShiptoAddress memberOf loc#Address 
+						  	and ?BuyerPaymentMethod memberOf pay#CreditCard 
+						  	and ?Trip memberOf tc#trainTrip[tc#start hasValue ?Start, 
+						  									tc#end hasValue ?End, 
+						  									tc#departure hasValue ?Departure] 
+						  	and (?Start.locatedIn = austria or ?Start.locatedIn = germany) 
+						  	and (?End.locatedIn = austria or ?End.locatedIn = germany) 
+						  	and temp#after(?Departure,currentDate)) .
+						  	
+		postcondition
+			axiom oebbWSpostcondition
+				annotations
+					dc#description hasValue "the output of the service is a purchase for a ticket for train trips wherefore
+											 the start− and end− location have to be in Austria or in Germany and the 
+											 departure date has to be later than the current Date."
+				endAnnotations
+
+				definedBy
+					forAll ?Purchase, ?Seller, ?OEBBContactInformation, ?Purchaseorder, ?PaymentMethod, ?Product, ?Ticket, ?Itinerary , ?Trip, ?Start, ?End
+					(?Purchase memberOf po#purchase[purchaseorder hasValue ?Purchaseorder,
+													seller hasValue ?Seller
+													] 
+					  and ?Seller memberOf po#seller[contactInformation hasValue ?OEBBContactInformation, 
+					  								 acceptsPaymentMethod hasValues {?PaymentMethod}] 
+					  and ?OEBBContactInformation memberOf po#contactInformation[name hasValue "Oesterreichische Bundesbahn", 
+					  															 emailaddress hasValue "office@oebb.at", 
+					  															 physicalAddress hasValue ?OEBBAddress] 
+					  and ?OEBBAddress memberOf loc#Address[streetAddress hasValue "Hauptfrachtenbahnhof 4",
+					  										city hasValue innsbruck,
+					  										country hasValue austria] 
+					  and ?Purchaseorder memberOf po#purchaseOrder[product hasValues {?Product},
+																   payment hasValue ?PaymentMethod] 
+					  and ?PaymentMethod memberOf pay#CreditCard 
+					  and ?Product memberOf po#product[item hasValues {?Ticket}] 
+					  and ?Ticket memberOf tc#ticket[itinerary hasValue ?Itinerary] 
+					  and ?Itinerary memberOf tc#itinerary[trip hasValue ?Trip] 
+					  and ?Trip memberOf tc#trainTrip[start hasValue ?Start, end hasValue ?End, departure hasValue ?Departure] 
+					  and (?Start.locatedIn = austria or ?Start.locatedIn = germany) 
+					  and (?End.locatedIn = austria or ?End.locatedIn = germany) 
+					  and temp#after(?Departure,currentDate)
+					 ).
+					 
+		effect
+			axiom oebbWSeffect
+				annotations
+					dc:description hasValue "the sold ticket is delivered to the buyer via a drop ship carrier or via email."
+				endAnnotations
+			
+				definedBy
+					forAll ?Delivery, ?Product, ?Buyer, ?BuyerShipToAddress, ?Seller, ?OEBBContactInformation, ?OEBBAddress
+					((( ?Delivery memberOf po:dropShipDelivery[deliveryItem hasValues {?Product},
+															   receiver hasValue ?Buyer,
+															   sender hasValue ?Seller, 
+															   carrier hasValue PostAt]) 
+						or (?Delivery memberOf po#onlineDelivery[deliveryItem hasValues {?Product}, 
+																 receiver hasValue ?Buyer, 
+																 onlineDeliveryMethod hasValue "email"]) ) and
+?Product memberOf po#product[
+item hasValues {?Ticket}
+] and
+?Buyer memberOf po#buyer[
+shipToAddress hasValue ?BuyerShipToAddress
+] and
+?BuyerShipToAddress memberOf loc#Address and
+?Seller memberOf po#seller[
+contactInformation hasValue ?OEBBContactInformation
+] and
+?OEBBContactInformation memberOf po#contactInformation[
+name hasValue "Oesterreichische Bundesbahn",
+emailaddress hasValue "office@oebb.at",
+physicalAddress hasValue ?OEBBAddress
+] and
+?OEBBAddress memberOf loc#Address[
+streetAddress hasValue "Hauptfrachtenbahnhof 4",
+city hasValue innsbruck,
+country hasValue austria
+]
+) .
+interface oebbWSInterface
+annotations
+dc:description hasValue "describes the Interface of Web service"
+endAnnotations
+choreography ∗∗∗
+orchestration ∗∗∗
