@@ -1,10 +1,10 @@
 wsmlVariant _"http://www.wsmo.org/wsml/wsml-syntax/wsml-flight"
 
-namespace { dO _"http://www.wsmo.org/ontologias/ontologia.wsml" }
+namespace { dO _"ontologia.wsml" }
 
-goal _"obterTicket.wsml"
+goal _"obterTicketDeViagem"
 			
-	importsOntology _"http://www.wsmo.org/ontologias/ontologia.wsml#OntologiaDeViagem"
+	importsOntology _"ontologia.wsml#OntologiaDeViagem"
 
 	capability 
 		postcondition
@@ -14,7 +14,72 @@ goal _"obterTicket.wsml"
 						] memberOf dO#Ticket and
 				?origem memberOf dO#SaoPaulo and
 				?destino memberOf dO#MachuPicchu.
-				
+/*				
+(define (problem obterTicketDeViagem)
+
+	(:domain dominioDoGoalObterTicketDeViagem)
+	(:objects SaoPaulo MachuPicchu) 
+	(:init Empty)
+	(:goal (and (?ticket dO#Ticket)
+							(?origem dO#SaoPaulo)
+							(?origem dO#MachuPicchu)
+			)
+	)
+	
+) 
+*/
+
+/*
+(define (problem pb4)
+    (:domain gripper)
+  	(:objects roomA roomB Ball1 Ball2 Ball3 Ball4  Ball5 Ball6 Ball7 Ball8 left right)
+	(:init 
+		(room roomA)
+		(room roomB)
+		(ball Ball1)
+		(ball Ball2)
+		(ball Ball3)
+		(gripper right)
+		(at-robby roomA) 
+		(free left) 
+		(free right)  
+		(at Ball1 roomA)
+		(at Ball2 roomA)
+		(at Ball8 roomA))
+	(:goal (and (at Ball1 roomB) 
+		(at Ball2 roomB)
+        (at Ball3 roomB)
+        (at Ball4 roomB)
+        (at Ball5 roomB) 
+        (at Ball6 roomB)
+        (at Ball7 roomB) 
+        (at Ball8 roomB)))
+ )
+ */
+
+
+
+
+/*
+
+(define (domain yale_bib-ont)
+(:extends (uri "http://www.w3.org/2000/01/rdf-schema#" :prefix rdfs))
+(:types Publication - Obj
+Article Book Incollection Inproceedings - Publication
+Literal - @rdfs:Literal)
+(:predicates (author p - Publication a - Literal)
+.....))
+*/
+
+
+
+
+
+
+
+
+
+
 /*
 	(:extends (uri "http://www.w3.org/2000/01/rdf-schema#" :prefix rdfs))
 	
@@ -23,28 +88,7 @@ goal _"obterTicket.wsml"
 		Literal - @rdfs:Literal)
 */				
 				
-/*
-(define (problem obterTicket)
 
-	;; ontologias
-	(:domain ontologia.wsml#OntologiaDeViagem)
-	
-	;; Objetos são as coisas que nos interessam dentro do contexto do mundo.
-	(:objects SaoPaulo MachuPicchu) 
-	
-	;; InitState é o estado inicial que define como o mundo se encontra.
-	(:init state Empty)
-	
-	;; Goal são as propriedades que queremos que sejam verdadeiras
-	; @dc#description: I want to know the weather forecast for Innsbruck.
-	(:goal (and (?ticket WeatherForecast)
-				(?forecast.hasLocation Innsbruck)
-			)
-	)
-	
-) 
-
-*/
 				
 /* 
 
@@ -155,4 +199,4 @@ Literal - @rdfs:Literal)
 (:predicates (author p - Publication a - Literal)
 .....))
 */
-				
+								

@@ -1,4 +1,4 @@
-grammar Wsml;
+grammar GramaticaWSML;
 
 options {
   language = Java;
@@ -19,25 +19,29 @@ tokens {
 }
 
 wsml
-	: varianteWsml? 
-		namespace? 
-		goal
+	: declaracaoDeVarianteWsml? 
+		declaracaoDeNamespaces? 
+		declaracaoDeGoal
 	;
-
-varianteWsml
+	
+declaracaoDeVarianteWsml
 	: wsmlVariant fullIri
 	;
+	
+declaracaoDeNamespaces
+	:	'namespace' ( namespace | '{' namespace (',' namespace)* '}'	)
+	;	
+	
+namespace
+	: Variavel? fullIri
+	;
+
 	
 wsmlVariant
 	: 'wsmlVariant' -> WsmlVariant
 	;
-
-namespace
-	:	'namespace' ( fullIri
-	 							| '{' fullIri (',' prefixo)* '}')
-	;
 	
-goal
+declaracaoDeGoal
 	: 'goal' fullIri?
 		anotacoes?
 		ontologiaImportada?

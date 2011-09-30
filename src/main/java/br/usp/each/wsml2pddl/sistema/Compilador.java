@@ -9,24 +9,24 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.TokenStream;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
 
-import br.usp.each.wsml2pddl.evaluators.Evaluator;
-import br.usp.each.wsml2pddl.gramaticas.ProblemTranslator;
-import br.usp.each.wsml2pddl.gramaticas.WsmlLexer;
-import br.usp.each.wsml2pddl.gramaticas.WsmlParser;
+import br.usp.each.wsml2pddl.gramaticas.GramaticaWSMLLexer;
+import br.usp.each.wsml2pddl.gramaticas.GramaticaWSMLParser;
+import br.usp.each.wsml2pddl.gramaticas.TradutorDeProblemaPDDL;
+import br.usp.each.wsml2pddl.modelo.avaliadores.Avaliador;
 
 public class Compilador {
 
 	public static void main(final String[] args) throws RecognitionException, IOException {
 		
 		final CharStream charStream = new ANTLRFileStream("src/main/java/goal.wsml");
-		final WsmlLexer lexer = new WsmlLexer(charStream);
-		final TokenStream tokenStream = new CommonTokenStream(lexer);
-		final WsmlParser wsmlParser = new WsmlParser(tokenStream);
+		final GramaticaWSMLLexer gramaticaWSMLLexer = new GramaticaWSMLLexer(charStream);
+		final TokenStream tokenStream = new CommonTokenStream(gramaticaWSMLLexer);
+		final GramaticaWSMLParser wsmlParser = new GramaticaWSMLParser(tokenStream);
 		
 		final CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(wsmlParser.wsml().getTree());
-		final ProblemTranslator problemTranslator =  new ProblemTranslator(nodeStream);
-		final Evaluator evaluator = problemTranslator.evaluator();
-		System.out.println(evaluator.evaluate()); 
+		final TradutorDeProblemaPDDL tradutorDeProblemaPDDL =  new TradutorDeProblemaPDDL(nodeStream);
+		final Avaliador avaliador = tradutorDeProblemaPDDL.avaliador();
+		System.out.println(avaliador.avalia()); 
 		
 	}
 
