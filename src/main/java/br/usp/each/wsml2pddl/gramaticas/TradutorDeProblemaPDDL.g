@@ -12,6 +12,9 @@ options {
 	import br.usp.each.wsml2pddl.avaliadores.*;  
 }
 
+@members{
+}
+
 avaliador returns [Avaliador e]
 	:	problema EOF { $e = $problema.e; } 
 	;
@@ -61,9 +64,8 @@ axiomDefinition returns [Avaliador e]
 
 comentarios returns [Avaliador e]
 	: 'annotations'
-			( verdade = comentario )
+			comentario { e = $comentario.e; }
 		'endAnnotations'
-		{ e = $verdade.e; } 		
 	;
 
 axioma returns [Avaliador e]
@@ -88,14 +90,17 @@ atributo returns [Avaliador e]
 	: Variavel { e = new AvaliadorDeString($Variavel.text); } 
 	;
 	
+fullIri returns [Avaliador e]
+	: '_'? valor { $e = $valor.e; }
+	;
+	
 valor returns [Avaliador e]
-	: Variavel { e = new AvaliadorDeString($Variavel.text); }
-	| StringLiteral { e = new AvaliadorDeString($StringLiteral.text); }	 
+	: string { e = $string.e; }	 
 	;	
 	
-fullIri returns [Avaliador e]
-	: '_' StringLiteral { e = new AvaliadorDeString($StringLiteral.text); }
-	| Variavel { e = new AvaliadorDeString($Variavel.text); } 
+string returns [Avaliador e]
+	: StringLiteral { e = new AvaliadorDeString($StringLiteral.text); }
+	| Variavel { e = new AvaliadorDeString($Variavel.text); }
 	;
 	
 namespace

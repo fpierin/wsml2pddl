@@ -17,7 +17,7 @@ public class AvaliadorAnd implements Avaliador {
 
 	@Override
 	public String avalia() {
-		final StringTemplate stringTemplate = new StringTemplate(TemplatePDDL.AND);
+		final StringTemplate stringTemplate = new StringTemplate(TemplatePDDL.And);
 		stringTemplate.setAttribute("atributo1", atributo1.avalia());
 		stringTemplate.setAttribute("atributo2", atributo2.avalia());		
 		return stringTemplate.toString();
