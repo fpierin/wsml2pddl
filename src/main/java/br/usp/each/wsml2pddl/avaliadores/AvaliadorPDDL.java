@@ -2,6 +2,7 @@ package br.usp.each.wsml2pddl.avaliadores;
 
 import org.antlr.stringtemplate.StringTemplate;
 
+import br.usp.each.wsml2pddl.constantes.TemplatePDDL;
 import br.usp.each.wsml2pddl.modelo.avaliadores.Avaliador;
 
 public class AvaliadorPDDL implements Avaliador {
@@ -11,11 +12,7 @@ public class AvaliadorPDDL implements Avaliador {
 
 	@Override
 	public String avalia() {
-		final String estruturaDoDocumentoPDDL = 
-			  "(define ($dominio$)" + "\n" +
-			  "  $goal$" + "\n" +
-			  ")";
-		final StringTemplate stringTemplate = new StringTemplate(estruturaDoDocumentoPDDL);
+		final StringTemplate stringTemplate = new StringTemplate(TemplatePDDL.DocumentoPDDL);
 		stringTemplate.setAttribute("dominio", dominio.avalia());
 		stringTemplate.setAttribute("goal", goal.avalia());		
 		

@@ -4,15 +4,15 @@ import br.usp.each.wsml2pddl.modelo.avaliadores.Avaliador;
 
 public class AvaliadorDeComentario implements Avaliador {
 
-	private final Avaliador evaluator;
+	private final Avaliador avaliador;
 
 	public AvaliadorDeComentario(final Avaliador evaluator) {
-		this.evaluator = evaluator;
+		this.avaliador = evaluator;
 	}
 
 	@Override
 	public String avalia() {
-		String comentario = evaluator.avalia();
+		String comentario = avaliador.avalia();
 		if (comentario == null){
 			return "";
 		}
