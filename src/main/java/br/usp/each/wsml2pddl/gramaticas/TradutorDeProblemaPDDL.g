@@ -53,10 +53,10 @@ condicoesDoProblema returns [Avaliador e]
 	
 postconditions returns [Avaliador e]
 	: 'postcondition'
-			axiomDefinition	{ e = $axiomDefinition.e; }
+			definicaoDoAxioma	{ e = $definicaoDoAxioma.e; }
 	;
 	
-axiomDefinition returns [Avaliador e]
+definicaoDoAxioma returns [Avaliador e]
 	: comentarios?
 		axioma
 	 { $e = new AvaliadorDePosCondicoes($axioma.e); }
