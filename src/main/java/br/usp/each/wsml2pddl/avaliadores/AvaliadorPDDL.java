@@ -9,19 +9,28 @@ public class AvaliadorPDDL implements Avaliador {
 
 	private final Avaliador dominio;
 	private final Avaliador goal;
+	private final Avaliador domain;
+	private final Avaliador objects;
+	private final Avaliador initState;
 
 	@Override
 	public String avalia() {
 		final StringTemplate stringTemplate = new StringTemplate(TemplatePDDL.DocumentoPDDL);
 		stringTemplate.setAttribute("dominio", dominio.avalia());
-		stringTemplate.setAttribute("goal", goal.avalia());		
-		
+		stringTemplate.setAttribute("domain", domain.avalia());
+		stringTemplate.setAttribute("objects", objects.avalia());
+		stringTemplate.setAttribute("initState", initState.avalia());		
+		stringTemplate.setAttribute("goal", goal.avalia());
 		return stringTemplate.toString();
 		
 	}
 
-	public AvaliadorPDDL(final Avaliador dominio, final Avaliador goal) {
+	public AvaliadorPDDL(final Avaliador dominio, final Avaliador domain, 
+			final Avaliador objects, final Avaliador initState, final Avaliador goal) {
 		this.dominio = dominio;
+		this.domain = domain;
+		this.objects = objects;
+		this.initState = initState;
 		this.goal = goal;
 	}
 

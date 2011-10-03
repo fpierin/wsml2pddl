@@ -29,7 +29,14 @@ declaracaoDoGoal returns [Avaliador e]
 	:	'goal' fullIri
 			importsOntology?
 			condicoesDoProblema
-	 	{ $e = new AvaliadorPDDL(new AvaliadorDeProblema($fullIri.e), $condicoesDoProblema.e); }
+	 	{ $e = new AvaliadorPDDL(new AvaliadorDeProblema($fullIri.e),	new AvaliadorDeDominio($fullIri.e), 
+	 					new AvaliadorDeObjetos($fullIri.e), new AvaliadorDeEstadoInicial(null),	$condicoesDoProblema.e); }
+	 		
+//	 			stringTemplate.setAttribute("dominio", dominio.avalia());
+//		stringTemplate.setAttribute("domain", domain.avalia());
+//		stringTemplate.setAttribute("objects", objects.avalia());
+//		stringTemplate.setAttribute("initState", initState.avalia());		
+//		stringTemplate.setAttribute("goal", goal.avalia());
 	;
 
 prefixosImportados

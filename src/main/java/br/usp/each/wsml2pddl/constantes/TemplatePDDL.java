@@ -11,14 +11,15 @@ public class TemplatePDDL {
 		")";
 
 	public static final String InitState = 
-		"(:init " + "\n" +
-		"    $initState$" + "\n" +
-		")";	
+		"(:init $initState$)";	
 	
 	public static final String Goal = 
 		"(:goal" + "\n" +
 		"    $goals$" + "\n" +
 		")";
+	
+	public static final String Domain = 
+		"(:domain www-goal-domain-$domain$)";	
 	
 	public static final String And = 
 		"(and $atributo1$" + "\n" +

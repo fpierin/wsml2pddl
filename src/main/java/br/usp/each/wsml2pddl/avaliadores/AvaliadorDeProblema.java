@@ -12,7 +12,7 @@ public class AvaliadorDeProblema implements Avaliador {
 
 	@Override
 	public String avalia() {
-		 return "problem " + nomeDoProblema.avalia();
+		 return "problem www-goal-problem-" + nomeDoProblema.avalia();
 	}
 
 }
