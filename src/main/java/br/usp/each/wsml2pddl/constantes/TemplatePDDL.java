@@ -4,11 +4,21 @@ public class TemplatePDDL {
 
 	public static final String DocumentoPDDL = 
 		"(define ($dominio$)" + "\n" +
+		"    $requirements$" + "\n" +	
 		"    $domain$" + "\n" +
 		"    $objects$" + "\n" +					
 		"    $initState$" + "\n" +	
 		"    $goal$" + "\n" +
 		")";
+
+	public static final String Requirements = 
+		"(:requirements $requirements$)";	
+	
+	public static final String Domain = 
+		"(:domain www-goal-domain-$domain$)";
+	
+	public static final String Objects = 
+		"(:objects $objects$)";	
 
 	public static final String InitState = 
 		"(:init $initState$)";	
@@ -17,9 +27,6 @@ public class TemplatePDDL {
 		"(:goal" + "\n" +
 		"    $goals$" + "\n" +
 		")";
-	
-	public static final String Domain = 
-		"(:domain www-goal-domain-$domain$)";	
 	
 	public static final String And = 
 		"(and $atributo1$" + "\n" +

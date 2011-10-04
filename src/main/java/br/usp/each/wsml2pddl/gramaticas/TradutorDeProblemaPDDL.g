@@ -29,14 +29,14 @@ declaracaoDoGoal returns [Avaliador e]
 	:	'goal' fullIri
 			importsOntology?
 			condicoesDoProblema
-	 	{ $e = new AvaliadorPDDL(new AvaliadorDeProblema($fullIri.e),	new AvaliadorDeDominio($fullIri.e), 
-	 					new AvaliadorDeObjetos($fullIri.e), new AvaliadorDeEstadoInicial(null),	$condicoesDoProblema.e); }
-	 		
-//	 			stringTemplate.setAttribute("dominio", dominio.avalia());
-//		stringTemplate.setAttribute("domain", domain.avalia());
-//		stringTemplate.setAttribute("objects", objects.avalia());
-//		stringTemplate.setAttribute("initState", initState.avalia());		
-//		stringTemplate.setAttribute("goal", goal.avalia());
+	 	{ 
+	 		Avaliador avaliadorDeProblema = new AvaliadorDeProblema($fullIri.e);
+	 		Avaliador avaliadorDeDominio = new AvaliadorDeDominio($fullIri.e);
+	 		Avaliador avaliadorDeObjetos = new AvaliadorDeObjetos(null);
+	 		Avaliador avaliadorDeEstadoInicial = new AvaliadorDeEstadoInicial(null);
+	 		Avaliador avaliadorDeRequerimentos = new AvaliadorDeRequerimentos();	 		
+	 		$e = new AvaliadorPDDL(avaliadorDeProblema,	avaliadorDeRequerimentos, avaliadorDeDominio,	avaliadorDeObjetos,	avaliadorDeEstadoInicial, $condicoesDoProblema.e);
+	 	}
 	;
 
 prefixosImportados
@@ -64,37 +64,42 @@ postconditions returns [Avaliador e]
 	;
 	
 definicaoDoAxioma returns [Avaliador e]
-	: comentarios?
-		axioma
-	 { $e = new AvaliadorDePosCondicoes($axioma.e); }
-	;
-
-comentarios returns [Avaliador e]
-	: 'annotations'
-			comentario { e = $comentario.e; }
-		'endAnnotations'
+	: axioma { $e = new AvaliadorDePosCondicoes($axioma.e); }
 	;
 
 axioma returns [Avaliador e]
 	: 'definedBy'	
-			condicional '.' {$e = $condicional.e;}
+			condicoes '.' {$e = $condicoes.e;}
 	;
 
-condicional returns [Avaliador e]
+condicoes returns [Avaliador e]
 	:	condicao { $e = $condicao.e; }
-	| v1 = condicao 'and' v2 = condicional { e = new AvaliadorAnd($v1.e, $v2.e); }
+	| v1 = condicao 'and' v2 = condicoes { e = new AvaliadorAnd($v1.e, $v2.e); }
 	;
 	
 condicao returns [Avaliador e]
-	: atributo ('[' comentario (',' comentario)* ']')?  'memberOf' valor { e = new AvaliadorDeAtributo($atributo.e, $valor.e); }
+	: variavel (propriedades)? 'memberOf' classe 
+		{ e = new AvaliadorExists($classe.e); }
+	;
+
+propriedades returns [Avaliador e]
+	: '[' propriedade (',' propriedade)* ']'
 	;
 	
-comentario returns [Avaliador e]
-	: atributo 'hasValue' valor { e = new AvaliadorDeComentario($valor.e); }
+propriedade
+	: classe 'hasValue' variavel
+	;
+
+classe returns [Avaliador e]
+	: v1 = Identificador '#' v2 = Identificador { e = new AvaliadorDeString($v2.text); }
+	;
+
+variavel returns [Avaliador e]
+	: '?'? string { e = new AvaliadorDeVariavel($string.e); }
 	;
 
 atributo returns [Avaliador e]
-	: Variavel { e = new AvaliadorDeString($Variavel.text); } 
+	: Identificador { e = new AvaliadorDeString($Identificador.text); } 
 	;
 	
 fullIri returns [Avaliador e]
@@ -107,10 +112,10 @@ valor returns [Avaliador e]
 	
 string returns [Avaliador e]
 	: StringLiteral { e = new AvaliadorDeString($StringLiteral.text); }
-	| Variavel { e = new AvaliadorDeString($Variavel.text); }
+	| Identificador { e = new AvaliadorDeString($Identificador.text); }
 	;
 	
 namespace
-	: Variavel? fullIri
+	: Identificador? fullIri
 	;	
 	

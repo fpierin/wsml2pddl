@@ -33,7 +33,7 @@ declaracaoDeNamespaces
 	;	
 	
 namespace
-	: Variavel? fullIri
+	: Identificador? fullIri
 	;
 
 	
@@ -69,6 +69,10 @@ efeitos
 		axiomdefinition
 	;
 	
+variaveisCompartilhadas
+	: 'sharedVariables' '{' variavel (',' variavel)* '}'
+	;	
+	
 axiomdefinition
 	:	anotacoes?
 		definicao '.'
@@ -81,14 +85,17 @@ definicao
 	;
 
 axioma
-	: Variavel '[' atributo (',' atributo)* ']' 'memberOf' Variavel
-	| Variavel 'memberOf' Variavel
+	: variavel ('[' atributo (',' atributo)* ']')? 'memberOf' classe
 	;
 	
-variaveisCompartilhadas
-	: 'sharedVariables' '{' Variavel (',' Variavel)* '}'
-	;
+classe
+	: (Identificador '#')? Identificador
+	;	
 	
+variavel
+	: '?' Identificador
+	;
+		
 anotacoes
 	:	'annotations'
 			atributo*	
@@ -102,18 +109,16 @@ ontologiaImportada
 	;	
 	
 atributo
-	: Variavel 'hasValue' 
-			( Variavel
-			| StringLiteral)
+	: classe 'hasValue' variavel
 	;
 	
 fullIri
 	: '_' StringLiteral
-	| Variavel
+	| Identificador
 	;
 
 prefixo
-	: Variavel fullIri
+	: Identificador fullIri
 	;
 
 fragment AlfaNumerico		: Digito | Letra;
@@ -124,7 +129,8 @@ fragment QuebraDeLinha	: '\n' | '\r';
 fragment Tabulacao			: '\t';
 
 Inteiro : Digito+;
-Variavel: (Letra | '?') (AlfaNumerico | '?' | '#' | '-' )* ;
+
+Identificador: (Letra)(AlfaNumerico | '-')*; 
 
 StringLiteral 
 	: '"'

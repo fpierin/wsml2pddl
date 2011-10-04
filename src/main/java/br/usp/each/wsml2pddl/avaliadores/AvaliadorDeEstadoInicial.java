@@ -21,7 +21,7 @@ public class AvaliadorDeEstadoInicial implements Avaliador {
 	}
 
 	private String obtemEstadoInicialValido() {
-		return (estadoInicial != null)? estadoInicial.avalia(): "(Clear)";
+		return (estadoInicial != null)? estadoInicial.avalia(): "(clear)";
 	}
 
 }
