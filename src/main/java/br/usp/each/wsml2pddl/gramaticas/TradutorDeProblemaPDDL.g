@@ -2,6 +2,7 @@ tree grammar TradutorDeProblemaPDDL;
 
 options {
   language = Java;
+//  backtrack=true;
   tokenVocab = GramaticaWSML;
   ASTLabelType = CommonTree;
 }
@@ -78,16 +79,17 @@ condicoes returns [Avaliador e]
 	;
 	
 condicao returns [Avaliador e]
-	: variavel (propriedades)? 'memberOf' classe 
-		{ e = new AvaliadorExists($classe.e); }
+	: variavel ('[' propriedades ']')? 'memberOf' classe 
+		{ e = new AvaliadorExists(new AvaliadorDeClasse($classe.e, $propriedades.e)); }
 	;
 
 propriedades returns [Avaliador e]
-	: '[' propriedade (',' propriedade)* ']'
+	: propriedade  { e = new AvaliadorDePropriedade($propriedade.e); }
+	| p1 = propriedade ',' p2 = propriedades { e = new AvaliadorAnd($p1.e, $p2.e); }	
 	;
 	
-propriedade
-	: classe 'hasValue' variavel
+propriedade  returns [Avaliador e]
+	: classe 'hasValue' variavel { e = $classe.e; }
 	;
 
 classe returns [Avaliador e]
