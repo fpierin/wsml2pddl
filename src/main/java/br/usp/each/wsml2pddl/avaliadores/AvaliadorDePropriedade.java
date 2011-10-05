@@ -4,15 +4,15 @@ import br.usp.each.wsml2pddl.modelo.avaliadores.Avaliador;
 
 public class AvaliadorDePropriedade implements Avaliador {
 
-	final Avaliador nomeDoProblema;
+	final Avaliador propriedade;
 	
-	public AvaliadorDePropriedade(final Avaliador nomeDoProblema) {
-		this.nomeDoProblema = nomeDoProblema;
+	public AvaliadorDePropriedade(final Avaliador propriedade) {
+		this.propriedade = propriedade;
 	}
 
 	@Override
 	public String avalia() {
-		 return "(tttttttt "+ nomeDoProblema.avalia()  +" )";
+		 return "(tttttttt " + propriedade.avalia()  +" )";
 	}
 
 }

@@ -20,7 +20,7 @@ tokens {
 
 wsml
 	: declaracaoDeVarianteWsml? 
-		declaracaoDeNamespaces? 
+		declaracaoDeNamespaces?
 		declaracaoDeGoal
 	;
 	
@@ -80,8 +80,11 @@ axiomdefinition
 	
 definicao
 	: 'definedBy'
-		axioma
-		('and' axioma)*
+			axiomas*
+	;
+	
+axiomas
+	: axioma ('and' axioma)*
 	;
 
 axioma

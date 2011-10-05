@@ -36,7 +36,8 @@ declaracaoDoGoal returns [Avaliador e]
 	 		Avaliador avaliadorDeObjetos = new AvaliadorDeObjetos(null);
 	 		Avaliador avaliadorDeEstadoInicial = new AvaliadorDeEstadoInicial(null);
 	 		Avaliador avaliadorDeRequerimentos = new AvaliadorDeRequerimentos();	 		
-	 		$e = new AvaliadorPDDL(avaliadorDeProblema,	avaliadorDeRequerimentos, avaliadorDeDominio,	avaliadorDeObjetos,	avaliadorDeEstadoInicial, $condicoesDoProblema.e);
+	 		$e = new AvaliadorPDDL(avaliadorDeProblema,	avaliadorDeRequerimentos, avaliadorDeDominio,	
+	 			avaliadorDeObjetos,	avaliadorDeEstadoInicial, $condicoesDoProblema.e);
 	 	}
 	;
 
@@ -72,27 +73,27 @@ axioma returns [Avaliador e]
 	: 'definedBy'	
 			condicoes '.' {$e = $condicoes.e;}
 	;
-
+	
 condicoes returns [Avaliador e]
-	:	condicao { $e = $condicao.e; }
-	| v1 = condicao 'and' v2 = condicoes { e = new AvaliadorAnd($v1.e, $v2.e); }
+	:	v1 = condicao 'and' v2 = condicoes { e = new AvaliadorAnd($v1.e, $v2.e); }
+	| condicao { $e = $condicao.e; }
 	;
 	
 condicao returns [Avaliador e]
 	: variavel ('[' propriedades ']')? 'memberOf' classe 
 		{ e = new AvaliadorExists(new AvaliadorDeClasse($classe.e, $propriedades.e)); }
 	;
-
+	
 propriedades returns [Avaliador e]
-	: propriedade  { e = new AvaliadorDePropriedade($propriedade.e); }
-	| p1 = propriedade ',' p2 = propriedades { e = new AvaliadorAnd($p1.e, $p2.e); }	
-	;
+	: propriedade { e = new AvaliadorDePropriedade($propriedade.e); }
+	| p1 = propriedade ',' p2 = propriedades { e = new AvaliadorAnd($p1.e, $p2.e); }
+	;		
 	
 propriedade  returns [Avaliador e]
 	: classe 'hasValue' variavel { e = $classe.e; }
 	;
 
-classe returns [Avaliador e]
+classe returns [Avaliador e] 
 	: v1 = Identificador '#' v2 = Identificador { e = new AvaliadorDeString($v2.text); }
 	;
 
