@@ -30,12 +30,10 @@ public class TemplatePDDL {
 	
 	public static final String And = 
 		"(and \n" + 
-		"     $atributo1$$atributo2$\n" +
-		")";
+		"     $atributo1$$atributo2$)";
 	
 	public static final String Exists = 
-		"(exists $condicao$ \n" +
-		")";
+		"(exists $condicao$)";
 	
 	public static final String Negation = 
 		"(not $condicao$)";	
