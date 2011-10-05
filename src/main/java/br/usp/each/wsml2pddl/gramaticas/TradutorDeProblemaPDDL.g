@@ -61,37 +61,28 @@ condicoesDoProblema returns [Avaliador e]
 	
 postconditions returns [Avaliador e]
 	: 'postcondition'
-			definicaoDoAxioma	{ e = $definicaoDoAxioma.e; }
+			'definedBy'
+				axioma { $e = new AvaliadorDePosCondicoes($axioma.e); }
+			'.'
 	;
 	
-definicaoDoAxioma returns [Avaliador e]
-	: axioma { $e = new AvaliadorDePosCondicoes($axioma.e); }
+axioma returns [Avaliador e]
+	: c1 = condicao { $e = $c1.e; }
+	  ('and' c2 = condicao { e = new AvaliadorAnd($c1.e, $c2.e); } )*
 	;
 
-axioma returns [Avaliador e]
-	: 'definedBy'	
-			condicoes {$e = $condicoes.e;}
-		'.' 
-		
-	;
-	
-condicoes returns [Avaliador e]
-	:	(condicao ('and' condicao)*) => v1 = condicao 'and' v2 = condicoes { e = new AvaliadorAnd($v1.e, $v2.e); } 
-	| condicao { $e = $condicao.e; }
-	;
-	
 condicao returns [Avaliador e]
 	: variavel ('[' propriedades ']')? 'memberOf' classe 
 		{ e = new AvaliadorExists(new AvaliadorDeClasse($classe.e, $propriedades.e)); }
 	;
 	
 propriedades returns [Avaliador e]
-	: (propriedade (',' propriedades)*) => p1 = propriedade ',' p2 = propriedades { e = new AvaliadorAnd($p1.e, $p2.e); } 
-	| propriedade { e = new AvaliadorDePropriedade($propriedade.e); }
+	: p1 = propriedade { e = $p1.e; } 
+		(',' p2 = propriedade { e = new AvaliadorAnd($p1.e, $p2.e); } )*
 	;		
 	
 propriedade  returns [Avaliador e]
-	: classe 'hasValue' variavel { e = $classe.e; }
+	: classe 'hasValue' variavel { e = new AvaliadorDePropriedade($classe.e); }
 	;
 
 classe returns [Avaliador e] 

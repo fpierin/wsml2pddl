@@ -24,16 +24,18 @@ public class TemplatePDDL {
 		"(:init $initState$)";	
 	
 	public static final String Goal = 
-		"(:goal" + "\n" +
-		"    $goals$" + "\n" +
+		"(:goal \n" + 
+		"    $goals$ \n" +
 		")";
 	
 	public static final String And = 
-		"(and $atributo1$" + "\n" +
-		"     $atributo2$)";
+		"(and \n" + 
+		"     $atributo1$$atributo2$\n" +
+		")";
 	
 	public static final String Exists = 
-		"(exists $condicao$)";
+		"(exists $condicao$ \n" +
+		")";
 	
 	public static final String Negation = 
 		"(not $condicao$)";	
