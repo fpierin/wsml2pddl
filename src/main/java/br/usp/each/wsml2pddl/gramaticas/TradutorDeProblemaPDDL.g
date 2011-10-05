@@ -2,7 +2,6 @@ tree grammar TradutorDeProblemaPDDL;
 
 options {
   language = Java;
-//  backtrack=true;
   tokenVocab = GramaticaWSML;
   ASTLabelType = CommonTree;
 }
@@ -71,11 +70,13 @@ definicaoDoAxioma returns [Avaliador e]
 
 axioma returns [Avaliador e]
 	: 'definedBy'	
-			condicoes '.' {$e = $condicoes.e;}
+			condicoes {$e = $condicoes.e;}
+		'.' 
+		
 	;
 	
 condicoes returns [Avaliador e]
-	:	v1 = condicao 'and' v2 = condicoes { e = new AvaliadorAnd($v1.e, $v2.e); }
+	:	(condicao ('and' condicao)*) => v1 = condicao 'and' v2 = condicoes { e = new AvaliadorAnd($v1.e, $v2.e); } 
 	| condicao { $e = $condicao.e; }
 	;
 	
@@ -85,8 +86,8 @@ condicao returns [Avaliador e]
 	;
 	
 propriedades returns [Avaliador e]
-	: propriedade { e = new AvaliadorDePropriedade($propriedade.e); }
-	| p1 = propriedade ',' p2 = propriedades { e = new AvaliadorAnd($p1.e, $p2.e); }
+	: (propriedade (',' propriedades)*) => p1 = propriedade ',' p2 = propriedades { e = new AvaliadorAnd($p1.e, $p2.e); } 
+	| propriedade { e = new AvaliadorDePropriedade($propriedade.e); }
 	;		
 	
 propriedade  returns [Avaliador e]

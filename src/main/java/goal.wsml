@@ -11,9 +11,9 @@ goal _"obterTicketDeViagem"
 			definedBy
 				?ticket [ dO#origem hasValue ?origem,
 					  dO#destino hasValue ?destino
-					] memberOf dO#Ticket and
-				?origem memberOf dO#SaoPaulo and
-				?destino memberOf dO#MachuPicchu.
+					] memberOf dO#Ticket 
+				and ?origem memberOf dO#SaoPaulo 
+				and ?destino memberOf dO#MachuPicchu.
 /*		
 
 (define (domain www-goal-domain-obterTicketDeViagem)

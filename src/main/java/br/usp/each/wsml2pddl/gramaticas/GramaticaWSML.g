@@ -88,7 +88,11 @@ axiomas
 	;
 
 axioma
-	: variavel ('[' atributo (',' atributo)* ']')? 'memberOf' classe
+	: variavel ('[' propriedades ']')? 'memberOf' classe
+	;
+	
+propriedades
+	: atributo (',' atributo)*
 	;
 	
 classe
