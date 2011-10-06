@@ -13,7 +13,7 @@ public class AvaliadorDePropriedade implements Avaliador {
 	@Override
 	public String avalia() {
 		final String nomeDaPropriedade = propriedade.avalia();
-		 return "(" + propriedade.avalia() + " $classe$ $" + nomeDaPropriedade + "$)";
+		 return "(" + propriedade.avalia() + " $classe$ $?" + nomeDaPropriedade + "$)";
 	}
 
 }

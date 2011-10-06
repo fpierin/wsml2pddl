@@ -8,11 +8,17 @@ options {
 
 @header {
   package br.usp.each.wsml2pddl.gramaticas;
-	import br.usp.each.wsml2pddl.modelo.avaliadores.Avaliador;  
-	import br.usp.each.wsml2pddl.avaliadores.*;  
+	import br.usp.each.wsml2pddl.modelo.avaliadores.Avaliador;
+	import java.util.HashMap;
+	import java.util.Map;
+	import br.usp.each.wsml2pddl.avaliadores.*; 
+	import org.antlr.stringtemplate.StringTemplate; 
 }
 
 @members{
+
+		Map<String, String> propriedades = new HashMap<String, String>();
+  
 }
 
 avaliador returns [Avaliador e]
@@ -62,27 +68,39 @@ condicoesDoProblema returns [Avaliador e]
 postconditions returns [Avaliador e]
 	: 'postcondition'
 			'definedBy'
-				axioma { $e = new AvaliadorDePosCondicoes($axioma.e); }
+				axioma 
+				{
+					$e = new AvaliadorDePosCondicoes($axioma.e);
+		  		for(final String propriedade: propriedades.keySet()){
+		  			$e = new AvaliadorDeCondicao($e, propriedade, propriedades.get(propriedade));
+		  		} 
+				}
 			'.'
 	;
 	
 axioma returns [Avaliador e]
 	: c1 = condicao { $e = $c1.e; }
-	  ('and' c2 = condicao { e = new AvaliadorAnd($c1.e, $c2.e); } )*
+	  ( 'and' c2 = axioma	{	$e = new AvaliadorAnd($c1.e, $c2.e);	} )?
 	;
-
+	
 condicao returns [Avaliador e]
 	: variavel ('[' propriedades ']')? 'memberOf' classe 
-		{ e = new AvaliadorExists(new AvaliadorDeClasse($classe.e, $propriedades.e)); }
+		{
+		 	propriedades.put($variavel.e.avalia(), $classe.e.avalia());
+			e = new AvaliadorExists(new AvaliadorDeClasse($classe.e, $propriedades.e)); 
+		}
 	;
 	
 propriedades returns [Avaliador e]
 	: p1 = propriedade { e = $p1.e; } 
-		(',' p2 = propriedade { e = new AvaliadorAnd($p1.e, $p2.e); } )*
+		(',' p2 = propriedade { e = new AvaliadorAnd($p1.e, $p2.e); } )*		
 	;		
 	
 propriedade  returns [Avaliador e]
-	: classe 'hasValue' variavel { e = new AvaliadorDePropriedade($classe.e); }
+	: classe 'hasValue' variavel 
+		{ 
+			e = new AvaliadorDePropriedade($classe.e); 
+		}
 	;
 
 classe returns [Avaliador e] 
