@@ -21,7 +21,7 @@ tokens {
 wsml
 	: declaracaoDeVarianteWsml? 
 		declaracaoDeNamespaces?
-		declaracaoDeGoal
+		( declaracaoDeOntologias |	declaracaoDeGoal )
 	;
 	
 declaracaoDeVarianteWsml
@@ -46,6 +46,21 @@ declaracaoDeGoal
 		anotacoes?
 		ontologiaImportada?
 		capacidade
+	;
+	
+declaracaoDeOntologias
+	:	ontologia*
+	;
+	
+ontologia
+	: 'ontology' Identificador
+			conceito+
+	;
+	
+conceito
+	:	'concept' Identificador ('subConceptOf' Identificador)?
+			anotacoes?
+			(Identificador 'ofType' Identificador )*
 	;
 	
 capacidade
@@ -116,7 +131,7 @@ ontologiaImportada
 	;	
 	
 atributo
-	: classe 'hasValue' variavel
+	: classe 'hasValue' (variavel | StringLiteral )
 	;
 	
 fullIri

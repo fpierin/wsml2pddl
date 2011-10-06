@@ -11,23 +11,42 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 
 import br.usp.each.wsml2pddl.gramaticas.GramaticaWSMLLexer;
 import br.usp.each.wsml2pddl.gramaticas.GramaticaWSMLParser;
-import br.usp.each.wsml2pddl.gramaticas.TradutorDeProblemaPDDL;
+import br.usp.each.wsml2pddl.gramaticas.TradutorWSML2PDDL;
 import br.usp.each.wsml2pddl.modelo.avaliadores.Avaliador;
 
 public class Compilador {
 
 	public static void main(final String[] args) throws RecognitionException, IOException {
 		
+		System.out.println("Realizando tradução de um goal WSML para um problema PDDL\n\n");
+		avaliaProblemaPDDL();
+		System.out.println("\n\nRealizando tradução de ontologia WSML para um dominio PDDL\n\n");		
+		avaliaDominioPDDL();		
+		
+	}
+
+	private static void avaliaDominioPDDL() throws IOException, RecognitionException {
+		final CharStream charStream = new ANTLRFileStream("src/main/java/ontologia.wsml");
+		final GramaticaWSMLLexer gramaticaWSMLLexer = new GramaticaWSMLLexer(charStream);
+		final TokenStream tokenStream = new CommonTokenStream(gramaticaWSMLLexer);
+		final GramaticaWSMLParser wsmlParser = new GramaticaWSMLParser(tokenStream);
+		
+		final CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(wsmlParser.wsml().getTree());
+		final TradutorWSML2PDDL tradutorDeProblemaPDDL =  new TradutorWSML2PDDL(nodeStream);
+		final Avaliador avaliador = tradutorDeProblemaPDDL.avaliador();
+		System.out.println(avaliador.avalia());		
+	}
+
+	private static void avaliaProblemaPDDL() throws IOException, RecognitionException {
 		final CharStream charStream = new ANTLRFileStream("src/main/java/goal.wsml");
 		final GramaticaWSMLLexer gramaticaWSMLLexer = new GramaticaWSMLLexer(charStream);
 		final TokenStream tokenStream = new CommonTokenStream(gramaticaWSMLLexer);
 		final GramaticaWSMLParser wsmlParser = new GramaticaWSMLParser(tokenStream);
 		
 		final CommonTreeNodeStream nodeStream = new CommonTreeNodeStream(wsmlParser.wsml().getTree());
-		final TradutorDeProblemaPDDL tradutorDeProblemaPDDL =  new TradutorDeProblemaPDDL(nodeStream);
+		final TradutorWSML2PDDL tradutorDeProblemaPDDL =  new TradutorWSML2PDDL(nodeStream);
 		final Avaliador avaliador = tradutorDeProblemaPDDL.avaliador();
-		System.out.println(avaliador.avalia()); 
-		
+		System.out.println(avaliador.avalia());
 	}
 
 }

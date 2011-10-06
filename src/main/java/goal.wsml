@@ -16,18 +16,6 @@ goal _"obterTicketDeViagem"
 				and ?destino memberOf dO#MachuPicchu.
 /*		
 
-(define (domain www-goal-domain-obterTicketDeViagem)
-	(:requirements :strips :negative-preconditions :existential-preconditions)
-	(:extends (uri "ontologia.wsml#" :prefix wgd))
-	(:types Ticket - @wgd:Ticket 
-			Cidade - @wgd:Cidade)
-	(:objects SaoPaulo MachuPicchu - Cidade)
-	(:predicates (Ticket ?t)
-				 (Cidade ?c)
-				 (origem ?ticket - Ticket ?cidade - Cidade)
-				 (destino ?ticket - Ticket ?cidade - Cidade))
-)		
-		
 (define (problem www-goal-problem-obterTicketDeViagem)
 	(:domain www-goal-domain-obterTicketDeViagem)
 	(:init (clear))

@@ -1,4 +1,4 @@
-tree grammar TradutorDeProblemaPDDL;
+tree grammar TradutorWSML2PDDL;
 
 options {
   language = Java;
@@ -28,8 +28,22 @@ avaliador returns [Avaliador e]
 problema returns [Avaliador e]
 	: varianteWsml?
 		prefixosImportados?
-		declaracaoDoGoal { $e = $declaracaoDoGoal.e; }
+		(declaracaoDoOntologias { $e = $declaracaoDoOntologias.e; })?		
+		(declaracaoDoGoal { $e = $declaracaoDoGoal.e; })?
 	;
+
+declaracaoDoOntologias returns [Avaliador e]
+	: 'ontology' string { $e = $string.e; }
+			('concept' Identificador ('subConceptOf' Identificador)?
+				anotacoes?
+				(Identificador 'ofType' Identificador )*)*
+	;
+	
+anotacoes
+	:	'annotations'
+			propriedade+
+		'endAnnotations'
+	;	
 
 declaracaoDoGoal returns [Avaliador e]
 	:	'goal' fullIri

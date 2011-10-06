@@ -7,60 +7,39 @@ namespace { _"http://www.gsmo.org/dip/travel/domainOntology#",
 ontology TravelOntology
 	
 	concept Ticket
-		
 		annotations
-			dc#description hasValue "concept of a ticket "
+			dc#description hasValue "conceito de um bilhete de viagem"
 		endAnnotations
+		origem ofType Cidade
+		destino ofType Cidade
+		veiculo ofType Veiculo
 		
-		from ofType Region
-		to ofType Region
-		vehicle ofType Vehicle
-		
-	concept Region
-	
-	concept Country subConceptOf Region
-		name ofType _string
-		concept City subConceptOf Region
-		name ofType _string
-	
-	country ofType Country
-	
-	concept EUCity subConceptOf City
-	
-	concept GermanCity subConceptOf EUCity
-	
-	concept AustrianCity subConceptOf EUCity
-	
-	concept UKCity subConceptOf EUCity
-	
-	concept USCity subConceptOf City
-	
-	concept Vehicle
-		seats ofType _integer
-	
-	concept Airplane subConceptOf Vehicle
-	
-	concept Train subConceptOf Vehicle
-		
-	axiom GermanCityDef
-		definedBy
-			?city memberOf GermanCity implies ?city[country hasValue Germany].
-			
-	axiom AustrianCityDef
-		definedBy
-			?city memberOf AustrianCity impliedBy ?city[name hasValue "Austria"] memberOf country.
+	concept Cidade
+		nome ofType String
 
-	axiom UKCityDef
-		definedBy
-			?city memberOf UKCity implies ?city[country hasValue UK].
+	concept SaoPaulo subConceptOf Cidade
+	
+	concept MachuPicchu subConceptOf Cidade
+	
+	concept Veiculo
+		assentos ofType int		
+	
+	concept Aviao subConceptOf Veiculo
+	
+	concept Trem subConceptOf Veiculo
+	
+/*
 
-	instance Innsbruck memberOf AustrianCity
-	
-	instance Germany memberOf Country
-		name hasValue "Germany"
-	
-	instance UK memberOf Country
-		name hasValue "United Kingdom"
-	
-	instance Austria memberOf Country
-		name hasValue "Austria"
+(define (domain www-goal-domain-obterTicketDeViagem)
+	(:requirements :strips :existential-preconditions)
+	(:extends (uri "ontologia.wsml#" :prefix wgd))
+	(:types Ticket - @wgd:Ticket 
+			Cidade - @wgd:Cidade)
+	(:objects SaoPaulo MachuPicchu - Cidade)
+	(:predicates (Ticket ?t)
+				 (Cidade ?c)
+				 (origem ?ticket - Ticket ?cidade - Cidade)
+				 (destino ?ticket - Ticket ?cidade - Cidade))
+)	
+
+*/	
