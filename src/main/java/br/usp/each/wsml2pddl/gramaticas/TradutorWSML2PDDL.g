@@ -21,6 +21,7 @@ options {
 
 		Map<String, String> propriedades = new HashMap<String, String>();
 		Map<String, List<String>> superclasses = new HashMap<String, List<String>>();
+		List<Avaliador> predicados = new ArrayList<Avaliador>();
   
 }
 
@@ -41,8 +42,9 @@ declaracaoDeOntologias returns [Avaliador e]
 		{
 		 	final Avaliador dominio = $string.e;
 		 	final Avaliador requerimentos = new AvaliadorDeRequerimentos();
-		 	final Avaliador tipos = new AvaliadorDeTipos(superclasses);		 	
-			$e = new AvaliadorDeDominio(dominio, requerimentos, tipos); 
+		 	final Avaliador tipos = new AvaliadorDeTipos(superclasses);
+		 	final Avaliador predicado = new AvaliadorDePredicados(predicados);		 			 	
+			$e = new AvaliadorDeDominio(dominio, requerimentos, tipos, predicado); 
 		}				
 	;
 	
@@ -50,6 +52,7 @@ conceito
 	: 'concept' c1 = Identificador 
 			('subConceptOf' c2 = Identificador )?
 			{ 
+				predicados.add(new AvaliadorDePredicado(new AvaliadorDeString($c1.text)));
 				final String superClasse = ($c2 != null)? $c2.text : "Object"; 
 				final List<String> objetosDaClasseC2 = superclasses.get(superClasse);
 				if (objetosDaClasseC2 == null){
@@ -60,11 +63,11 @@ conceito
 				}
 			}			
 			anotacoes?
-			propriedadeDoConceito*
-	;
-	
-propriedadeDoConceito  returns [Avaliador e]
-	: Identificador 'ofType' Identificador 
+			( p = Identificador 'ofType' c = Identificador 
+				{	predicados.add(new AvaliadorDePredicado(new AvaliadorDeString($c1.text), 
+					new AvaliadorDeString($p.text), 
+					new AvaliadorDeString($c.text))); } 
+			)*
 	;
 
 propriedade  returns [Avaliador e]

@@ -15,7 +15,10 @@ public class TemplatePDDL {
 		"$endif$"+
 		"$if(tipos)$" +
 		"    $tipos$" + "\n\n" +
-		"$endif$";		
+		"$endif$" +
+		"$if(predicados)$" +
+		"    $predicados$" + "\n\n" +
+		"$endif$";				
 
 	public static final String Problema = 
 		"(problem $problema$)\n" +
@@ -36,13 +39,10 @@ public class TemplatePDDL {
 		"(:requirements $requerimentos$)";	
 
 	public static final String DeclaracaoDeTipos = 
-//		"$if(declaracaoDeTipos)$" +
-			"(:types " +
-			"$declaracaoDeTipo; separator=\"\n            \"$" +
-			")";
-//		"$endif$";
+		"(:types $declaracaoDeTipo; separator=\"\n            \"$)";
 	
-//	"$rest(friends); separator=\", \"$"
+	public static final String Predicados = 
+		"(:predicates $predicado; separator=\"\n            \"$)";	
 	
 	public static final String DeclaracaoDeDominio = 
 		"(:domain www-goal-domain-$dominio$)";
