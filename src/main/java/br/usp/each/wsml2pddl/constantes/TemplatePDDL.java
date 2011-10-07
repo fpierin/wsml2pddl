@@ -36,9 +36,13 @@ public class TemplatePDDL {
 		"(:requirements $requerimentos$)";	
 
 	public static final String DeclaracaoDeTipos = 
-		"$if(declaracaoDeTipos)$" + 
-			"(:types $declaracaoDeTipos$)" +
-		"$endif$";
+//		"$if(declaracaoDeTipos)$" +
+			"(:types " +
+			"$declaracaoDeTipo; separator=\"\n            \"$" +
+			")";
+//		"$endif$";
+	
+//	"$rest(friends); separator=\", \"$"
 	
 	public static final String DeclaracaoDeDominio = 
 		"(:domain www-goal-domain-$dominio$)";

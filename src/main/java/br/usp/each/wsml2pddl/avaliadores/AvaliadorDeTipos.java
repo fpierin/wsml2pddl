@@ -1,8 +1,8 @@
 package br.usp.each.wsml2pddl.avaliadores;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.antlr.stringtemplate.StringTemplate;
 
@@ -19,24 +19,20 @@ public class AvaliadorDeTipos implements Avaliador {
 
 	@Override
 	public String avalia() {
-		String tiposEncontrados = "";
+		final StringTemplate stringTemplate = new StringTemplate(TemplatePDDL.DeclaracaoDeTipos);
 		for (final Map.Entry<String, List<String>> entry: classes.entrySet()) {
-			tiposEncontrados =  obterTipoPDDL(entry) + "\n" + tiposEncontrados;
+			stringTemplate.setAttribute("declaracaoDeTipo", novoTipo(entry));
 		}
-		
-		final StringTemplate stringTemplate = new StringTemplate();
-		stringTemplate.setTemplate(TemplatePDDL.DeclaracaoDeTipos);
-		stringTemplate.setAttribute("declaracaoDeTipos", tiposEncontrados);
 		return stringTemplate.toString();
 	}
 
-	private String obterTipoPDDL(final Entry<String, List<String>> entry) {
-		String tipo = "- " + entry.getKey();
-		final List<String> subClasses = entry.getValue();		
-		for(final String subClasse: subClasses){
-			tipo = subClasse + " " + tipo;
-		}
-		return tipo;
+	private String novoTipo(final Map.Entry<String, List<String>> entry) {
+		final StringTemplate stringTemplate = new StringTemplate("$subclasse; separator=\" \"$ - $classe$");
+		final List<String> tiposExistentes = entry.getValue();
+		Collections.reverse(tiposExistentes);
+		stringTemplate.setAttribute("classe", entry.getKey());		
+		stringTemplate.setAttribute("subclasse", tiposExistentes);
+		return stringTemplate.toString();
 	}
 
 }
