@@ -16,7 +16,7 @@ public class AvaliadorDeEstadoInicial implements Avaliador {
 	@Override
 	public String avalia() {
 		final StringTemplate stringTemplate = new StringTemplate(TemplatePDDL.InitState);
-		stringTemplate.setAttribute("initState", obtemEstadoInicialValido());
+		stringTemplate.setAttribute("estadoInicial", obtemEstadoInicialValido());
 		return stringTemplate.toString();
 	}
 

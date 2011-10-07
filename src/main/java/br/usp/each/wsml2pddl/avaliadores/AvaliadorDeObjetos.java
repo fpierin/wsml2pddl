@@ -19,8 +19,8 @@ public class AvaliadorDeObjetos implements Avaliador {
 	}
 
 	private String stringTemplate() {
-		final StringTemplate stringTemplate = new StringTemplate(TemplatePDDL.Objects);
-		stringTemplate.setAttribute("objects", avaliador.avalia());
+		final StringTemplate stringTemplate = new StringTemplate(TemplatePDDL.Objetos);
+		stringTemplate.setAttribute("objetos", avaliador.avalia());
 		return stringTemplate.toString();
 	}
 

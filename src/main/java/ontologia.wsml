@@ -30,7 +30,7 @@ ontology TravelOntology
 	
 /*
 
-(define (domain www-goal-domain-obterTicketDeViagem)
+(define (domain TravelOntology)
 	(:requirements :strips :existential-preconditions)
 	(:extends (uri "ontologia.wsml#" :prefix wgd))
 	(:types Ticket - @wgd:Ticket 

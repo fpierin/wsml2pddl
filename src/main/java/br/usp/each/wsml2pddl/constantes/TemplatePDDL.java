@@ -1,32 +1,51 @@
 package br.usp.each.wsml2pddl.constantes;
 
 public class TemplatePDDL {
-
-	public static final String DocumentoPDDL = 
-		"(define ($dominio$)" + "\n" +
-		"    $requirements$" + "\n" +	
-		"    $domain$" + "\n" +
-		"    $objects$" + "\n" +					
-		"    $initState$" + "\n" +	
-		"    $goal$" + "\n" +
-		")";
-
-	public static final String Requirements = 
-		"(:requirements $requirements$)";	
 	
-	public static final String Domain = 
-		"(:domain www-goal-domain-$domain$)";
+	public static final String Documento = 
+		"(define $declaracoes$\n)";	
+
+	public static final String Dominio = 
+		"(domain $dominio$)\n" +
+		"$if(requerimentos)$" +
+		"    $requerimentos$" + "\n\n" +
+		"$endif$"+
+		"$if(extensoes)$" +
+		"    $extensoes$" + "\n\n" +
+		"$endif$"+
+		"$if(tipos)$" +
+		"    $tipos$" + "\n\n" +
+		"$endif$";		
+
+	public static final String Problema = 
+		"(problem $problema$)\n" +
+		"$if(requerimentos)$" +
+		"    $requerimentos$" + "\n\n" +
+		"$endif$"+
+		"$if(dominio)$" +
+		"    $dominio$" + "\n\n" +
+		"$endif$"+
+		"$if(estadoInicial)$" +
+		"    $estadoInicial$" + "\n\n" +
+		"$endif$"+
+		"$if(objetivo)$" +
+		"    $objetivo$" + "\n\n" +
+		"$endif$";		
+
+	public static final String Requerimentos = 
+		"(:requirements $requerimentos$)";	
 	
-	public static final String Objects = 
-		"(:objects $objects$)";	
+	public static final String DeclaracaoDeDominio = 
+		"(:domain www-goal-domain-$dominio$)";
+	
+	public static final String Objetos = 
+		"(:objects $objetos$)";	
 
 	public static final String InitState = 
-		"(:init $initState$)";	
+		"(:init $estadoInicial$)";	
 	
 	public static final String Goal = 
-		"(:goal" + "\n" + 
-		"    $goals$" + "\n" +
-		")";
+		"(:goal $objetivo$)";
 	
 	public static final String And = 
 		"(and $atributo1$" + "\n" +

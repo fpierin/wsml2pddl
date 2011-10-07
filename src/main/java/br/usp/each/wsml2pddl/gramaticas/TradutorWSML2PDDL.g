@@ -22,10 +22,10 @@ options {
 }
 
 avaliador returns [Avaliador e]
-	:	problema EOF { $e = $problema.e; } 
+	:	documento EOF { $e = new AvaliadorDeDocumentoPDDL($documento.e); } 
 	;
 	
-problema returns [Avaliador e]
+documento returns [Avaliador e]
 	: varianteWsml?
 		prefixosImportados?
 		(declaracaoDoOntologias { $e = $declaracaoDoOntologias.e; })?		
@@ -33,10 +33,15 @@ problema returns [Avaliador e]
 	;
 
 declaracaoDoOntologias returns [Avaliador e]
-	: 'ontology' string { $e = $string.e; }
+	: 'ontology' string 
 			('concept' Identificador ('subConceptOf' Identificador)?
 				anotacoes?
 				(Identificador 'ofType' Identificador )*)*
+		{
+		 	final Avaliador dominio = $string.e;
+		 	final Avaliador requerimentos = new AvaliadorDeRequerimentos();
+			$e = new AvaliadorDeDominio(dominio, requerimentos); 
+		}				
 	;
 	
 anotacoes
@@ -50,12 +55,12 @@ declaracaoDoGoal returns [Avaliador e]
 			importsOntology?
 			condicoesDoProblema
 	 	{ 
-	 		Avaliador avaliadorDeProblema = new AvaliadorDeProblema($fullIri.e);
-	 		Avaliador avaliadorDeDominio = new AvaliadorDeDominio($fullIri.e);
+	 		Avaliador avaliadorDeProblema = new AvaliadorDeString($fullIri.e.avalia());
+	 		Avaliador avaliadorDeDominio = new AvaliadorDeDeclaracaoDeDominio($fullIri.e);
 	 		Avaliador avaliadorDeObjetos = new AvaliadorDeObjetos(null);
 	 		Avaliador avaliadorDeEstadoInicial = new AvaliadorDeEstadoInicial(null);
 	 		Avaliador avaliadorDeRequerimentos = new AvaliadorDeRequerimentos();	 		
-	 		$e = new AvaliadorPDDL(avaliadorDeProblema,	avaliadorDeRequerimentos, avaliadorDeDominio,	
+	 		$e = new AvaliadorDeProblema(avaliadorDeProblema,	avaliadorDeRequerimentos, avaliadorDeDominio,	
 	 			avaliadorDeObjetos,	avaliadorDeEstadoInicial, $condicoesDoProblema.e);
 	 	}
 	;

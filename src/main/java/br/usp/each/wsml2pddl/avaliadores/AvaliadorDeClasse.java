@@ -22,7 +22,7 @@ public class AvaliadorDeClasse implements Avaliador {
 			String declaracaoDePropriedades = null;
 			declaracaoDePropriedades = propriedades.avalia();
 			declaracaoDePropriedades = declaracaoDePropriedades.replace("$classe$", variavelDaClasse);
-			return regiaoDeClasse + declaracaoDePropriedades;			
+			return regiaoDeClasse + "\n" + declaracaoDePropriedades;			
 		}
 		
 		return regiaoDeClasse;		

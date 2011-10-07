@@ -16,7 +16,7 @@ public class AvaliadorDeGoal implements Avaliador {
 	@Override
 	public String avalia() {
 		final StringTemplate stringTemplate = new StringTemplate(TemplatePDDL.Goal);
-		stringTemplate.setAttribute("goals", avaliador.avalia());
+		stringTemplate.setAttribute("objetivo", avaliador.avalia());
 		return stringTemplate.toString();
 		
 		

@@ -13,8 +13,8 @@ public class AvaliadorDeRequerimentos implements Avaliador {
 	
 	@Override
 	public String avalia() {
-		final StringTemplate stringTemplate = new StringTemplate(TemplatePDDL.Requirements);
-		stringTemplate.setAttribute("requirements", ":strips :existential-preconditions");
+		final StringTemplate stringTemplate = new StringTemplate(TemplatePDDL.Requerimentos);
+		stringTemplate.setAttribute("requerimentos", ":strips :existential-preconditions");
 		return stringTemplate.toString();
 	}
 
