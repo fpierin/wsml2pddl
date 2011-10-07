@@ -14,7 +14,7 @@ public class AvaliadorDeRequerimentos implements Avaliador {
 	@Override
 	public String avalia() {
 		final StringTemplate stringTemplate = new StringTemplate(TemplatePDDL.Requerimentos);
-		stringTemplate.setAttribute("requerimentos", ":strips :existential-preconditions");
+		stringTemplate.setAttribute("requerimentos", ":adl :typing");
 		return stringTemplate.toString();
 	}
 

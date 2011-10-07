@@ -11,6 +11,8 @@ options {
 	import br.usp.each.wsml2pddl.modelo.avaliadores.Avaliador;
 	import java.util.HashMap;
 	import java.util.Map;
+	import java.util.List;
+	import java.util.ArrayList;
 	import br.usp.each.wsml2pddl.avaliadores.*; 
 	import org.antlr.stringtemplate.StringTemplate; 
 }
@@ -18,6 +20,7 @@ options {
 @members{
 
 		Map<String, String> propriedades = new HashMap<String, String>();
+		Map<String, List<String>> superclasses = new HashMap<String, List<String>>();
   
 }
 
@@ -28,21 +31,48 @@ avaliador returns [Avaliador e]
 documento returns [Avaliador e]
 	: varianteWsml?
 		prefixosImportados?
-		(declaracaoDoOntologias { $e = $declaracaoDoOntologias.e; })?		
+		(declaracaoDeOntologias { $e = $declaracaoDeOntologias.e; })?		
 		(declaracaoDoGoal { $e = $declaracaoDoGoal.e; })?
 	;
 
-declaracaoDoOntologias returns [Avaliador e]
-	: 'ontology' string 
-			('concept' Identificador ('subConceptOf' Identificador)?
-				anotacoes?
-				(Identificador 'ofType' Identificador )*)*
+declaracaoDeOntologias returns [Avaliador e]
+	: 'ontology' string
+	 		conceito*
 		{
 		 	final Avaliador dominio = $string.e;
 		 	final Avaliador requerimentos = new AvaliadorDeRequerimentos();
-			$e = new AvaliadorDeDominio(dominio, requerimentos); 
+		 	final Avaliador tipos = new AvaliadorDeTipos(superclasses);		 	
+			$e = new AvaliadorDeDominio(dominio, requerimentos, tipos); 
 		}				
 	;
+	
+conceito
+	: 'concept' c1 = Identificador 
+			('subConceptOf' c2 = Identificador )?
+			{ 
+				final String superClasse = ($c2 != null)? $c2.text : "Object"; 
+				final List<String> objetosDaClasseC2 = superclasses.get(superClasse);
+				if (objetosDaClasseC2 == null){
+						superclasses.put(superClasse, new ArrayList<String>());
+						superclasses.get(superClasse).add($c1.text);
+				} else {
+					objetosDaClasseC2.add($c1.text);
+				}
+			}			
+			anotacoes?
+			propriedadeDoConceito*
+	;
+	
+propriedadeDoConceito  returns [Avaliador e]
+	: Identificador 'ofType' Identificador 
+	;
+
+propriedade  returns [Avaliador e]
+	: classe 'hasValue' variavel 
+		{ 
+			e = new AvaliadorDePropriedade($classe.e); 
+		}
+	;		
 	
 anotacoes
 	:	'annotations'
@@ -114,13 +144,6 @@ propriedades returns [Avaliador e]
 	: p1 = propriedade { e = $p1.e; } 
 		(',' p2 = propriedade { e = new AvaliadorAnd($p1.e, $p2.e); } )*		
 	;		
-	
-propriedade  returns [Avaliador e]
-	: classe 'hasValue' variavel 
-		{ 
-			e = new AvaliadorDePropriedade($classe.e); 
-		}
-	;
 
 classe returns [Avaliador e] 
 	: v1 = Identificador '#' v2 = Identificador { e = new AvaliadorDeString($v2.text); }

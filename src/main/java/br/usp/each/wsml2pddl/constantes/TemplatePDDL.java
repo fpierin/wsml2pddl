@@ -3,7 +3,7 @@ package br.usp.each.wsml2pddl.constantes;
 public class TemplatePDDL {
 	
 	public static final String Documento = 
-		"(define $declaracoes$\n)";	
+		"(define $declaracoes$)";	
 
 	public static final String Dominio = 
 		"(domain $dominio$)\n" +
@@ -34,6 +34,11 @@ public class TemplatePDDL {
 
 	public static final String Requerimentos = 
 		"(:requirements $requerimentos$)";	
+
+	public static final String DeclaracaoDeTipos = 
+		"$if(declaracaoDeTipos)$" + 
+			"(:types $declaracaoDeTipos$)" +
+		"$endif$";
 	
 	public static final String DeclaracaoDeDominio = 
 		"(:domain www-goal-domain-$dominio$)";
@@ -55,6 +60,7 @@ public class TemplatePDDL {
 		"(exists $condicao$)";
 	
 	public static final String Negation = 
-		"(not $condicao$)";	
+		"(not $condicao$)";
+
 
 }
