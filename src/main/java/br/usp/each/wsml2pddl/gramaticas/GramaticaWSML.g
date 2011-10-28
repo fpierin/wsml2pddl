@@ -54,13 +54,37 @@ declaracaoDeOntologias
 	
 ontologia
 	: 'ontology' Identificador
-			conceito+
+			(conceito | axioma | instancia)*
+	;
+	
+declaracaoDeAxioma
+	: 'axiom' Identificador
+			anotacoes?
+			'definedBy'
+				axioma ('implies' | 'impliedBy') axioma
+			'.'
+	;
+	
+axiomas
+	: axioma ('and' axioma)*
+	;
+	
+axioma
+	:	variavel ('[' propriedades ']')? ('memberOf' classe)?
+	;		
+	
+instancia
+	: 'instance' Identificador 'memberOf' Identificador
 	;
 	
 conceito
 	:	'concept' Identificador ('subConceptOf' Identificador)?
 			anotacoes?
-			(Identificador 'ofType' Identificador )*
+			propriedade*
+	;
+	
+propriedade
+	: Identificador 'ofType' classe
 	;
 	
 capacidade
@@ -69,49 +93,41 @@ capacidade
 		( preCondicoes | posCondicoes | efeitos )*
 	;
 	
+declaracaoDeCondicao
+	: anotacoes?
+			'definedBy'
+		axiomas
+	;
+	
 preCondicoes
 	:	'precondition'
-		axiomdefinition
+			declaracaoDeCondicao
+		'.'
 	;
 	
 posCondicoes
 	:	'postcondition'
-		axiomdefinition
+			declaracaoDeCondicao
+		'.'
 	;	
 	
 efeitos
 	:	'effect'
-		axiomdefinition
+			declaracaoDeCondicao
+		'.'			
 	;
 	
 variaveisCompartilhadas
 	: 'sharedVariables' '{' variavel (',' variavel)* '}'
 	;	
 	
-axiomdefinition
-	:	anotacoes?
-		definicao '.'
-	;
-	
-definicao
-	: 'definedBy'
-			axiomas*
-	;
-	
-axiomas
-	: axioma ('and' axioma)*
-	;
-
-axioma
-	: variavel ('[' propriedades ']')? 'memberOf' classe
-	;
-	
 propriedades
 	: atributo (',' atributo)*
 	;
 	
 classe
-	: (Identificador '#')? Identificador
+	: '_'? (Identificador '#')? Identificador
+	| StringLiteral
 	;	
 	
 variavel
@@ -131,11 +147,12 @@ ontologiaImportada
 	;	
 	
 atributo
-	: classe 'hasValue' (variavel | StringLiteral )
+	: classe 'hasValue' (variavel | classe)
 	;
 	
 fullIri
 	: '_' StringLiteral
+	| '_' Url
 	| Identificador
 	;
 
@@ -153,6 +170,8 @@ fragment Tabulacao			: '\t';
 Inteiro : Digito+;
 
 Identificador: (Letra)(AlfaNumerico | '-')*; 
+
+Url: ('http://') (AlfaNumerico) (AlfaNumerico | '-' | '/' | ';' | '#' | '.')*;
 
 StringLiteral 
 	: '"'

@@ -45,7 +45,7 @@ public class TemplatePDDL {
 		"(:predicates $predicado; separator=\"\n            \"$)";	
 	
 	public static final String DeclaracaoDeDominio = 
-		"(:domain www-goal-domain-$dominio$)";
+		"(:domain $dominio$)";
 	
 	public static final String Objetos = 
 		"(:objects $objetos$)";	

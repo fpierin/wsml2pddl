@@ -1,30 +1,17 @@
-wsmlVariant _"http://www.wsmo.org/wsml/wsml-syntax/wsml-flight"
+wsmlVariant _http://www.wsmo.org/wsml/wsml-syntax/wsml-flight
 
-namespace { dO _"ontologia.wsml" }
+namespace { _"http://www.gsmo.org/dip/travel/goal#",
+dO _"http://www.gsmo.org/dip/travel/domainOntology#",
+dc _"http://purl .org/dc/elements/1.1#" }
 
-goal _"obterTicketDeViagem"
-			
-	importsOntology _"ontologia.wsml#OntologiaDeViagem"
+goal _http://www.gsmo.org/dip/travel/goal.wsml
 
-	capability 
-		postcondition
-			definedBy
-				?ticket [ dO#origem hasValue ?origem,
-					  dO#destino hasValue ?destino
-					] memberOf dO#Ticket 
-				and ?origem memberOf dO#SaoPaulo 
-				and ?destino memberOf dO#MachuPicchu.
-/*		
+importsOntology _"http://www.gsmo.org/dip/travel/domainOntology#TravelOntology"
 
-(define (problem www-goal-problem-obterTicketDeViagem)
-	(:domain www-goal-domain-obterTicketDeViagem)
-	(:init (clear))
-	(:goal 
-		(exists (?ticket Ticket)
-			(and (origem ?ticket SaoPaulo)(destino ?ticket MachuPicchu))
-		)
-	       
-	)
-) 
-
-*/
+capability goalCapability
+	postcondition
+		definedBy
+			?ticket [ dO#from hasValue ?from,
+						      dO#to hasValue ?to ] memberOf dO#Ticket and
+			?from memberOf dO#AustrianCity and
+			?to memberOf dO#UKCity.

@@ -22,6 +22,7 @@ options {
 		Map<String, String> propriedades = new HashMap<String, String>();
 		Map<String, List<String>> superclasses = new HashMap<String, List<String>>();
 		List<Avaliador> predicados = new ArrayList<Avaliador>();
+		Avaliador nomeDoDominio = null;
   
 }
 
@@ -63,20 +64,13 @@ conceito
 				}
 			}			
 			anotacoes?
-			( p = Identificador 'ofType' c = Identificador 
+			( p = Identificador 'ofType' '_'? c = Identificador 
 				{	predicados.add(new AvaliadorDePredicado(new AvaliadorDeString($c1.text), 
 					new AvaliadorDeString($p.text), 
 					new AvaliadorDeString($c.text))); } 
 			)*
 	;
 
-propriedade  returns [Avaliador e]
-	: classe 'hasValue' variavel 
-		{ 
-			e = new AvaliadorDePropriedade($classe.e); 
-		}
-	;		
-	
 anotacoes
 	:	'annotations'
 			propriedade+
@@ -89,7 +83,7 @@ declaracaoDoGoal returns [Avaliador e]
 			condicoesDoProblema
 	 	{ 
 	 		Avaliador avaliadorDeProblema = new AvaliadorDeString($fullIri.e.avalia());
-	 		Avaliador avaliadorDeDominio = new AvaliadorDeDeclaracaoDeDominio($fullIri.e);
+	 		Avaliador avaliadorDeDominio = new AvaliadorDeDeclaracaoDeDominio(nomeDoDominio);
 	 		Avaliador avaliadorDeObjetos = new AvaliadorDeObjetos(null);
 	 		Avaliador avaliadorDeEstadoInicial = new AvaliadorDeEstadoInicial(null);
 	 		Avaliador avaliadorDeRequerimentos = new AvaliadorDeRequerimentos();	 		
@@ -108,13 +102,15 @@ varianteWsml
 	
 importsOntology 
 	: 'importsOntology' 
-			( fullIri | '{' fullIri (',' fullIri)* '}' )
+			( f1 = fullIri { nomeDoDominio = $f1.e; } 
+			| '{' fullIri (',' fullIri)* '}' 
+			)
 	; 
 
 condicoesDoProblema returns [Avaliador e]
-	: 'capability'  
-			(posCondicoes = postconditions) 
-	 	{ $e = new AvaliadorDeGoal($posCondicoes.e); }				
+	: 'capability' string?
+			postconditions 
+	 	{ $e = new AvaliadorDeGoal($postconditions.e); }				
 	;
 	
 postconditions returns [Avaliador e]
@@ -147,13 +143,21 @@ propriedades returns [Avaliador e]
 	: p1 = propriedade { e = $p1.e; } 
 		(',' p2 = propriedade { e = new AvaliadorAnd($p1.e, $p2.e); } )*		
 	;		
+	
+propriedade  returns [Avaliador e]
+	: c1 = classe 'hasValue' 
+		( variavel { e = new AvaliadorDePropriedade($c1.e); }
+		| StringLiteral { e = new AvaliadorDeClasse($c1.e, new AvaliadorDeString($StringLiteral.text)); }
+		| c2 = classe { e = new AvaliadorDeClasse($c1.e, $c2.e); } 
+		)
+	;		
 
 classe returns [Avaliador e] 
-	: v1 = Identificador '#' v2 = Identificador { e = new AvaliadorDeString($v2.text); }
+	: (v1 = Identificador '#')? v2 = Identificador { e = new AvaliadorDeString($v2.text); }
 	;
 
 variavel returns [Avaliador e]
-	: '?'? string { e = new AvaliadorDeVariavel($string.e); }
+	: '?' string { e = new AvaliadorDeVariavel($string.e); }
 	;
 
 atributo returns [Avaliador e]
@@ -161,12 +165,15 @@ atributo returns [Avaliador e]
 	;
 	
 fullIri returns [Avaliador e]
-	: '_'? valor { $e = $valor.e; }
+	: '_'? 
+		( string { $e = $string.e; }
+		| url { $e = $url.e; }
+		) 
 	;
 	
-valor returns [Avaliador e]
-	: string { e = $string.e; }	 
-	;	
+url returns [Avaliador e]
+	: Url { e = new AvaliadorDeString($Url.text); }
+	;
 	
 string returns [Avaliador e]
 	: StringLiteral { e = new AvaliadorDeString($StringLiteral.text); }
