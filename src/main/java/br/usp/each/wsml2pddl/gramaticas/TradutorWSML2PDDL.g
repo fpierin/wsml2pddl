@@ -75,10 +75,21 @@ anotacoes
 	:	'annotations'
 			propriedade+
 		'endAnnotations'
+	| 'nfp'
+			propriedade+
+		'endnfp'
+	| 'nonfunctionalproperties'
+			propriedade+
+		'endnonfunctionalproperties'
+	| 'nonFunctionalProperties'
+			propriedade+
+		'endNonFunctionalProperties'
 	;	
 
 declaracaoDoGoal returns [Avaliador e]
 	:	'goal' fullIri
+			anotacoes?
+			mediadores?
 			importsOntology?
 			condicoesDoProblema
 	 	{ 
@@ -90,6 +101,10 @@ declaracaoDoGoal returns [Avaliador e]
 	 		$e = new AvaliadorDeProblema(avaliadorDeProblema,	avaliadorDeRequerimentos, avaliadorDeDominio,	
 	 			avaliadorDeObjetos,	avaliadorDeEstadoInicial, $condicoesDoProblema.e);
 	 	}
+	;
+	
+mediadores
+	: 'usesMediator' '{' fullIri '}'
 	;
 
 prefixosImportados
@@ -109,8 +124,17 @@ importsOntology
 
 condicoesDoProblema returns [Avaliador e]
 	: 'capability' string?
-			postconditions 
+			sharedVariables?
+			postconditions?
+			effect?
 	 	{ $e = new AvaliadorDeGoal($postconditions.e); }				
+	;
+	
+sharedVariables
+	: 'sharedVariables' 
+		( variavel
+		| '{' variavel (',' variavel)* '}'
+		)
 	;
 	
 postconditions returns [Avaliador e]
@@ -124,6 +148,12 @@ postconditions returns [Avaliador e]
 		  		} 
 				}
 			'.'
+	;
+	
+effect
+	: 'effect' 
+			.*
+	 	 '.'		
 	;
 	
 axioma returns [Avaliador e]
@@ -147,7 +177,7 @@ propriedades returns [Avaliador e]
 propriedade  returns [Avaliador e]
 	: c1 = classe 'hasValue' 
 		( variavel { e = new AvaliadorDePropriedade($c1.e); }
-		| StringLiteral { e = new AvaliadorDeClasse($c1.e, new AvaliadorDeString($StringLiteral.text)); }
+		| '_'? StringLiteral { e = new AvaliadorDeClasse($c1.e, new AvaliadorDeString($StringLiteral.text)); }
 		| c2 = classe { e = new AvaliadorDeClasse($c1.e, $c2.e); } 
 		)
 	;		

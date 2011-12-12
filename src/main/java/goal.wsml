@@ -1,17 +1,22 @@
-wsmlVariant _http://www.wsmo.org/wsml/wsml-syntax/wsml-flight
+goal _"http://example.org/Germany/GetCitizenShip"
+nonFunctionalProperties
+		dc#title hasValue "Goal"
+		dc#contributor hasValue "Adina Sirbu"
+        dc#description hasValue "Express the goal of buying a plane ticket from Austria to UK"
+	endNonFunctionalProperties
 
-namespace { _"http://www.gsmo.org/dip/travel/goal#",
-dO _"http://www.gsmo.org/dip/travel/domainOntology#",
-dc _"http://purl .org/dc/elements/1.1#" }
+      usesMediator { _"http://example.org/ooMediator" }
 
-goal _http://www.gsmo.org/dip/travel/goal.wsml
+      importsOntology { _"http://www.example.org/ontologies/example",
+            _"http://www.wsmo.org/ontologies/location" }
 
-importsOntology _"http://www.gsmo.org/dip/travel/domainOntology#TravelOntology"
+      capability
+            sharedVariables ?Human
+            effect havingACitzienShip
+                  nonFunctionalProperties
+                        dc#description hasValue "This goal expresses the general
+                              desire of becoming a citizen of Germany."
+                  endNonFunctionalProperties
 
-capability goalCapability
-	postcondition
-		definedBy
-			?ticket [ dO#from hasValue ?from,
-						      dO#to hasValue ?to ] memberOf dO#Ticket and
-			?from memberOf dO#AustrianCity and
-			?to memberOf dO#UKCity.
+                  definedBy
+                        ?Human memberOf Human[hasCitizenship hasValue oo#de] .

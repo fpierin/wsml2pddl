@@ -21,7 +21,7 @@ tokens {
 wsml
 	: declaracaoDeVarianteWsml? 
 		declaracaoDeNamespaces?
-		( declaracaoDeOntologias |	declaracaoDeGoal )
+		( declaracaoDeOntologias |	declaracaoDeGoal | declaracaoDeWebService )
 	;
 	
 declaracaoDeVarianteWsml
@@ -31,6 +31,10 @@ declaracaoDeVarianteWsml
 declaracaoDeNamespaces
 	:	'namespace' ( namespace | '{' namespace (',' namespace)* '}'	)
 	;	
+	
+declaracaoDeWebService
+	: 'webService'
+	;
 	
 namespace
 	: Identificador? fullIri
@@ -44,8 +48,13 @@ wsmlVariant
 declaracaoDeGoal
 	: 'goal' fullIri?
 		anotacoes?
+		mediadores?
 		ontologiaImportada?
 		capacidade
+	;
+	
+mediadores
+	: 'usesMediator' '{' fullIri '}'
 	;
 	
 declaracaoDeOntologias
@@ -112,13 +121,16 @@ posCondicoes
 	;	
 	
 efeitos
-	:	'effect'
-			declaracaoDeCondicao
-		'.'			
+	:	'effect' 
+			.*
+	 	 '.' 
 	;
 	
 variaveisCompartilhadas
-	: 'sharedVariables' '{' variavel (',' variavel)* '}'
+	: 'sharedVariables' 
+		( variavel
+		| '{' variavel (',' variavel)* '}'
+		)
 	;	
 	
 propriedades
@@ -138,6 +150,15 @@ anotacoes
 	:	'annotations'
 			atributo*	
 		'endAnnotations'
+	| 'nfp'
+			atributo*
+		'endnfp'
+	| 'nonfunctionaproperties'
+			atributo*
+		'endnonfunctionaproperties'
+	| 'nonFunctionalProperties'
+			atributo*
+		'endNonFunctionalProperties'
 	;
 	
 ontologiaImportada
