@@ -2,14 +2,11 @@
 
 ## What is this project about ?
 
-	One of the goals in Semantic Web research has been to provide tools to combining several web services to provide a new value-added service (composition). 
-Because doing this manually is an arduous and susceptible to errors task. To avoid this problem, methods and tools have been proposed for automatic composition of web services. 
-Many of these solutions are based in automated planning. This project aims the implementation of a translator from WSML language to PDDL language developed to obtain greater flexibility 
-and also to be used by non-technical users, as recommended by the design principles for service-oriented systems.
+	One of the goals in Semantic Web research has been to provide tools to combining several web services to provide a new value-added service (composition). Because doing this manually is an arduous and susceptible to errors task. To avoid this problem, methods and tools have been proposed for automatic composition of web services. Many of these solutions are based in automated planning. This project aims the implementation of a translator from WSML language to PDDL language developed to obtain greater flexibility and also to be used by non-technical users, as recommended by the design principles for service-oriented systems.
 
 ## Project website
 
-	http://wsml2pddl.appspot.com
+	[http://wsml2pddl.appspot.com](http://wsml2pddl.appspot.com)
 
 ## Suggested environment
 
@@ -35,6 +32,6 @@ and also to be used by non-technical users, as recommended by the design princip
 	
 ## Contact
 
-	Felipe Lombardi Pierin
-	felipe.pierin@yahoo.com.br
-	http://oreboladodeturing.wordpress.com
+	*emphasis*Felipe Lombardi Pierin*emphasis*
+	[felipe.pierin@yahoo.com.br](mailto:felipe.pierin@yahoo.com.br)
+	[http://oreboladodeturing.wordpress.com](http://oreboladodeturing.wordpress.com)
