@@ -1,0 +1,148 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>wsml2pddl</name>
+	<groupId>br.usp.each</groupId>
+	<artifactId>wsml2pddl</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<url>http://wsml2pddl.appspot.com</url>
+
+	<developers>
+		<developer>
+			<email>felipe.pierin@yahoo.com.br</email>
+			<id>felipe.pierin</id>
+			<timezone>-3</timezone>
+			<organization>Universidade de São Paulo</organization>
+			<organizationUrl>http://www.each.usp.br</organizationUrl>
+			<url>http://oreboladodeturing.wordpress.com</url>
+		</developer>
+	</developers>
+
+	<properties>
+
+		<!-- System global configuration -->
+		<generated.classes.dir>${project.build.directory}/generated-sources</generated.classes.dir>
+		<antlr.generated.classes.dir>${generated.classes.dir}/antlr3</antlr.generated.classes.dir>
+		<antlr.grammar.dir>${basedir}/src/main/antlr3</antlr.grammar.dir>
+		<java.source.compatibility.version>1.6</java.source.compatibility.version>
+		<java.target.compatibility.version>1.6</java.target.compatibility.version>
+
+		<!-- System dependencies configuration -->
+		<antlr.version>3.4</antlr.version>
+
+		<!-- Maven plugins dependencies configuration -->
+		<maven.build.helper.plugin.version>1.7</maven.build.helper.plugin.version>
+		<maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
+		<maven.antlr3.plugin.version>3.4</maven.antlr3.plugin.version>
+
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>antlr-snapshot</id>
+			<name>ANTLR Testing Snapshot Repository</name>
+			<url>http://antlr.org/antlr-snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<build>
+		<directory>target</directory>
+		<outputDirectory>target/classes</outputDirectory>
+		<finalName>${artifact.id}-${version}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.plugin.version}</version>
+				<configuration>
+					<source>${java.source.compatibility.version}</source>
+					<target>${java.target.compatibility.version}</target>
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>${maven.build.helper.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${antlr.generated.classes.dir}</source>
+								<source>${antlr.grammar.dir}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr3-maven-plugin</artifactId>
+				<version>${maven.antlr3.plugin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>antlr</goal>
+						</goals>
+						<configuration>
+							<debug>true</debug>
+							<outputDirectory>${antlr.generated.classes.dir}</outputDirectory>
+							<sourceDirectory>${antlr.grammar.dir}</sourceDirectory>
+							<trace>true</trace>
+							<verbose>true</verbose>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.antlr</groupId>
+										<artifactId>antlr3-maven-plugin</artifactId>
+										<versionRange>[${maven.antlr3.plugin.version},)</versionRange>
+										<goals>
+											<goal>antlr</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr</artifactId>
+			<version>${antlr.version}</version>
+		</dependency>
+	</dependencies>
+
+</project>

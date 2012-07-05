@@ -1,5 +1,10 @@
 package br.usp.each.wsml2pddl.constantes;
 
+/**
+ * 
+ * @author Felipe Pierin <felipe.pierin@yahoo.com.br>
+ *
+ */
 public class TemplatePDDL {
 	
 	public static final String Documento = 
