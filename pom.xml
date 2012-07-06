@@ -32,6 +32,7 @@
 
 		<!-- System dependencies configuration -->
 		<antlr.version>3.4</antlr.version>
+		<stringtemplate.version>3.2.1</stringtemplate.version>
 
 		<!-- Maven plugins dependencies configuration -->
 		<maven.build.helper.plugin.version>1.7</maven.build.helper.plugin.version>
@@ -96,13 +97,6 @@
 						<goals>
 							<goal>antlr</goal>
 						</goals>
-						<configuration>
-							<debug>true</debug>
-							<outputDirectory>${antlr.generated.classes.dir}</outputDirectory>
-							<sourceDirectory>${antlr.grammar.dir}</sourceDirectory>
-							<trace>true</trace>
-							<verbose>true</verbose>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -140,8 +134,14 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.antlr</groupId>
-			<artifactId>antlr</artifactId>
-			<version>${antlr.version}</version>
+			<artifactId>antlr-runtime</artifactId>
+			<version>${maven.antlr3.plugin.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>stringtemplate</artifactId>
+			<version>${stringtemplate.version}</version>
 		</dependency>
 	</dependencies>
 
